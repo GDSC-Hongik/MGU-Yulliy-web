@@ -137,8 +137,11 @@ const resetCss = css`
 const GlobalStyles = createGlobalStyle`
 	${resetCss};
 
+	/* 폰트 다운 */
+	/* 이 레포를 참고 : https://github.com/innks/NanumSquareRound */
+	@import url('https://cdn.rawgit.com/innks/NanumSquareRound/master/nanumsquareround.min.css');
 	:root {
-		font-family: 'Nanum Gothic', sans-serif;
+		font-family: 'NanumSquareRound',sans-serif;
 		color: ${theme.colors.black};
 		background-color: ${theme.colors.whitegray};
 	}
