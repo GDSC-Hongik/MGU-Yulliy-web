@@ -3,19 +3,24 @@ import HomePage from './pages/HomePage';
 import styled, { ThemeProvider } from 'styled-components';
 import defaultTheme from './styles/theme';
 import GlobalStyles from './styles/GlobalStyles';
+import { NavermapsProvider } from 'react-naver-maps';
 
 export const App = () => {
+	const naverClientId = import.meta.env.VITE_NAVER_MAP_CLIENT_ID;
+
 	return (
-		<ThemeProvider theme={defaultTheme}>
-			<GlobalStyles />
-			<DefaultLayout>
-				<BrowserRouter>
-					<Routes>
-						<Route path="/" element={<HomePage />} />
-					</Routes>
-				</BrowserRouter>
-			</DefaultLayout>
-		</ThemeProvider>
+		<NavermapsProvider ncpClientId={naverClientId}>
+			<ThemeProvider theme={defaultTheme}>
+				<GlobalStyles />
+				<DefaultLayout>
+					<BrowserRouter>
+						<Routes>
+							<Route path="/" element={<HomePage />} />
+						</Routes>
+					</BrowserRouter>
+				</DefaultLayout>
+			</ThemeProvider>
+		</NavermapsProvider>
 	);
 };
 
