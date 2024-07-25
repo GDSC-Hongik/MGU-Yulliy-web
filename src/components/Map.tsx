@@ -1,38 +1,34 @@
-import { useEffect, useRef } from 'react';
+import {
+	Container as MapDiv,
+	NaverMap,
+	Marker,
+	useNavermaps,
+} from 'react-naver-maps';
 
 const Map = () => {
-	const mapRef = useRef(null);
-	const lat = 37.3595704; // 위도 숫자로 넣어주기
-	const lng = 127.105399; // 경도 숫자로 넣어주기
+	const navermaps = useNavermaps();
 
-	useEffect(() => {
-		const { naver } = window;
-		if (mapRef.current && naver) {
-			const location = new naver.maps.LatLng(lat, lng);
-			const map = new naver.maps.Map(mapRef.current, {
-				center: location,
-				zoom: 17,
-			});
-
-			// 테스트 삼아서 서울 시청을 마크찍어보기
-			// 서울 시청 위도 : 37.5666612, 경도 : 126.9783785
-			const cityHallLocation = new naver.maps.LatLng(37.5666612, 126.9783785);
-			const markerOptions = {
-				position: cityHallLocation,
-				map: map,
-				icon: './pin.png',
-			};
-			// eslint-disable-next-line @typescript-eslint/no-unused-vars
-			const marker = new naver.maps.Marker(markerOptions);
-
-			new naver.maps.Marker({
-				position: location,
-				map,
-			});
-		}
-	}, []);
-
-	return <div ref={mapRef} style={{ width: '300px', height: '300px' }}></div>;
+	return (
+		<MapDiv
+			style={{
+				width: '100%',
+				height: '300px',
+			}}
+		>
+			<NaverMap
+				defaultCenter={new navermaps.LatLng(37.3595704, 127.105399)}
+				defaultZoom={15}
+			>
+				<Marker
+					defaultPosition={new navermaps.LatLng(37.3595704, 127.105399)}
+				/>
+				{/* // 서울 시청 위도 : 37.5666612, 경도 : 126.9783785 */}
+				<Marker
+					defaultPosition={new navermaps.LatLng(37.5666612, 126.9783785)}
+				/>
+			</NaverMap>
+		</MapDiv>
+	);
 };
 
 export default Map;
