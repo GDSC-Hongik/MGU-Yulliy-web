@@ -23,3 +23,6 @@ dist-ssr
 
 # lint, format
 .eslintcache
+
+# .env
+.env
