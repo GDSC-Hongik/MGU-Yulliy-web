@@ -1,6 +1,8 @@
 // 임시로 만들어본 폰트 테스트 페이지입니다.
 
 import styled, { css } from 'styled-components';
+import colors from '../styles/colors';
+import Map from '../components/Map';
 
 interface TestDivProps {
 	fontWeight: 'regular' | 'bold' | 'extraBold' | 'light';
@@ -9,12 +11,21 @@ interface TestDivProps {
 const HomePage = () => {
 	return (
 		<Container>
+			<Map />
 			<h1>Regular(400), Bold(700), Extra Bold(800), Light(300) 지원됩니다.</h1>
 			<br />
-			<TestDiv fontWeight="regular">폰트 테스트 1 : regular(400)</TestDiv>
-			<TestDiv fontWeight="bold">폰트 테스트 2 : bold(700)</TestDiv>
-			<TestDiv fontWeight="extraBold">폰트 테스트 3 : Extra Bold(800)</TestDiv>
-			<TestDiv fontWeight="light">폰트 테스트 4 :Light(300)</TestDiv>
+			<TestDiv fontWeight="regular" color={colors.orange}>
+				폰트 테스트 1 : regular(400)
+			</TestDiv>
+			<TestDiv fontWeight="bold" color={colors.green}>
+				폰트 테스트 2 : bold(700)
+			</TestDiv>
+			<TestDiv fontWeight="extraBold" color={colors.gray}>
+				폰트 테스트 3 : Extra Bold(800)
+			</TestDiv>
+			<TestDiv fontWeight="light" color={colors.black}>
+				폰트 테스트 4 :Light(300)
+			</TestDiv>
 		</Container>
 	);
 };
@@ -30,7 +41,8 @@ const Container = styled.div`
 `;
 
 const TestDiv = styled.div<TestDivProps>`
-	${({ fontWeight }) => fontWeightCSS(fontWeight)}
+	${({ fontWeight }) => fontWeightCSS(fontWeight)};
+	color: ${({ color }) => color || 'inherit'};
 `;
 
 // 폰트 가중치 스타일 정의
