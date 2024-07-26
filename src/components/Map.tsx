@@ -1,9 +1,16 @@
-import {
-	Container as MapDiv,
-	NaverMap,
-	Marker,
-	useNavermaps,
-} from 'react-naver-maps';
+import CustomMarker from './map/CustomMarker';
+import { Container as MapDiv, NaverMap, useNavermaps } from 'react-naver-maps';
+
+const latLngData = [
+	{
+		lat: 37.3595704,
+		lng: 127.105399,
+	},
+	{
+		lat: 37.5666612,
+		lng: 126.9783785,
+	},
+];
 
 const Map = () => {
 	const navermaps = useNavermaps();
@@ -12,20 +19,21 @@ const Map = () => {
 		<MapDiv
 			style={{
 				width: '100%',
-				height: '300px',
+				height: '100%',
 			}}
 		>
 			<NaverMap
 				defaultCenter={new navermaps.LatLng(37.3595704, 127.105399)}
 				defaultZoom={15}
 			>
-				<Marker
-					defaultPosition={new navermaps.LatLng(37.3595704, 127.105399)}
-				/>
-				{/* // 서울 시청 위도 : 37.5666612, 경도 : 126.9783785 */}
-				<Marker
-					defaultPosition={new navermaps.LatLng(37.5666612, 126.9783785)}
-				/>
+				{latLngData.map((data, index) => (
+					<CustomMarker
+						key={index}
+						navermaps={navermaps}
+						lat={data.lat}
+						lng={data.lng}
+					/>
+				))}
 			</NaverMap>
 		</MapDiv>
 	);
