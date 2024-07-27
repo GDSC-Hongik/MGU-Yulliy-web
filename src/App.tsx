@@ -3,6 +3,8 @@ import HomePage from './pages/HomePage';
 import styled, { ThemeProvider } from 'styled-components';
 import defaultTheme from './styles/theme';
 import GlobalStyles from './styles/GlobalStyles';
+import LoginPage from './pages/LoginPage';
+import SignupPage from './pages/SignupPage';
 
 export const App = () => {
 	return (
@@ -11,7 +13,9 @@ export const App = () => {
 			<DefaultLayout>
 				<BrowserRouter>
 					<Routes>
-						<Route path="/" element={<HomePage />} />
+						<Route path="/" element={<LoginPage />} />
+						<Route path="/signup" element={<SignupPage />} />
+						<Route path="/home" element={<HomePage />} />
 					</Routes>
 				</BrowserRouter>
 			</DefaultLayout>
