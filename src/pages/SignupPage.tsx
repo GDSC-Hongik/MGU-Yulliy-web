@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '../components/Button';
 import Input from '../components/Input';
-import logo from '../assets/MGU.svg';
+import logo from '../assets/MGUtitle.svg';
 import axios from '../libs/axios';
 
 interface DescriptionProps {
@@ -15,9 +15,9 @@ const Form = styled.form`
 
 const Img = styled.img`
 	box-sizing: border-box;
-	width: 208px;
+	width: 180px;
 	height: 90px;
-	margin: 100px 90px 0px;
+	margin: 0px 90px 10px;
 `;
 
 const Description = styled.div<DescriptionProps>`
