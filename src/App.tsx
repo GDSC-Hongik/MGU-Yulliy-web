@@ -5,6 +5,8 @@ import defaultTheme from './styles/theme';
 import GlobalStyles from './styles/GlobalStyles';
 import { NavermapsProvider } from 'react-naver-maps';
 import NavBar from './components/navBar/NavBar';
+import LoginPage from './pages/LoginPage';
+import SignupPage from './pages/SignupPage';
 
 export const App = () => {
 	const naverClientId = import.meta.env.VITE_NAVER_MAP_CLIENT_ID;
@@ -17,6 +19,8 @@ export const App = () => {
 					<BrowserRouter>
 						<Routes>
 							<Route path="/" element={<HomePage />} />
+							<Route path="/login" element={<LoginPage />} />
+							<Route path="/signup" element={<SignupPage />} />
 							<Route path="/search" element={<HomePage />} />
 						</Routes>
 						<NavBar />
