@@ -13,7 +13,7 @@ const Form = styled.form`
 const Img = styled.img`
 	width: 158px;
 	height: 278px;
-	margin: 156px 116px 80px;
+	margin: 60px 116px 80px;
 `;
 
 const Description = styled.div`
