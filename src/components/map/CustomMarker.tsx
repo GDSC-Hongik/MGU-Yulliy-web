@@ -1,5 +1,5 @@
 import { Marker } from 'react-naver-maps';
-import pinImage from '~/assets/pin.svg';
+import pinImage from '~/assets/images/pin.svg';
 
 type CustomMarkerProps = {
 	navermaps: typeof naver.maps;
