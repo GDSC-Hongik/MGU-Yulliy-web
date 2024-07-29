@@ -5,12 +5,12 @@ const NavItem = styled.li`
 	display: inline;
 `;
 
-const NavLink = styled(Link)`
-	color: ${({ theme }) => theme.colors.gray};
+const NavLink = styled(Link)<{ isActive: boolean }>`
+	color: ${({ theme, isActive }) =>
+		isActive ? theme.colors.black : theme.colors.gray};
 	text-decoration: none;
 	font-size: 12px;
 	font-weight: 500;
-	background-color: orenge;
 	&:hover {
 		text-decoration: none;
 	}
@@ -21,6 +21,18 @@ const NavLink = styled(Link)`
 	justify-content: center;
 
 	gap: 4px;
+
+	& > svg > path {
+		stroke: ${({ theme, isActive }) =>
+			isActive ? theme.colors.black : theme.colors.gray};
+		stroke-width: 1.5;
+	}
+
+	& > div {
+		border: 1px solid
+			${({ theme, isActive }) =>
+				isActive ? theme.colors.black : theme.colors.gray};
+	}
 
 	&:hover,
 	&:focus {
@@ -39,13 +51,16 @@ const NavLink = styled(Link)`
 
 type NavItemWrapperProps = {
 	link: string;
+	isActive: boolean;
 	children: React.ReactNode;
 };
 
-const NavItemWrapper = ({ link, children }: NavItemWrapperProps) => {
+const NavItemWrapper = ({ link, isActive, children }: NavItemWrapperProps) => {
 	return (
 		<NavItem>
-			<NavLink to={link}>{children}</NavLink>
+			<NavLink to={link} isActive={isActive}>
+				{children}
+			</NavLink>
 		</NavItem>
 	);
 };

@@ -22,4 +22,3 @@ const ProfileIcon = () => {
 };
 
 export default ProfileIcon;
-// return <img src={ProfileImg} width="24" height="24" alt="Profile" />;

@@ -4,7 +4,7 @@ import HomeIcon from '~/assets/icons/HomeIcon';
 import MyListIcon from '~/assets/icons/MyListIcon';
 import ProfileIcon from '~/components/navBar/ProfileIcon';
 import NavItemWrapper from '~/components/navBar/NavItemWrapper';
-import defaultTheme from '~/styles/theme';
+import { useLocation } from 'react-router-dom';
 
 const Nav = styled.nav`
 	height: 56px;
@@ -29,27 +29,25 @@ const NavList = styled.ul`
 	padding: 0;
 `;
 
-// TODO: NavBar에 들어갈 링크를 추가해야해요.
+const navItems = [
+	{ path: '/', label: 'Home', Icon: HomeIcon },
+	{ path: '/myList', label: 'My List', Icon: MyListIcon },
+	{ path: '/friends', label: 'Friends', Icon: FriendsIcon },
+	{ path: '/profile', label: 'Profile', Icon: ProfileIcon },
+];
+
 const NavBar = () => {
+	const { pathname } = useLocation();
+
 	return (
 		<Nav>
 			<NavList>
-				<NavItemWrapper link="/">
-					<HomeIcon color={defaultTheme.colors.gray} />
-					Home
-				</NavItemWrapper>
-				<NavItemWrapper link="/">
-					<MyListIcon color={defaultTheme.colors.gray} />
-					MyList
-				</NavItemWrapper>
-				<NavItemWrapper link="/">
-					<FriendsIcon color={defaultTheme.colors.gray} />
-					Friends
-				</NavItemWrapper>
-				<NavItemWrapper link="/">
-					<ProfileIcon />
-					Profile
-				</NavItemWrapper>
+				{navItems.map(({ path, label, Icon }) => (
+					<NavItemWrapper key={path} isActive={pathname === path} link={path}>
+						<Icon />
+						{label}
+					</NavItemWrapper>
+				))}
 			</NavList>
 		</Nav>
 	);
