@@ -11,9 +11,6 @@ const NavLink = styled(Link)<{ isActive: boolean }>`
 	text-decoration: none;
 	font-size: 12px;
 	font-weight: 500;
-	&:hover {
-		text-decoration: none;
-	}
 
 	display: flex;
 	flex-direction: column;
@@ -29,7 +26,7 @@ const NavLink = styled(Link)<{ isActive: boolean }>`
 	}
 
 	& > div {
-		border: 1px solid
+		outline: 1px solid
 			${({ theme, isActive }) =>
 				isActive ? theme.colors.black : theme.colors.gray};
 	}
@@ -44,7 +41,7 @@ const NavLink = styled(Link)<{ isActive: boolean }>`
 		}
 
 		& > div {
-			border: 1.7px solid ${({ theme }) => theme.colors.black};
+			outline: 1.7px solid ${({ theme }) => theme.colors.black};
 		}
 	}
 `;
@@ -55,7 +52,11 @@ type NavItemWrapperProps = {
 	children: React.ReactNode;
 };
 
-const NavItemWrapper = ({ link, isActive, children }: NavItemWrapperProps) => {
+const NavItemWrapper: React.FC<NavItemWrapperProps> = ({
+	link,
+	isActive,
+	children,
+}) => {
 	return (
 		<NavItem>
 			<NavLink to={link} isActive={isActive}>
