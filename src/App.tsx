@@ -4,6 +4,7 @@ import styled, { ThemeProvider } from 'styled-components';
 import defaultTheme from './styles/theme';
 import GlobalStyles from './styles/GlobalStyles';
 import { NavermapsProvider } from 'react-naver-maps';
+import NavBar from './components/navBar/NavBar';
 
 export const App = () => {
 	const naverClientId = import.meta.env.VITE_NAVER_MAP_CLIENT_ID;
@@ -17,6 +18,7 @@ export const App = () => {
 						<Routes>
 							<Route path="/" element={<HomePage />} />
 						</Routes>
+						<NavBar />
 					</BrowserRouter>
 				</DefaultLayout>
 			</ThemeProvider>
