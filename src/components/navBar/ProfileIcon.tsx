@@ -8,13 +8,8 @@ const StyledProfileIcon = styled.div`
 	height: 24px;
 	background-size: cover; /* 이미지가 div를 덮도록 설정 */
 	background-position: center; /* 이미지가 div의 중앙에 위치하도록 설정 */
-	border: 0px solid ${({ theme }) => theme.colors.gray};
+	outline: 0px solid ${({ theme }) => theme.colors.gray};
 	border-radius: 50%;
-
-	&:hover,
-	&:focus {
-		border: 1px solid ${({ theme }) => theme.colors.black};
-	}
 `;
 
 const ProfileIcon = () => {
