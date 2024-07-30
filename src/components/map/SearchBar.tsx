@@ -1,9 +1,10 @@
 import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { styled } from 'styled-components';
+import NavBackIcon from '~/assets/icons/NavBackIcon';
 import QuestionIcon from '~/assets/icons/QuestionIcon';
 import XIcon from '~/assets/icons/XIcon';
 
-// TODO: SearchBar에 focus가 가면 search 페이지로 넘어가게 하고 싶어요.
 const SearchContainer = styled.div`
 	z-index: 100;
 	position: fixed;
@@ -27,6 +28,7 @@ const ClearButton = styled.button`
 	border: none;
 	cursor: pointer;
 	background-color: transparent;
+	margin-right: 3px;
 `;
 
 const Input = styled.input`
@@ -40,12 +42,43 @@ const Input = styled.input`
 		outline: none;
 	}
 `;
+const NavBackButton = styled.button`
+	border: none;
+	cursor: pointer;
+	background-color: transparent;
+`;
+
+const Overlay = styled.div<{ isVisible: boolean }>`
+	z-index: 99;
+	position: fixed;
+	top: 0;
+	left: 50%;
+	transform: translate(-50%, 0);
+	width: 400px;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.1);
+	display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
+`;
 
 const SearchBar = () => {
 	const [searchText, setSearchText] = useState<string>('');
+	const location = useLocation();
+	const [isOverlayVisible, setOverlayVisible] = useState<boolean>(
+		location.pathname === '/search',
+	);
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setSearchText(e.target.value);
+	};
+
+	const handleBackButtonClick = () => {
+		setOverlayVisible(false);
+		window.history.pushState(null, '', '/');
+	};
+
+	const handeInputFocus = () => {
+		window.history.pushState(null, '', '/search');
+		setOverlayVisible(true);
 	};
 
 	const clearInput = () => {
@@ -53,15 +86,29 @@ const SearchBar = () => {
 	};
 
 	return (
-		<SearchContainer>
-			<QuestionIcon />
-			<Input type="text" value={searchText} onChange={handleInputChange} />
-			{searchText && (
-				<ClearButton onClick={clearInput}>
-					<XIcon />
-				</ClearButton>
-			)}
-		</SearchContainer>
+		<>
+			<SearchContainer>
+				{isOverlayVisible ? (
+					<NavBackButton onClick={handleBackButtonClick}>
+						<NavBackIcon />
+					</NavBackButton>
+				) : (
+					<QuestionIcon />
+				)}
+				<Input
+					type="text"
+					value={searchText}
+					onChange={handleInputChange}
+					onFocus={handeInputFocus}
+				/>
+				{searchText && (
+					<ClearButton onClick={clearInput}>
+						<XIcon />
+					</ClearButton>
+				)}
+			</SearchContainer>
+			<Overlay isVisible={isOverlayVisible} />
+		</>
 	);
 };
 
