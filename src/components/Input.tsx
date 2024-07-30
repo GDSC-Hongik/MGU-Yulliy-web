@@ -1,11 +1,12 @@
 import styled from 'styled-components';
+import theme from '../styles/theme';
 
 const Input = styled.input`
 	box-sizing: border-box;
-	background-color: #f0f0f3;
+	background-color: ${theme.colors.whitegray};
 	border: none;
 	border-radius: 50px;
-	color: #111111;
+	color: ${theme.colors.black}
 	cursor: pointer;
 	font-size: 16px;
 	padding: 5px;
@@ -20,12 +21,12 @@ const Input = styled.input`
 		!error &&
 		`
     &:focus {
-      border: 2px solid #FC6B02;
+      border: 2px solid ${theme.colors.orange};
     }
 `}
 
 	&::placeholder {
-		color: #c4c5cd;
+		color: ${theme.colors.gray};
 	}
 `;
 
