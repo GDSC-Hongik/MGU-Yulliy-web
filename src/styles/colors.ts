@@ -1,4 +1,5 @@
 const colors = {
+	grayorange: '#ffc397',
 	orange: '#FC6B02',
 	green: '#3FBA3B',
 
