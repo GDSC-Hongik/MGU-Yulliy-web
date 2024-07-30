@@ -5,9 +5,7 @@ import SearchBar from '~/components/map/SearchBar';
 import { useEffect } from 'react';
 import axios from '../libs/axios';
 import { useNavigate } from 'react-router-dom';
-interface TestDivProps {
-	fontWeight: 'regular' | 'bold' | 'extraBold' | 'light';
-}
+import NavBar from '~/components/navBar/NavBar';
 
 const HomePage = () => {
 	const navigate = useNavigate();
@@ -25,12 +23,15 @@ const HomePage = () => {
 		checkUser();
 	}, []);
 	return (
-		<Container>
-			<SearchBar />
-			<MapWrapper>
-				<Map />
-			</MapWrapper>
-		</Container>
+		<>
+			<Container>
+				<SearchBar />
+				<MapWrapper>
+					<Map />
+				</MapWrapper>
+			</Container>
+			<NavBar />
+		</>
 	);
 };
 
