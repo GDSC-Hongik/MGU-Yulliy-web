@@ -1,9 +1,11 @@
 import styled from 'styled-components';
 import Map from '../components/Map';
+import SearchBar from '~/components/map/SearchBar';
 
 const HomePage = () => {
 	return (
 		<Container>
+			<SearchBar />
 			<MapWrapper>
 				<Map />
 			</MapWrapper>
