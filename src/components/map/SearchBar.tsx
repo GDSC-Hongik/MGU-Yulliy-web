@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { styled } from 'styled-components';
-import FriendsIcon from '~/assets/icons/FriendsIcon';
+import QuestionIcon from '~/assets/icons/QuestionIcon';
+import XIcon from '~/assets/icons/XIcon';
 
+// TODO: SearchBar에 focus가 가면 search 페이지로 넘어가게 하고 싶어요.
 const SearchContainer = styled.div`
 	z-index: 100;
 	position: fixed;
@@ -18,12 +20,7 @@ const SearchContainer = styled.div`
 
 	border-radius: 999px;
 	background-color: ${({ theme }) => theme.colors.white};
-`;
-
-// TODO: 임시로 이미 갖고있는 아이콘 꽂아넣음. 돋보기 아이콘 찾아넣기
-const SearchIcon = styled(FriendsIcon)`
-	width: 24px;
-	height: 24px;
+	filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.1));
 `;
 
 const ClearButton = styled.button`
@@ -57,12 +54,11 @@ const SearchBar = () => {
 
 	return (
 		<SearchContainer>
-			<SearchIcon />
+			<QuestionIcon />
 			<Input type="text" value={searchText} onChange={handleInputChange} />
 			{searchText && (
 				<ClearButton onClick={clearInput}>
-					{/* TODO: X 표시 아이콘으로 변경 */}
-					<FriendsIcon />
+					<XIcon />
 				</ClearButton>
 			)}
 		</SearchContainer>
