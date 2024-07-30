@@ -44,8 +44,12 @@ function LoginPage() {
 	async function handleSubmit(e: any) {
 		e.preventDefault();
 		const { email, password } = values;
-		await axios.post('/auth/login', { email, password });
-		navigate('/');
+		try {
+			await axios.post('/auth/login', { email, password });
+			navigate('/');
+		} catch (error) {
+			alert('입력 정보가 정확하지 않습니다!');
+		}
 	}
 	return (
 		<Container>
