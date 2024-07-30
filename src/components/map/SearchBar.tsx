@@ -4,6 +4,7 @@ import { styled } from 'styled-components';
 import NavBackIcon from '~/assets/icons/NavBackIcon';
 import QuestionIcon from '~/assets/icons/QuestionIcon';
 import XIcon from '~/assets/icons/XIcon';
+import SearchContents from '~/components/map/SearchContents';
 
 const SearchContainer = styled.div`
 	z-index: 100;
@@ -46,18 +47,6 @@ const NavBackButton = styled.button`
 	border: none;
 	cursor: pointer;
 	background-color: transparent;
-`;
-
-const Overlay = styled.div<{ isVisible: boolean }>`
-	z-index: 99;
-	position: fixed;
-	top: 0;
-	left: 50%;
-	transform: translate(-50%, 0);
-	width: 400px;
-	height: 100%;
-	background-color: rgba(0, 0, 0, 0.1);
-	display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
 `;
 
 const SearchBar = () => {
@@ -107,7 +96,7 @@ const SearchBar = () => {
 					</ClearButton>
 				)}
 			</SearchContainer>
-			<Overlay isVisible={isOverlayVisible} />
+			<SearchContents isVisible={isOverlayVisible} />
 		</>
 	);
 };
