@@ -1,11 +1,12 @@
 import styled from 'styled-components';
+import theme from '../styles/theme';
 
 const Button = styled.button`
 	box-sizing: border-box;
-	background-color: #fc6b02;
+	background-color: ${theme.colors.orange};
 	border: none;
 	border-radius: 50px;
-	color: #111111;
+	color: ${theme.colors.black};
 	cursor: pointer;
 	font-size: 16px;
 	padding: 5px;
@@ -15,8 +16,8 @@ const Button = styled.button`
 	height: 50px;
 	&:hover,
 	&:active {
-		background-color: #ffc397;
-		color: #c4c5cd;
+		background-color: ${theme.colors.grayorange};
+		color: ${theme.colors.white};
 	}
 `;
 

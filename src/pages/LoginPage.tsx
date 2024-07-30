@@ -44,12 +44,8 @@ function LoginPage() {
 	async function handleSubmit(e: any) {
 		e.preventDefault();
 		const { email, password } = values;
-		await axios.post(
-			'/auth/login',
-			{ email, password },
-			{ withCredentials: true },
-		);
-		navigate('/home');
+		await axios.post('/auth/login', { email, password });
+		navigate('/');
 	}
 	return (
 		<Container>
