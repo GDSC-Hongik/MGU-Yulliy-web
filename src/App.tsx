@@ -4,7 +4,6 @@ import styled, { ThemeProvider } from 'styled-components';
 import defaultTheme from './styles/theme';
 import GlobalStyles from './styles/GlobalStyles';
 import { NavermapsProvider } from 'react-naver-maps';
-import NavBar from './components/navBar/NavBar';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 
@@ -23,7 +22,6 @@ export const App = () => {
 							<Route path="/signup" element={<SignupPage />} />
 							<Route path="/search" element={<HomePage />} />
 						</Routes>
-						<NavBar />
 					</BrowserRouter>
 				</DefaultLayout>
 			</ThemeProvider>
