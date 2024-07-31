@@ -37,11 +37,11 @@ function LoginPage() {
 		password: '',
 	});
 	const navigate = useNavigate();
-	function handleChange(e: any) {
+	function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
 		const { name, value } = e.target;
 		setValues((prevValues) => ({ ...prevValues, [name]: value }));
 	}
-	async function handleSubmit(e: any) {
+	async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 		const { email, password } = values;
 		try {
