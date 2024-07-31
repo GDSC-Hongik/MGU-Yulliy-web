@@ -45,7 +45,9 @@ function SignupPage() {
 		password: '',
 		passwordRepeat: '',
 	});
-	function handleChange(e: any) {
+
+	// any 타입 사용 금지
+	function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
 		const { name, value } = e.target;
 
 		setValues((prevValues) => ({
@@ -54,7 +56,7 @@ function SignupPage() {
 		}));
 	}
 
-	async function handleSubmit(e: any) {
+	async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 		const { name, email, password, passwordRepeat } = values;
 		if (!name || !email || !password) {
@@ -75,7 +77,10 @@ function SignupPage() {
 			alert('회원 가입이 성공적으로 되었습니다!');
 			navigate('/login');
 		} catch (error) {
-			const error1 = error as any;
+			const error1 = error as {
+				response: { status: number; data: string };
+				message: string;
+			};
 			if (error1.response) {
 				if (error1.response.status === 409) {
 					console.error('Conflict: 중복된 데이터가 존재합니다.');

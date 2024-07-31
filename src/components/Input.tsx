@@ -1,12 +1,16 @@
 import styled from 'styled-components';
 import theme from '../styles/theme';
 
-const Input = styled.input`
+type InputProps = {
+	error?: boolean;
+};
+
+const Input = styled.input<InputProps>`
 	box-sizing: border-box;
 	background-color: ${theme.colors.whitegray};
 	border: none;
 	border-radius: 50px;
-	color: ${theme.colors.black}
+	color: ${theme.colors.black};
 	cursor: pointer;
 	font-size: 16px;
 	padding: 5px;
@@ -17,7 +21,7 @@ const Input = styled.input`
 	height: 50px;
 
 	outline: none;
-	${({ error }: any) =>
+	${({ error }) =>
 		!error &&
 		`
     &:focus {
