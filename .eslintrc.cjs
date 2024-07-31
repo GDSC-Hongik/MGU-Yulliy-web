@@ -11,14 +11,14 @@ module.exports = {
 	parser: '@typescript-eslint/parser',
 	plugins: ['react-refresh', 'prettier'],
 	rules: {
-		'no-unused-vars': [
-			'error',
-			{ 
-				vars: 'all',
-				args: 'after-used',
-				ignoreRestSiblings: false
-			}
-		],
+		'import/no-unused-modules': [
+      'warn',
+      {
+        unusedExports: true,
+        missingExports: true,
+        ignoreExports: [],
+      },
+    ],
 		'react-refresh/only-export-components': [
 			'warn',
 			{ allowConstantExport: true },
