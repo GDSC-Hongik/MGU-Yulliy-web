@@ -1,17 +1,11 @@
-import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
+import useDraggable from '~/hooks/useDraggable';
 
 type BottomSheetProps = {
 	onClose: () => void;
 };
 
-const calculateInitialTranslateY = () => {
-	const vh = window.innerHeight;
-	const initialHeight = 400;
-	return vh - initialHeight;
-};
-
-const BottomSheetWrapper = styled.div<{ translateY: number }>`
+const BottomSheetWrapper = styled.div<{ translatey: number }>`
 	position: fixed;
 	bottom: 0;
 	z-index: 100;
@@ -25,7 +19,7 @@ const BottomSheetWrapper = styled.div<{ translateY: number }>`
 	max-height: 80vh;
 
 	overflow-y: auto;
-	transform: translateY(${({ translateY }) => translateY}px);
+	transform: translateY(${({ translatey: translateY }) => translateY}px);
 `;
 
 const Handle = styled.div`
@@ -48,51 +42,10 @@ const CloseButton = styled.button`
 `;
 
 const BottomSheet: React.FC<BottomSheetProps> = ({ onClose }) => {
-	const [isDragging, setIsDragging] = useState(false);
-	const [startY, setStartY] = useState(0);
-	const [translateY, setTranslateY] = useState(calculateInitialTranslateY());
-
-	const handleMouseDown = (event: React.MouseEvent) => {
-		setIsDragging(true);
-		setStartY(event.clientY);
-	};
-
-	// 드래그 진행 중
-	const handleMouseMove = useCallback(
-		(event: MouseEvent) => {
-			if (!isDragging) return;
-			const offsetY = event.clientY - startY;
-			setTranslateY((prev) => Math.max(0, prev + offsetY));
-			setStartY(event.clientY);
-		},
-		[isDragging, startY],
-	);
-
-	// 드래그 종료
-	const handleMouseUp = useCallback(() => {
-		setIsDragging(false);
-		if (window.innerHeight - startY < 70) {
-			onClose();
-		}
-	}, [startY, onClose]);
-
-	useEffect(() => {
-		if (isDragging) {
-			window.addEventListener('mousemove', handleMouseMove);
-			window.addEventListener('mouseup', handleMouseUp);
-		} else {
-			window.removeEventListener('mousemove', handleMouseMove);
-			window.removeEventListener('mouseup', handleMouseUp);
-		}
-
-		return () => {
-			window.removeEventListener('mousemove', handleMouseMove);
-			window.removeEventListener('mouseup', handleMouseUp);
-		};
-	}, [isDragging, handleMouseMove, handleMouseUp]);
+	const { translateY, handleMouseDown } = useDraggable(onClose);
 
 	return (
-		<BottomSheetWrapper translateY={translateY}>
+		<BottomSheetWrapper translatey={translateY}>
 			<Handle onMouseDown={handleMouseDown} />
 			<BottomSheetContent>
 				<h2>바텀 시트</h2>
