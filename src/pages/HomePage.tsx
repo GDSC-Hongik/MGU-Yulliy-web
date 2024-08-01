@@ -36,7 +36,7 @@ const HomePage = () => {
 	return (
 		<>
 			<Container>
-				<SearchBar />
+				<SearchBar bottomSheetClose={handleCloseBottomSheet} />
 				<MapWrapper>
 					<Map onClick={handleMapClick} />
 				</MapWrapper>
