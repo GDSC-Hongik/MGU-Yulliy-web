@@ -1,6 +1,10 @@
 import CustomMarker from './map/CustomMarker';
 import { Container as MapDiv, NaverMap, useNavermaps } from 'react-naver-maps';
 
+type MapProps = {
+	onClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+};
+
 const latLngData = [
 	{
 		lat: 37.3595704,
@@ -12,7 +16,7 @@ const latLngData = [
 	},
 ];
 
-const Map = () => {
+const Map: React.FC<MapProps> = ({ onClick }) => {
 	const navermaps = useNavermaps();
 
 	return (
@@ -21,6 +25,7 @@ const Map = () => {
 				width: '100%',
 				height: '100%',
 			}}
+			onClick={onClick}
 		>
 			<NaverMap
 				defaultCenter={new navermaps.LatLng(37.3595704, 127.105399)}
