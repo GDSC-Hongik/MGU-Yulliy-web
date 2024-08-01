@@ -6,6 +6,10 @@ import QuestionIcon from '~/assets/icons/QuestionIcon';
 import XIcon from '~/assets/icons/XIcon';
 import SearchContents from '~/components/map/SearchContents';
 
+type SearchBarProps = {
+	bottomSheetClose: () => void;
+};
+
 const SearchContainer = styled.div`
 	z-index: 100;
 	position: fixed;
@@ -49,7 +53,7 @@ const NavBackButton = styled.button`
 	background-color: transparent;
 `;
 
-const SearchBar = () => {
+const SearchBar: React.FC<SearchBarProps> = ({ bottomSheetClose }) => {
 	const [searchText, setSearchText] = useState<string>('');
 	const location = useLocation();
 	const [isOverlayVisible, setOverlayVisible] = useState<boolean>(
@@ -66,6 +70,7 @@ const SearchBar = () => {
 	};
 
 	const handeInputFocus = () => {
+		bottomSheetClose();
 		window.history.pushState(null, '', '/search');
 		setOverlayVisible(true);
 	};
