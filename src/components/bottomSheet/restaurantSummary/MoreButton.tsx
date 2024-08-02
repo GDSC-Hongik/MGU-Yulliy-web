@@ -5,6 +5,7 @@ const Button = styled.button`
 	flex-shrink: 0;
 	width: 50px;
 	height: 50px;
+	margin-bottom: 8px;
 	background-color: ${({ theme }) => theme.colors.orange};
 	color: ${({ theme }) => theme.colors.white};
 	border: none;
@@ -18,6 +19,7 @@ const Button = styled.button`
 	align-items: center;
 	gap: 8px;
 	cursor: pointer;
+	filter: drop-shadow(0px 5px 8px rgba(0, 0, 0, 0.2));
 
 	&:hover {
 		background-color: ${({ theme }) => theme.colors.grayorange};

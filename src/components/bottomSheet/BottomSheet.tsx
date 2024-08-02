@@ -37,7 +37,7 @@ const Handle = styled.div`
 const BottomSheetContent = styled.div`
 	padding: 16px;
 	// TODO: 임시 크기
-	/* height: 1000px; */
+	height: 1000px;
 `;
 
 const BottomSheet: React.FC<BottomSheetProps> = ({ onClose }) => {
