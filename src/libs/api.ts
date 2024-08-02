@@ -1,20 +1,26 @@
-import axios, { AxiosError } from 'axios';
+import axios, { AxiosError, type AxiosResponse } from 'axios';
 
 const baseURL = import.meta.env.VITE_SERVER_URL;
-
 const instance = axios.create({
 	baseURL,
 	timeout: 15000,
 });
 
+const interceptorResponseFulfilled = (res: AxiosResponse) => {
+	if (200 <= res.status && res.status < 300) {
+		return res.data;
+	}
+
+	return Promise.reject(res.data);
+};
+
+const interceptorResponseRejected = (error: AxiosError) => {
+	return Promise.reject(error);
+};
+
 instance.interceptors.response.use(
-	(response) => response,
-	(error: AxiosError) => {
-		if (error.response && error.response.status === 401) {
-			console.error('ERROR', error.toJSON());
-		}
-		return Promise.reject(error);
-	},
+	interceptorResponseFulfilled,
+	interceptorResponseRejected,
 );
 
 export const get = <T>(...args: Parameters<typeof instance.get>) => {
