@@ -1,5 +1,7 @@
+import { useAtom } from 'jotai';
 import styled from 'styled-components';
 import useDraggable from '~/hooks/useDraggable';
+import { restaurantAtom } from '~/store/restaurants';
 
 type BottomSheetProps = {
 	onClose: () => void;
@@ -43,13 +45,23 @@ const CloseButton = styled.button`
 
 const BottomSheet: React.FC<BottomSheetProps> = ({ onClose }) => {
 	const { translateY, handleMouseDown } = useDraggable(onClose);
+	const [restaurants] = useAtom(restaurantAtom);
 
 	return (
 		<BottomSheetWrapper translatey={translateY}>
 			<Handle onMouseDown={handleMouseDown} />
 			<BottomSheetContent>
-				<h2>바텀 시트</h2>
-				<p>내용</p>
+				<ul>
+					{restaurants.map((userRestaurant) => (
+						<li key={userRestaurant.id}>
+							<h3>{userRestaurant.restaurant.name}</h3>
+							<p>Address: {userRestaurant.restaurant.address}</p>
+							<p>Naver Rating: {userRestaurant.restaurant.rating_naver}</p>
+							<p>Kakao Rating: {userRestaurant.restaurant.rating_kakao}</p>
+							<p>Google Rating: {userRestaurant.restaurant.rating_google}</p>
+						</li>
+					))}
+				</ul>
 				<CloseButton onClick={onClose}>닫기</CloseButton>
 			</BottomSheetContent>
 		</BottomSheetWrapper>

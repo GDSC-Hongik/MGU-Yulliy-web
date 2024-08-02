@@ -1,23 +1,15 @@
+import { useAtom } from 'jotai';
 import CustomMarker from './map/CustomMarker';
 import { Container as MapDiv, NaverMap, useNavermaps } from 'react-naver-maps';
+import { restaurantAtom } from '~/store/restaurants';
 
 type MapProps = {
 	onClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 };
 
-const latLngData = [
-	{
-		lat: 37.3595704,
-		lng: 127.105399,
-	},
-	{
-		lat: 37.5666612,
-		lng: 126.9783785,
-	},
-];
-
 const Map: React.FC<MapProps> = ({ onClick }) => {
 	const navermaps = useNavermaps();
+	const [restaurants] = useAtom(restaurantAtom);
 
 	return (
 		<MapDiv
@@ -31,12 +23,12 @@ const Map: React.FC<MapProps> = ({ onClick }) => {
 				defaultCenter={new navermaps.LatLng(37.3595704, 127.105399)}
 				defaultZoom={15}
 			>
-				{latLngData.map((data, index) => (
+				{restaurants.map((restaurantData, index) => (
 					<CustomMarker
 						key={index}
 						navermaps={navermaps}
-						lat={data.lat}
-						lng={data.lng}
+						lat={restaurantData.restaurant.latitude}
+						lng={restaurantData.restaurant.longitude}
 					/>
 				))}
 			</NaverMap>

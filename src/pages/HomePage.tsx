@@ -7,9 +7,21 @@ import { useNavigate } from 'react-router-dom';
 import NavBar from '~/components/navBar/NavBar';
 import BottomSheet from '~/components/bottomSheet/BottomSheet';
 import useGetRestaurants from '~/hooks/api/useGetRestaurants';
+import { useSetAtom } from 'jotai';
+import { restaurantAtom } from '~/store/restaurants';
 
 const HomePage = () => {
 	const navigate = useNavigate();
+	const setRestaurants = useSetAtom(restaurantAtom);
+	const { data } = useGetRestaurants();
+
+	const [isBottomSheetVisible, setIsBottomSheetVisible] = useState(false);
+	useEffect(() => {
+		if (data) {
+			setRestaurants(data);
+		}
+	}, [data, setRestaurants]);
+
 	useEffect(() => {
 		async function checkUser() {
 			try {
@@ -24,8 +36,6 @@ const HomePage = () => {
 		checkUser();
 	}, [navigate]);
 
-	const [isBottomSheetVisible, setIsBottomSheetVisible] = useState(false);
-
 	const handleMapClick = () => {
 		setIsBottomSheetVisible(true);
 	};
@@ -33,9 +43,6 @@ const HomePage = () => {
 	const handleCloseBottomSheet = () => {
 		setIsBottomSheetVisible(false);
 	};
-
-	const { data } = useGetRestaurants();
-	console.log('data', data);
 
 	return (
 		<>
