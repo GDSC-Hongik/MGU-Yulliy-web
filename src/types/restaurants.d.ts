@@ -5,8 +5,8 @@ export interface Restaurant {
 	rating_kakao: string | null;
 	rating_google: string | null;
 	address: string;
-	latitude: string;
-	longitude: string;
+	latitude: number;
+	longitude: number;
 }
 
 // User와 연결된 Restaurant 정보를 나타내는 타입
