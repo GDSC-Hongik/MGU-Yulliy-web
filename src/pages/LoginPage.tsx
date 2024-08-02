@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Button from '../components/Button';
 import Input from '../components/Input';
 import logo from '../assets/MGU.icon.svg';
-import axios from '../libs/axios';
+import { useAuth } from '../contexts/AuthProvider';
 
 const Form = styled.form`
 	margin-left: 20px;
@@ -13,7 +13,7 @@ const Form = styled.form`
 const Img = styled.img`
 	width: 158px;
 	height: 278px;
-	margin: 60px 116px 80px;
+	margin: 0px 116px 80px;
 `;
 
 const Description = styled.div`
@@ -28,7 +28,7 @@ const Container = styled.div`
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	margin: auto;
+	margin: 20px auto;
 `;
 
 function LoginPage() {
@@ -37,6 +37,7 @@ function LoginPage() {
 		password: '',
 	});
 	const navigate = useNavigate();
+	const { login } = useAuth();
 	function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
 		const { name, value } = e.target;
 		setValues((prevValues) => ({ ...prevValues, [name]: value }));
@@ -45,7 +46,7 @@ function LoginPage() {
 		e.preventDefault();
 		const { email, password } = values;
 		try {
-			await axios.post('/auth/login', { email, password });
+			await login({ email, password });
 			navigate('/');
 		} catch (error) {
 			alert('입력 정보가 정확하지 않습니다!');

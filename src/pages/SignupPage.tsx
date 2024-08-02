@@ -135,7 +135,7 @@ function SignupPage() {
 				/>
 				<Button type="submit">MustGoYour맛집 회원가입</Button>
 				<Description small>
-					이미 회원이신가요? <Link to="/"> 로그인 하기</Link>
+					이미 회원이신가요? <Link to="/login"> 로그인 하기</Link>
 				</Description>
 			</Form>
 		</Container>
