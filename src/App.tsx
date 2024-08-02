@@ -8,6 +8,7 @@ import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { AuthProvider } from './contexts/AuthProvider';
 
 export const App = () => {
 	const queryClient = new QueryClient();
@@ -20,12 +21,14 @@ export const App = () => {
 					<GlobalStyles />
 					<DefaultLayout>
 						<BrowserRouter>
-							<Routes>
-								<Route path="/" element={<HomePage />} />
-								<Route path="/login" element={<LoginPage />} />
-								<Route path="/signup" element={<SignupPage />} />
-								<Route path="/search" element={<HomePage />} />
-							</Routes>
+							<AuthProvider>
+								<Routes>
+									<Route path="/" element={<HomePage />} />
+									<Route path="/login" element={<LoginPage />} />
+									<Route path="/signup" element={<SignupPage />} />
+									<Route path="/search" element={<HomePage />} />
+								</Routes>
+							</AuthProvider>
 						</BrowserRouter>
 					</DefaultLayout>
 				</ThemeProvider>
