@@ -15,6 +15,7 @@ interface User {
 interface AuthContextType {
 	user: User | null;
 	login: (data: { email: string; password: string }) => Promise<void>;
+	logout: () => Promise<void>;
 }
 
 interface AuthProviderProps {
@@ -43,13 +44,17 @@ export function AuthProvider({ children }: AuthProviderProps) {
 			{ withCredentials: true },
 		);
 	}
+	async function logout() {
+		await axios.delete('/auth/logout');
+		setUser(null);
+	}
 
 	useEffect(() => {
 		getMe();
 	}, []);
 
 	return (
-		<AuthContext.Provider value={{ user, login }}>
+		<AuthContext.Provider value={{ user, login, logout }}>
 			{children}
 		</AuthContext.Provider>
 	);
