@@ -6,6 +6,7 @@ import axios from '../libs/axios';
 import { useNavigate } from 'react-router-dom';
 import NavBar from '~/components/navBar/NavBar';
 import BottomSheet from '~/components/bottomSheet/BottomSheet';
+import useGetRestaurants from '~/hooks/api/useGetRestaurants';
 
 const HomePage = () => {
 	const navigate = useNavigate();
@@ -32,6 +33,9 @@ const HomePage = () => {
 	const handleCloseBottomSheet = () => {
 		setIsBottomSheetVisible(false);
 	};
+
+	const { data } = useGetRestaurants();
+	console.log('data', data);
 
 	return (
 		<>

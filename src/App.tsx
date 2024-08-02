@@ -6,26 +6,32 @@ import GlobalStyles from './styles/GlobalStyles';
 import { NavermapsProvider } from 'react-naver-maps';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 export const App = () => {
+	const queryClient = new QueryClient();
 	const naverClientId = import.meta.env.VITE_NAVER_MAP_CLIENT_ID;
 
 	return (
-		<NavermapsProvider ncpClientId={naverClientId}>
-			<ThemeProvider theme={defaultTheme}>
-				<GlobalStyles />
-				<DefaultLayout>
-					<BrowserRouter>
-						<Routes>
-							<Route path="/" element={<HomePage />} />
-							<Route path="/login" element={<LoginPage />} />
-							<Route path="/signup" element={<SignupPage />} />
-							<Route path="/search" element={<HomePage />} />
-						</Routes>
-					</BrowserRouter>
-				</DefaultLayout>
-			</ThemeProvider>
-		</NavermapsProvider>
+		<QueryClientProvider client={queryClient}>
+			<NavermapsProvider ncpClientId={naverClientId}>
+				<ThemeProvider theme={defaultTheme}>
+					<GlobalStyles />
+					<DefaultLayout>
+						<BrowserRouter>
+							<Routes>
+								<Route path="/" element={<HomePage />} />
+								<Route path="/login" element={<LoginPage />} />
+								<Route path="/signup" element={<SignupPage />} />
+								<Route path="/search" element={<HomePage />} />
+							</Routes>
+						</BrowserRouter>
+					</DefaultLayout>
+				</ThemeProvider>
+			</NavermapsProvider>
+			<ReactQueryDevtools initialIsOpen={false} />
+		</QueryClientProvider>
 	);
 };
 
