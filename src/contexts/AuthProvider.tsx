@@ -45,7 +45,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 		);
 	}
 	async function logout() {
-		await axios.delete('/auth/logout');
+		await axios.delete('/auth/logout', { withCredentials: true });
 		setUser(null);
 	}
 

@@ -9,6 +9,7 @@ import SignupPage from './pages/SignupPage';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { AuthProvider } from './contexts/AuthProvider';
+import FriendPage from '~/pages/FriendPage';
 
 export const App = () => {
 	const queryClient = new QueryClient();
@@ -27,6 +28,7 @@ export const App = () => {
 									<Route path="/login" element={<LoginPage />} />
 									<Route path="/signup" element={<SignupPage />} />
 									<Route path="/search" element={<HomePage />} />
+									<Route path="/friends" element={<FriendPage />} />
 								</Routes>
 							</AuthProvider>
 						</BrowserRouter>
