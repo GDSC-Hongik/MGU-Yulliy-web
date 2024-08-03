@@ -10,6 +10,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { AuthProvider } from './contexts/AuthProvider';
 import FriendPage from '~/pages/FriendPage';
+import NotFoundPage from '~/pages/NotFoundPage';
 
 export const App = () => {
 	const queryClient = new QueryClient();
@@ -29,6 +30,7 @@ export const App = () => {
 									<Route path="/signup" element={<SignupPage />} />
 									<Route path="/search" element={<HomePage />} />
 									<Route path="/friends" element={<FriendPage />} />
+									<Route path="*" element={<NotFoundPage />} />
 								</Routes>
 							</AuthProvider>
 						</BrowserRouter>
