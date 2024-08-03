@@ -37,7 +37,7 @@ const NavLink = styled(Link)<{ $isActive: boolean }>`
 
 		& > svg > path {
 			stroke: ${({ theme }) => theme.colors.black};
-			stroke-width: 1.7;
+			strokewidth: 1.7;
 		}
 
 		& > div {

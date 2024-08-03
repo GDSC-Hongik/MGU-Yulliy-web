@@ -7,12 +7,13 @@ import NavItemWrapper from '~/components/navBar/NavItemWrapper';
 import { useLocation } from 'react-router-dom';
 
 const Nav = styled.nav`
+	box-sizing: border-box;
+	width: 390px;
 	height: 56px;
 	padding: 4px;
-	position: sticky;
+	position: fixed;
 	bottom: 0;
 	z-index: 100;
-
 	background-color: ${({ theme }) => theme.colors.white};
 
 	filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.2));
