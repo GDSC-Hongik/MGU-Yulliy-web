@@ -5,6 +5,7 @@ import Button from '../components/Button';
 import Input from '../components/Input';
 import logo from '../assets/MGUtitle.svg';
 import axios from '../libs/axios';
+import Head from '~/components/common/Head';
 
 interface DescriptionProps {
 	small?: boolean;
@@ -97,48 +98,51 @@ function SignupPage() {
 	}
 
 	return (
-		<Container>
-			<Img src={logo} alt="logo" />
-			<Description>회원가입</Description>
-			<Form onSubmit={handleSubmit}>
-				<Input
-					type="text"
-					id="name"
-					name="name"
-					placeholder="별명"
-					value={values.name}
-					onChange={handleChange}
-				/>
-				<Input
-					type="email"
-					id="email"
-					name="email"
-					placeholder="이메일"
-					value={values.email}
-					onChange={handleChange}
-				/>
-				<Input
-					type="password"
-					id="password"
-					name="password"
-					placeholder="비밀번호"
-					value={values.password}
-					onChange={handleChange}
-				/>
-				<Input
-					type="password"
-					id="passwordRepeat"
-					name="passwordRepeat"
-					placeholder="비밀번호 확인"
-					value={values.passwordRepeat}
-					onChange={handleChange}
-				/>
-				<Button type="submit">MustGoYour맛집 회원가입</Button>
-				<Description small>
-					이미 회원이신가요? <Link to="/login"> 로그인 하기</Link>
-				</Description>
-			</Form>
-		</Container>
+		<>
+			<Head title="SignUp" />
+			<Container>
+				<Img src={logo} alt="logo" />
+				<Description>회원가입</Description>
+				<Form onSubmit={handleSubmit}>
+					<Input
+						type="text"
+						id="name"
+						name="name"
+						placeholder="별명"
+						value={values.name}
+						onChange={handleChange}
+					/>
+					<Input
+						type="email"
+						id="email"
+						name="email"
+						placeholder="이메일"
+						value={values.email}
+						onChange={handleChange}
+					/>
+					<Input
+						type="password"
+						id="password"
+						name="password"
+						placeholder="비밀번호"
+						value={values.password}
+						onChange={handleChange}
+					/>
+					<Input
+						type="password"
+						id="passwordRepeat"
+						name="passwordRepeat"
+						placeholder="비밀번호 확인"
+						value={values.passwordRepeat}
+						onChange={handleChange}
+					/>
+					<Button type="submit">MustGoYour맛집 회원가입</Button>
+					<Description small>
+						이미 회원이신가요? <Link to="/login"> 로그인 하기</Link>
+					</Description>
+				</Form>
+			</Container>
+		</>
 	);
 }
 
