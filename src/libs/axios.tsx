@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-	baseURL: 'http://43.203.225.31',
+	baseURL: 'https://learn.codeit.kr/api/link-service',
 	withCredentials: true,
 });
 //마땅한 api가 없었음 ㅜ
