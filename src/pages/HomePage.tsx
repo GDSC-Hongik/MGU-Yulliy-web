@@ -9,6 +9,7 @@ import BottomSheet from '~/components/bottomSheet/BottomSheet';
 import useGetRestaurants from '~/hooks/api/useGetRestaurants';
 import { useSetAtom } from 'jotai';
 import { restaurantAtom } from '~/store/restaurants';
+import Head from '~/components/common/Head';
 
 const HomePage = () => {
 	const navigate = useNavigate();
@@ -46,6 +47,7 @@ const HomePage = () => {
 
 	return (
 		<>
+			<Head title="비밀 지도" />
 			<Container>
 				<SearchBar bottomSheetClose={handleCloseBottomSheet} />
 				<MapWrapper>
