@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import axios from '../libs/axios';
 import { useNavigate } from 'react-router-dom';
 import NavBar from '~/components/navBar/NavBar';
+import theme from '../styles/theme';
 
 interface Friend {
 	id: number;
@@ -40,11 +41,12 @@ const FriendPage = () => {
 
 	return (
 		<>
-			<Title> friends</Title>
+			<Title>friends</Title>
 			<FriendList>
 				{friends.map((friend) => (
 					<FriendItem key={friend.id}>
-						{friend.profile} {friend.name}
+						<Profileimage src={friend.profile} alt="profile" />
+						{friend.name}
 					</FriendItem>
 				))}
 			</FriendList>
@@ -54,8 +56,6 @@ const FriendPage = () => {
 };
 
 export default FriendPage;
-
-// 스타일링
 
 const Title = styled.p`
 	margin: 20px 0;
@@ -77,7 +77,18 @@ const FriendList = styled.ul`
 
 const FriendItem = styled.li`
 	padding: 10px;
-	border-bottom: 1px solid #ccc;
-	width: 100%;
-	text-align: center;
+	box-sizing:border-box;
+	border-bottom:1px solid ${theme.colors.whitegray}
+	width: 350px;
+	height:72px;
+	text-align: left;
+	text: 16px;
+`;
+const Profileimage = styled.img`
+	border-radius: 100%;
+	box-sizing: border-box;
+	width: 40px;
+	height: 40px;
+	margin: 16px;
+	margin-left: 12px;
 `;
