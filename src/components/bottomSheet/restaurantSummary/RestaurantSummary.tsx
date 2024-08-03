@@ -26,7 +26,7 @@ const SummaryInfo = styled.div`
 const Title = styled.h3`
 	display: inline-block;
 	font-size: 16px;
-	font-weight: ${({ theme }) => theme.fonts.Regular};
+	font-weight: ${({ theme }) => theme.fontWeights.Regular};
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -37,7 +37,7 @@ const Category = styled.p`
 	display: inline-block;
 	margin-top: 6px;
 	font-size: 12px;
-	font-weight: ${({ theme }) => theme.fonts.Light};
+	font-weight: ${({ theme }) => theme.fontWeights.Light};
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;

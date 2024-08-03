@@ -1,5 +1,6 @@
 import { createGlobalStyle, css } from 'styled-components';
 import theme from './theme';
+import fonts from '~/assets/fonts/fonts';
 
 const resetCss = css`
 	/* http://meyerweb.com/eric/tools/css/reset/ 
@@ -137,9 +138,8 @@ const resetCss = css`
 const GlobalStyles = createGlobalStyle`
 	${resetCss};
 
-	/* 폰트 다운 */
-	/* 이 레포를 참고 : https://github.com/innks/NanumSquareRound */
-	@import url('https://cdn.rawgit.com/innks/NanumSquareRound/master/nanumsquareround.min.css');
+	${fonts}
+
 	:root {
 		font-family: 'NanumSquareRound',sans-serif;
 		color: ${theme.colors.black};

@@ -1,9 +1,9 @@
-import fonts from '~/styles/fonts';
 import colors from './colors';
+import { fontWeights } from '~/assets/fonts/fonts';
 
 const defaultTheme = {
 	colors,
-	fonts,
+	fontWeights,
 	size: {
 		maxWidth: '400px',
 	},
