@@ -29,7 +29,7 @@ const Button = styled.button`
 	border-radius: 50px;
 	color: ${({ theme }) => theme.colors.white};
 	cursor: pointer;
-	font-weight: ${({ theme }) => theme.fonts.Bold};
+	font-weight: ${({ theme }) => theme.fontWeights.Bold};
 	font-size: 16px;
 	padding: 5px;
 	padding-left: 16px;

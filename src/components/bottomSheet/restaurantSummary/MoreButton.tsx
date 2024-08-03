@@ -10,7 +10,7 @@ const Button = styled.button`
 	color: ${({ theme }) => theme.colors.white};
 	border: none;
 	font-size: 10px;
-	font-weight: ${({ theme }) => theme.fonts.Bold};
+	font-weight: ${({ theme }) => theme.fontWeights.Bold};
 	text-align: center;
 	border-radius: 50%;
 	display: flex;
