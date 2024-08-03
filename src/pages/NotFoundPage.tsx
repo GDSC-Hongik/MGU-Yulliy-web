@@ -1,6 +1,7 @@
 import { styled } from 'styled-components';
 import NotFoundImg from '/images/404.png';
 import { useNavigate } from 'react-router-dom';
+import Head from '~/components/common/Head';
 
 const NotFoundWarpper = styled.div`
 	background-color: ${({ theme }) => theme.colors.whitegray};
@@ -51,12 +52,15 @@ const NotFoundPage = () => {
 	};
 
 	return (
-		<NotFoundWarpper>
-			<Image src={NotFoundImg} alt="404 not found" />
-			<Button onClick={HandlebuttonClick} type="button">
-				돌아가기
-			</Button>
-		</NotFoundWarpper>
+		<>
+			<Head title="404 Not Found" />
+			<NotFoundWarpper>
+				<Image src={NotFoundImg} alt="404 not found" />
+				<Button onClick={HandlebuttonClick} type="button">
+					돌아가기
+				</Button>
+			</NotFoundWarpper>
+		</>
 	);
 };
 
