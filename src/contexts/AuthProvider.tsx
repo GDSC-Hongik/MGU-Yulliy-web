@@ -11,11 +11,12 @@ interface User {
 	email: string;
 	password: string;
 }
-
+import { useNavigate } from 'react-router-dom';
 interface AuthContextType {
 	user: User | null;
 	login: (data: { email: string; password: string }) => Promise<void>;
 	logout: () => Promise<void>;
+	checkuser: () => Promise<void>;
 }
 
 interface AuthProviderProps {
@@ -30,11 +31,19 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: AuthProviderProps) {
 	const [user, setUser] = useState(null);
+	const navigate = useNavigate();
 
-	async function getMe() {
-		const res = await axios.get('/users/me');
-		const nextUser = res.data;
-		setUser(nextUser);
+	async function checkuser() {
+		try {
+			const res = await axios.get('/users/me');
+			if (res.data) {
+				setUser(res.data);
+				return;
+			}
+		} catch (error) {
+			setUser(null);
+			navigate('/login');
+		}
 	}
 
 	async function login({ email, password }: LoginProps) {
@@ -43,6 +52,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 			{ email, password },
 			{ withCredentials: true },
 		);
+		await checkuser();
 	}
 	async function logout() {
 		await axios.delete('/auth/logout', { withCredentials: true });
@@ -50,11 +60,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
 	}
 
 	useEffect(() => {
-		getMe();
+		checkuser();
 	}, []);
 
 	return (
-		<AuthContext.Provider value={{ user, login, logout }}>
+		<AuthContext.Provider value={{ user, login, logout, checkuser }}>
 			{children}
 		</AuthContext.Provider>
 	);
