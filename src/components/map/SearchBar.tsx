@@ -1,10 +1,13 @@
-import { useState } from 'react';
+import { useSetAtom } from 'jotai';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { styled } from 'styled-components';
 import NavBackIcon from '~/assets/icons/NavBackIcon';
 import QuestionIcon from '~/assets/icons/QuestionIcon';
 import XIcon from '~/assets/icons/XIcon';
 import SearchContents from '~/components/map/SearchContents';
+import usePostSearch from '~/hooks/api/search/usePostSearch';
+import { tempRestaurantAtom } from '~/store/restaurants';
 
 type SearchBarProps = {
 	bottomSheetClose: () => void;
@@ -54,11 +57,19 @@ const NavBackButton = styled.button`
 `;
 
 const SearchBar: React.FC<SearchBarProps> = ({ bottomSheetClose }) => {
-	const [searchText, setSearchText] = useState<string>('');
 	const location = useLocation();
+	const [searchText, setSearchText] = useState<string>('');
 	const [isOverlayVisible, setOverlayVisible] = useState<boolean>(
 		location.pathname === '/search',
 	);
+	const setTempRestaurants = useSetAtom(tempRestaurantAtom);
+
+	const { data, refetch } = usePostSearch({ query: searchText });
+	useEffect(() => {
+		if (data) {
+			setTempRestaurants(data);
+		}
+	}, [data, setTempRestaurants]);
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setSearchText(e.target.value);
@@ -79,6 +90,12 @@ const SearchBar: React.FC<SearchBarProps> = ({ bottomSheetClose }) => {
 		setSearchText('');
 	};
 
+	const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+		if (event.key === 'Enter') {
+			refetch();
+		}
+	};
+
 	return (
 		<>
 			<SearchContainer>
@@ -94,6 +111,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ bottomSheetClose }) => {
 					value={searchText}
 					onChange={handleInputChange}
 					onFocus={handeInputFocus}
+					onKeyDown={handleKeyDown}
 				/>
 				{searchText && (
 					<ClearButton onClick={clearInput}>
