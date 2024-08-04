@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
+import HistoryLine from '~/components/search/HistoryLine';
 import useGetSearch from '~/hooks/api/search/useGetSearch';
 import { History } from '~/types/search';
 
@@ -19,6 +20,19 @@ const Overlay = styled.div<{ isVisible: boolean }>`
 	display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
 `;
 
+const HistoryWrapper = styled.ul`
+	margin-top: 100px;
+	padding: 20px;
+	overflow-y: auto;
+	height: 75%;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	gap: 12px;
+`;
+
 const SearchContents: React.FC<SearchContentsProps> = ({ isVisible }) => {
 	const [histories, setHistories] = useState<History[]>([]);
 	const { data } = useGetSearch();
@@ -30,11 +44,17 @@ const SearchContents: React.FC<SearchContentsProps> = ({ isVisible }) => {
 
 	return (
 		<Overlay isVisible={isVisible}>
-			{histories.length === 0 ? (
-				<div>검색 기록이 없습니다.</div>
-			) : (
-				histories.map((history) => <div key={history.id}>{history.query}</div>)
-			)}
+			<HistoryWrapper>
+				{histories.length === 0 ? (
+					<div>검색 기록이 없습니다.</div>
+				) : (
+					<>
+						{histories.map((history) => (
+							<HistoryLine key={history.id} {...history} />
+						))}
+					</>
+				)}
+			</HistoryWrapper>
 		</Overlay>
 	);
 };
