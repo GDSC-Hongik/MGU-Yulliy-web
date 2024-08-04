@@ -1,43 +1,46 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import axios from '../libs/axios';
-import { useNavigate } from 'react-router-dom';
 import NavBar from '~/components/navBar/NavBar';
 import theme from '../styles/theme';
+import { useAuth } from '../contexts/AuthProvider';
+import Title from '../components/Title';
 
 interface Friend {
 	id: number;
 	profile: string;
 	name: string;
-	email: string;
+	state: number;
+	restourant: number;
 }
 
 const FriendPage = () => {
-	const navigate = useNavigate();
 	const [friends, setFriends] = useState<Friend[]>([]);
+	const [newFriends, setNewFriends] = useState<Friend[]>([]);
+	const { checkUser, user } = useAuth();
 
 	useEffect(() => {
-		async function checkUser() {
-			try {
-				const res = await axios.get('/users/me');
-				if (res.data) {
-					return;
-				}
-			} catch (error) {
-				navigate('/login');
+		async function fetchData() {
+			await checkUser();
+			if (user) {
+				const friendResponse = await axios.get('/friends');
+				setFriends(friendResponse.data);
+				const newFriendResponse = await axios.get('/newfriends');
+				setNewFriends(newFriendResponse.data);
 			}
 		}
-		checkUser();
-	}, [navigate]);
 
-	useEffect(() => {
-		async function fetchFriends() {
-			const response = await axios.get('/friends');
-			setFriends(response.data);
-		}
-
-		fetchFriends();
-	}, []);
+		fetchData();
+	}, [user]);
+	// async function approve(friendId: number) {
+	//  {
+	// 		await axios.post(`/friends/approve/${friendId}`);
+	// 		const approvedFriend = newFriends.find((friend) => friend.id === friendId);
+	// 		if (approvedFriend) {
+	// 			setFriends([...friends, approvedFriend]);
+	// 			setNewFriends(newFriends.filter((friend) => friend.id !== friendId));
+	// 		}
+	// }
 	async function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
 		e.preventDefault();
 		const action = e.currentTarget.getAttribute('data-action');
@@ -50,16 +53,28 @@ const FriendPage = () => {
 	return (
 		<>
 			<Container>
-				<Title main={true}>Friends</Title>
+				<Title main>Friends</Title>
 				<Title>Friends Requests</Title>
-				<AddButton>
-					<FriendAddButton data-action="approve" onClick={handleClick}>
-						Approve
-					</FriendAddButton>
-					<FriendAddButton decline data-action="decline" onClick={handleClick}>
-						Decline
-					</FriendAddButton>
-				</AddButton>
+				<FriendRequest>
+					{newFriends.map((newFriends) => (
+						<FriendItem key={newFriends.id}>
+							<Profileimage src={newFriends.profile} alt="profile" />
+							{newFriends.name} {newFriends.state} {newFriends.restourant}
+							<AddButton>
+								<FriendButton data-action="approve" onClick={handleClick}>
+									Approve
+								</FriendButton>
+								<FriendButton
+									decline
+									data-action="decline"
+									onClick={handleClick}
+								>
+									Decline
+								</FriendButton>
+							</AddButton>
+						</FriendItem>
+					))}
+				</FriendRequest>
 				<Title>Friends</Title>
 				<FriendList>
 					{friends.map((friend) => (
@@ -77,7 +92,7 @@ const FriendPage = () => {
 };
 
 export default FriendPage;
-
+const FriendRequest = styled.div``;
 const AddButton = styled.div`
 	box-sizing: border-box;
 	height: 54px;
@@ -86,10 +101,10 @@ const AddButton = styled.div`
 	flex-direction: column;
 	margin: 5px;
 `;
-interface FriendAddButtonProps {
+interface FriendButtonProps {
 	decline?: boolean;
 }
-const FriendAddButton = styled.button<FriendAddButtonProps>`
+const FriendButton = styled.button<FriendButtonProps>`
 	background-color: ${({ decline }) =>
 		decline ? theme.colors.whitegray : theme.colors.orange};
 	box-sizing: border-box;
@@ -103,18 +118,6 @@ const FriendAddButton = styled.button<FriendAddButtonProps>`
 		background-color: ${theme.colors.grayorange};
 		color: ${theme.colors.white};
 	}
-`;
-interface TitleProps {
-	main?: boolean;
-}
-
-const Title = styled.p<TitleProps>`
-	font-size: ${({ main }) => (main ? '28px' : '20px')};
-	text-align: ${({ main }) => (main ? 'center' : 'left')};
-	box-sizing: border-box;
-	width: 100%;
-	margin: 5px;
-	height: ${({ main }) => (main ? '28px' : '20px')};
 `;
 
 const FriendList = styled.ul`
