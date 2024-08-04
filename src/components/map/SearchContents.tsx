@@ -1,4 +1,7 @@
+import { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
+import useGetSearch from '~/hooks/api/search/useGetSearch';
+import { History } from '~/types/search';
 
 type SearchContentsProps = {
 	isVisible: boolean;
@@ -17,7 +20,23 @@ const Overlay = styled.div<{ isVisible: boolean }>`
 `;
 
 const SearchContents: React.FC<SearchContentsProps> = ({ isVisible }) => {
-	return <Overlay isVisible={isVisible}>SearchContents</Overlay>;
+	const [histories, setHistories] = useState<History[]>([]);
+	const { data } = useGetSearch();
+	useEffect(() => {
+		if (data) {
+			setHistories(data.histories);
+		}
+	}, [data, setHistories]);
+
+	return (
+		<Overlay isVisible={isVisible}>
+			{histories.length === 0 ? (
+				<div>검색 기록이 없습니다.</div>
+			) : (
+				histories.map((history) => <div key={history.id}>{history.query}</div>)
+			)}
+		</Overlay>
+	);
 };
 
 export default SearchContents;
