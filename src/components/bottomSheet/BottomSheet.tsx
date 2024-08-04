@@ -8,7 +8,7 @@ type BottomSheetProps = {
 	onClose: () => void;
 };
 
-const BottomSheetWrapper = styled.div<{ translatey: number }>`
+const BottomSheetWrapper = styled.div<{ $translateY: number }>`
 	position: fixed;
 	bottom: 0;
 	z-index: 100;
@@ -22,7 +22,7 @@ const BottomSheetWrapper = styled.div<{ translatey: number }>`
 	max-height: 80vh;
 
 	overflow-y: auto;
-	transform: translateY(${({ translatey: translateY }) => translateY}px);
+	transform: translateY(${({ $translateY }) => $translateY}px);
 `;
 
 const Handle = styled.div`
@@ -45,7 +45,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({ onClose }) => {
 	const [restaurants] = useAtom(restaurantAtom);
 
 	return (
-		<BottomSheetWrapper translatey={translateY}>
+		<BottomSheetWrapper $translateY={translateY}>
 			<Handle onMouseDown={handleMouseDown} />
 			<BottomSheetContent>
 				<ul>

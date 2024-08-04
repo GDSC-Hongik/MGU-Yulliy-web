@@ -8,10 +8,10 @@ import { useAtom } from 'jotai';
 import SearchResultLine from '~/components/search/SearchResultLine';
 
 type SearchContentsProps = {
-	isVisible: boolean;
+	$isVisible: boolean;
 };
 
-const Overlay = styled.div<{ isVisible: boolean }>`
+const Overlay = styled.div<{ $isVisible: boolean }>`
 	z-index: 99;
 	position: fixed;
 	top: 0;
@@ -20,7 +20,7 @@ const Overlay = styled.div<{ isVisible: boolean }>`
 	width: 400px;
 	height: 100%;
 	background-color: ${({ theme }) => theme.colors.white};
-	display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
+	display: ${({ $isVisible }) => ($isVisible ? 'block' : 'none')};
 `;
 
 const HistoryWrapper = styled.ul`
@@ -36,7 +36,7 @@ const HistoryWrapper = styled.ul`
 	gap: 12px;
 `;
 
-const SearchContents: React.FC<SearchContentsProps> = ({ isVisible }) => {
+const SearchContents: React.FC<SearchContentsProps> = ({ $isVisible }) => {
 	const [histories, setHistories] = useState<History[]>([]);
 	const [tempRestaurant] = useAtom(tempRestaurantAtom);
 	const { data } = useGetSearch();
@@ -46,8 +46,12 @@ const SearchContents: React.FC<SearchContentsProps> = ({ isVisible }) => {
 		}
 	}, [data, setHistories]);
 
+	const removeHistory = (id: number) => {
+		setHistories(histories.filter((history) => history.id !== id));
+	};
+
 	return (
-		<Overlay isVisible={isVisible}>
+		<Overlay $isVisible={$isVisible}>
 			<HistoryWrapper>
 				{tempRestaurant.results.length > 0 ? (
 					tempRestaurant.results.map((result) => (
@@ -57,7 +61,11 @@ const SearchContents: React.FC<SearchContentsProps> = ({ isVisible }) => {
 					// tempRestaurant가 비어있고 histories가 있으면 이 컴포넌트를 보여줍니다.
 					<>
 						{histories.map((history) => (
-							<HistoryLine key={history.id} {...history} />
+							<HistoryLine
+								key={history.id}
+								removeHistory={removeHistory}
+								{...history}
+							/>
 						))}
 					</>
 				) : (
