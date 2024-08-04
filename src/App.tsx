@@ -11,6 +11,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { AuthProvider } from './contexts/AuthProvider';
 import FriendPage from '~/pages/FriendPage';
 import NotFoundPage from '~/pages/NotFoundPage';
+import ErrorBoundary from '~/components/common/ErrorBoundary';
 
 export const App = () => {
 	const queryClient = new QueryClient();
@@ -21,20 +22,22 @@ export const App = () => {
 			<NavermapsProvider ncpClientId={naverClientId}>
 				<ThemeProvider theme={defaultTheme}>
 					<GlobalStyles />
-					<DefaultLayout>
-						<BrowserRouter>
-							<AuthProvider>
-								<Routes>
-									<Route path="/" element={<HomePage />} />
-									<Route path="/login" element={<LoginPage />} />
-									<Route path="/signup" element={<SignupPage />} />
-									<Route path="/search" element={<HomePage />} />
-									<Route path="/friends" element={<FriendPage />} />
-									<Route path="*" element={<NotFoundPage />} />
-								</Routes>
-							</AuthProvider>
-						</BrowserRouter>
-					</DefaultLayout>
+					<ErrorBoundary>
+						<DefaultLayout>
+							<BrowserRouter>
+								<AuthProvider>
+									<Routes>
+										<Route path="/" element={<HomePage />} />
+										<Route path="/login" element={<LoginPage />} />
+										<Route path="/signup" element={<SignupPage />} />
+										<Route path="/search" element={<HomePage />} />
+										<Route path="/friends" element={<FriendPage />} />
+										<Route path="*" element={<NotFoundPage />} />
+									</Routes>
+								</AuthProvider>
+							</BrowserRouter>
+						</DefaultLayout>
+					</ErrorBoundary>
 				</ThemeProvider>
 			</NavermapsProvider>
 			<ReactQueryDevtools initialIsOpen={false} />
