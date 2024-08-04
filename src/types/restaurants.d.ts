@@ -1,9 +1,11 @@
 export interface Restaurant {
 	id: number;
 	name: string;
-	rating_naver: string | null;
-	rating_kakao: string | null;
-	rating_google: string | null;
+	food_type: string | null;
+	rating_average: number | null;
+	rating_naver: number | null;
+	rating_kakao: number | null;
+	rating_google: number | null;
 	address: string;
 	latitude: number;
 	longitude: number;
