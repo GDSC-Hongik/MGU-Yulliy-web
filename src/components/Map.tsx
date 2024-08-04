@@ -2,6 +2,8 @@ import { useAtom } from 'jotai';
 import CustomMarker from './map/CustomMarker';
 import { Container as MapDiv, NaverMap, useNavermaps } from 'react-naver-maps';
 import { restaurantAtom } from '~/store/restaurants';
+import { startTransition, useEffect, useState } from 'react';
+import Loading from '~/components/common/Loading';
 
 type MapProps = {
 	onClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
@@ -10,6 +12,19 @@ type MapProps = {
 const Map: React.FC<MapProps> = ({ onClick }) => {
 	const navermaps = useNavermaps();
 	const [restaurants] = useAtom(restaurantAtom);
+	const [isMapLoaded, setIsMapLoaded] = useState(false);
+
+	useEffect(() => {
+		startTransition(() => {
+			if (navermaps) {
+				setIsMapLoaded(true);
+			}
+		});
+	}, [navermaps]);
+
+	if (!isMapLoaded) {
+		return <Loading />;
+	}
 
 	return (
 		<MapDiv
