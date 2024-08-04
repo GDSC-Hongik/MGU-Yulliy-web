@@ -38,18 +38,39 @@ const FriendPage = () => {
 
 		fetchFriends();
 	}, []);
-
+	async function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
+		e.preventDefault();
+		const action = e.currentTarget.getAttribute('data-action');
+		if (action === 'approve') {
+			return;
+		} else if (action === 'decline') {
+			return;
+		}
+	}
 	return (
 		<>
-			<Title>friends</Title>
-			<FriendList>
-				{friends.map((friend) => (
-					<FriendItem key={friend.id}>
-						<Profileimage src={friend.profile} alt="profile" />
-						{friend.name}
-					</FriendItem>
-				))}
-			</FriendList>
+			<Container>
+				<Title main={true}>Friends</Title>
+				<Title>Friends Requests</Title>
+				<AddButton>
+					<FriendAddButton data-action="approve" onClick={handleClick}>
+						Approve
+					</FriendAddButton>
+					<FriendAddButton decline data-action="decline" onClick={handleClick}>
+						Decline
+					</FriendAddButton>
+				</AddButton>
+				<Title>Friends</Title>
+				<FriendList>
+					{friends.map((friend) => (
+						<FriendItem key={friend.id}>
+							<Profileimage src={friend.profile} alt="profile" />
+							{friend.name}
+						</FriendItem>
+					))}
+				</FriendList>
+				<Title>Suggested for you</Title>
+			</Container>
 			<NavBar />
 		</>
 	);
@@ -57,14 +78,43 @@ const FriendPage = () => {
 
 export default FriendPage;
 
-const Title = styled.p`
-	margin: 20px 0;
-	font-size: 24px;
-	text-align:left;
-	box-sizing:border-box:
-	width:350px;
-	height:100%;
-	padding:20px;
+const AddButton = styled.div`
+	box-sizing: border-box;
+	height: 54px;
+	width: 68px;
+	display: flex;
+	flex-direction: column;
+	margin: 5px;
+`;
+interface FriendAddButtonProps {
+	decline?: boolean;
+}
+const FriendAddButton = styled.button<FriendAddButtonProps>`
+	background-color: ${({ decline }) =>
+		decline ? theme.colors.whitegray : theme.colors.orange};
+	box-sizing: border-box;
+	width: 100%;
+	height: 24px;
+	margin: 4px;
+	border-radius: 8px;
+	border: none;
+	&:hover,
+	&:active {
+		background-color: ${theme.colors.grayorange};
+		color: ${theme.colors.white};
+	}
+`;
+interface TitleProps {
+	main?: boolean;
+}
+
+const Title = styled.p<TitleProps>`
+	font-size: ${({ main }) => (main ? '28px' : '20px')};
+	text-align: ${({ main }) => (main ? 'center' : 'left')};
+	box-sizing: border-box;
+	width: 100%;
+	margin: 5px;
+	height: ${({ main }) => (main ? '28px' : '20px')};
 `;
 
 const FriendList = styled.ul`
@@ -91,4 +141,11 @@ const Profileimage = styled.img`
 	height: 40px;
 	margin: 16px;
 	margin-left: 12px;
+`;
+const Container = styled.div`
+	width: 390px;
+	height: 844px;
+	display: flex;
+	flex-direction: column;
+	padding: 20px;
 `;
