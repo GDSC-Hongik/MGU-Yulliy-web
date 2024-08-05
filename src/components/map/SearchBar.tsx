@@ -32,6 +32,13 @@ const SearchContainer = styled.div`
 	filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.1));
 `;
 
+const SearchForm = styled.form`
+	width: 100%;
+
+	display: flex;
+	align-items: center;
+`;
+
 const SubmitButton = styled.button`
 	border: none;
 	cursor: pointer;
@@ -41,7 +48,7 @@ const SubmitButton = styled.button`
 	border-radius: 5px;
 `;
 
-const ClearButton = styled.button`
+const ClearButton = styled.div`
 	border: none;
 	cursor: pointer;
 	background-color: transparent;
@@ -59,7 +66,7 @@ const Input = styled.input`
 		outline: none;
 	}
 `;
-const NavBackButton = styled.button`
+const NavBackLink = styled.a`
 	border: none;
 	cursor: pointer;
 	background-color: transparent;
@@ -88,6 +95,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ bottomSheetClose }) => {
 	};
 
 	const handleBackButtonClick = () => {
+		console.log('Back button clicked');
 		setOverlayVisible(false);
 		window.history.pushState(null, '', '/');
 	};
@@ -114,31 +122,32 @@ const SearchBar: React.FC<SearchBarProps> = ({ bottomSheetClose }) => {
 	};
 
 	return (
-		<form onSubmit={handleSubmit}>
+		<>
 			<SearchContainer>
-				{isOverlayVisible ? (
-					<NavBackButton onClick={handleBackButtonClick}>
-						<NavBackIcon />
-					</NavBackButton>
-				) : (
-					<QuestionIcon />
-				)}
-				<Input
-					type="text"
-					value={searchText}
-					onChange={handleInputChange}
-					onFocus={handeInputFocus}
-				/>
-				{searchText && (
-					<ClearButton onClick={clearInput}>
-						<XIcon />
-					</ClearButton>
-				)}
-				{/* TODO: 임시 submit 버튼이라 나중에 바꿔야함 */}
-				<SubmitButton type="submit">Search</SubmitButton>
+				<SearchForm onSubmit={handleSubmit}>
+					{isOverlayVisible && (
+						<NavBackLink onClick={handleBackButtonClick}>
+							<NavBackIcon />
+						</NavBackLink>
+					)}
+					<Input
+						type="text"
+						value={searchText}
+						onChange={handleInputChange}
+						onFocus={handeInputFocus}
+					/>
+					{searchText && (
+						<ClearButton onClick={clearInput}>
+							<XIcon />
+						</ClearButton>
+					)}
+					<SubmitButton type="submit">
+						<QuestionIcon />
+					</SubmitButton>
+				</SearchForm>
 			</SearchContainer>
 			<SearchContents $isVisible={isOverlayVisible} />
-		</form>
+		</>
 	);
 };
 
