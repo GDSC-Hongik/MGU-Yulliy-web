@@ -5,9 +5,9 @@ const NavItem = styled.li`
 	display: inline;
 `;
 
-const NavLink = styled(Link)<{ isActive: boolean }>`
-	color: ${({ theme, isActive }) =>
-		isActive ? theme.colors.black : theme.colors.gray};
+const NavLink = styled(Link)<{ $isActive: boolean }>`
+	color: ${({ theme, $isActive }) =>
+		$isActive ? theme.colors.black : theme.colors.gray};
 	text-decoration: none;
 	font-size: 12px;
 	font-weight: 500;
@@ -20,15 +20,15 @@ const NavLink = styled(Link)<{ isActive: boolean }>`
 	gap: 4px;
 
 	& > svg > path {
-		stroke: ${({ theme, isActive }) =>
-			isActive ? theme.colors.black : theme.colors.gray};
+		stroke: ${({ theme, $isActive }) =>
+			$isActive ? theme.colors.black : theme.colors.gray};
 		stroke-width: 1.5;
 	}
 
 	& > div {
 		outline: 1px solid
-			${({ theme, isActive }) =>
-				isActive ? theme.colors.black : theme.colors.gray};
+			${({ theme, $isActive }) =>
+				$isActive ? theme.colors.black : theme.colors.gray};
 	}
 
 	&:hover,
@@ -48,18 +48,18 @@ const NavLink = styled(Link)<{ isActive: boolean }>`
 
 type NavItemWrapperProps = {
 	link: string;
-	isActive: boolean;
+	$isActive: boolean;
 	children: React.ReactNode;
 };
 
 const NavItemWrapper: React.FC<NavItemWrapperProps> = ({
 	link,
-	isActive,
+	$isActive,
 	children,
 }) => {
 	return (
 		<NavItem>
-			<NavLink to={link} isActive={isActive}>
+			<NavLink to={link} $isActive={$isActive}>
 				{children}
 			</NavLink>
 		</NavItem>

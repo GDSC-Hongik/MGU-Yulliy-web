@@ -1,12 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
 import { post } from '~/libs/api';
-import { tempRestaurant } from '~/store/restaurants';
+import { Restaurant } from '~/types/restaurants';
 
 type Request = {
 	query: string;
 };
 
-type Response = tempRestaurant;
+type Response = {
+	results: Restaurant[];
+};
 
 export const postSearchQueryKey = (request: Request) => ['search', request];
 

@@ -3,9 +3,9 @@ import { styled } from 'styled-components';
 import HistoryLine from '~/components/search/HistoryLine';
 import useGetSearch from '~/hooks/api/search/useGetSearch';
 import { History } from '~/types/search';
-import { tempRestaurantAtom } from '../../store/restaurants';
 import { useAtom } from 'jotai';
 import SearchResultLine from '~/components/search/SearchResultLine';
+import { searchRestaurantAtom } from '~/store/restaurants';
 
 type SearchContentsProps = {
 	$isVisible: boolean;
@@ -38,7 +38,7 @@ const HistoryWrapper = styled.ul`
 
 const SearchContents: React.FC<SearchContentsProps> = ({ $isVisible }) => {
 	const [histories, setHistories] = useState<History[]>([]);
-	const [tempRestaurant] = useAtom(tempRestaurantAtom);
+	const [searchRestaurants] = useAtom(searchRestaurantAtom);
 	const { data } = useGetSearch();
 	useEffect(() => {
 		if (data) {
@@ -53,12 +53,12 @@ const SearchContents: React.FC<SearchContentsProps> = ({ $isVisible }) => {
 	return (
 		<Overlay $isVisible={$isVisible}>
 			<HistoryWrapper>
-				{tempRestaurant.results.length > 0 ? (
-					tempRestaurant.results.map((result) => (
+				{searchRestaurants.length > 0 ? (
+					searchRestaurants.map((result) => (
 						<SearchResultLine key={result.id} {...result} />
 					))
 				) : histories.length > 0 ? (
-					// tempRestaurant가 비어있고 histories가 있으면 이 컴포넌트를 보여줍니다.
+					// restaurant가 비어있고 histories가 있으면 이 컴포넌트를 보여줍니다.
 					<>
 						{histories.map((history) => (
 							<HistoryLine

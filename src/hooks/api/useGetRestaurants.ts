@@ -1,8 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import { get } from '~/libs/api';
-import { UserRestaurant } from '~/types/restaurants';
+import { Restaurant } from '~/types/restaurants';
 
-type Response = UserRestaurant[];
+type Response = {
+	results: Restaurant[];
+};
 
 const useGetRestaurants = () => {
 	return useQuery<Response>({

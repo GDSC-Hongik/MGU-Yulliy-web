@@ -10,10 +10,3 @@ export interface Restaurant {
 	latitude: number;
 	longitude: number;
 }
-
-// User와 연결된 Restaurant 정보를 나타내는 타입
-export interface UserRestaurant {
-	id: number;
-	restaurant: Restaurant;
-	user: number;
-}

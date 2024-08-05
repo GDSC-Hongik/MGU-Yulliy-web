@@ -1,6 +1,12 @@
 import { styled } from 'styled-components';
 import XIcon from '~/assets/icons/XIcon';
-import { History } from '~/types/search';
+import useDelSearch from '~/hooks/api/search/useDelSearch';
+
+type HistoryLineProps = {
+	id: number;
+	removeHistory: (id: number) => void;
+	query: string;
+};
 
 const LineWarpper = styled.div`
 	width: 100%;
@@ -16,9 +22,17 @@ const DelButton = styled.button`
 	margin-right: 3px;
 `;
 
-const HistoryLine: React.FC<History> = ({ id, query }) => {
+const HistoryLine: React.FC<HistoryLineProps> = ({
+	id,
+	removeHistory,
+	query,
+}) => {
+	const { mutate: deleteSearch } = useDelSearch();
+
 	const handleDelButton = () => {
+		deleteSearch({ id });
 		console.log(`${id} 삭제`);
+		removeHistory(id);
 	};
 
 	return (
