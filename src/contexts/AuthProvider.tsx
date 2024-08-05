@@ -16,7 +16,7 @@ interface AuthContextType {
 	user: User | null;
 	login: (data: { email: string; password: string }) => Promise<void>;
 	logout: () => Promise<void>;
-	checkuser: () => Promise<void>;
+	checkUser: () => Promise<void>;
 }
 
 interface AuthProviderProps {
@@ -33,7 +33,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 	const [user, setUser] = useState(null);
 	const navigate = useNavigate();
 
-	async function checkuser() {
+	async function checkUser() {
 		try {
 			const res = await axios.get('/users/me');
 			if (res.data) {
@@ -52,7 +52,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 			{ email, password },
 			{ withCredentials: true },
 		);
-		await checkuser();
+		await checkUser();
 	}
 	async function logout() {
 		await axios.delete('/auth/logout', { withCredentials: true });
@@ -60,11 +60,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
 	}
 
 	useEffect(() => {
-		checkuser();
+		checkUser();
 	}, []);
 
 	return (
-		<AuthContext.Provider value={{ user, login, logout, checkuser }}>
+		<AuthContext.Provider value={{ user, login, logout, checkUser }}>
 			{children}
 		</AuthContext.Provider>
 	);
