@@ -7,7 +7,7 @@ import QuestionIcon from '~/assets/icons/QuestionIcon';
 import XIcon from '~/assets/icons/XIcon';
 import SearchContents from '~/components/map/SearchContents';
 import usePostSearch from '~/hooks/api/search/usePostSearch';
-import { tempRestaurantAtom } from '~/store/restaurants';
+import { searchRestaurantAtom } from '~/store/restaurants';
 
 type SearchBarProps = {
 	bottomSheetClose: () => void;
@@ -30,6 +30,15 @@ const SearchContainer = styled.div`
 	border-radius: 999px;
 	background-color: ${({ theme }) => theme.colors.white};
 	filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.1));
+`;
+
+const SubmitButton = styled.button`
+	border: none;
+	cursor: pointer;
+	background-color: ${({ theme }) => theme.colors.white};
+	color: ${({ theme }) => theme.colors.black};
+	padding: 5px 10px;
+	border-radius: 5px;
 `;
 
 const ClearButton = styled.button`
@@ -62,17 +71,20 @@ const SearchBar: React.FC<SearchBarProps> = ({ bottomSheetClose }) => {
 	const [isOverlayVisible, setOverlayVisible] = useState<boolean>(
 		location.pathname === '/search',
 	);
-	const setTempRestaurants = useSetAtom(tempRestaurantAtom);
+	const setSearchRestaurants = useSetAtom(searchRestaurantAtom);
 
 	const { data, refetch } = usePostSearch({ query: searchText });
 	useEffect(() => {
 		if (data) {
-			setTempRestaurants(data);
+			setSearchRestaurants(data.results);
 		}
-	}, [data, setTempRestaurants]);
+	}, [data, setSearchRestaurants]);
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setSearchText(e.target.value);
+		if (e.target.value === '') {
+			clearInput();
+		}
 	};
 
 	const handleBackButtonClick = () => {
@@ -88,16 +100,21 @@ const SearchBar: React.FC<SearchBarProps> = ({ bottomSheetClose }) => {
 
 	const clearInput = () => {
 		setSearchText('');
+		setSearchRestaurants([]);
 	};
 
-	const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-		if (event.key === 'Enter') {
+	// form 태그에서 나오는 e 값 타입 넣기
+	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		// searchText가 비어 있는 경우 refetch를 하지 않음
+		if (searchText.trim() !== '') {
+			console.log('Submit button clicked');
 			refetch();
 		}
 	};
 
 	return (
-		<>
+		<form onSubmit={handleSubmit}>
 			<SearchContainer>
 				{isOverlayVisible ? (
 					<NavBackButton onClick={handleBackButtonClick}>
@@ -111,16 +128,17 @@ const SearchBar: React.FC<SearchBarProps> = ({ bottomSheetClose }) => {
 					value={searchText}
 					onChange={handleInputChange}
 					onFocus={handeInputFocus}
-					onKeyDown={handleKeyDown}
 				/>
 				{searchText && (
 					<ClearButton onClick={clearInput}>
 						<XIcon />
 					</ClearButton>
 				)}
+				{/* TODO: 임시 submit 버튼이라 나중에 바꿔야함 */}
+				<SubmitButton type="submit">Search</SubmitButton>
 			</SearchContainer>
-			<SearchContents isVisible={isOverlayVisible} />
-		</>
+			<SearchContents $isVisible={isOverlayVisible} />
+		</form>
 	);
 };
 

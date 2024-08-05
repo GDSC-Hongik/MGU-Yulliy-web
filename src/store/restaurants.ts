@@ -1,13 +1,8 @@
 import { atom } from 'jotai';
-import { Restaurant, UserRestaurant } from '~/types/restaurants';
+import { Restaurant } from '~/types/restaurants';
 
-// UserRestaurant 타입의 배열을 저장할 atom
-export const restaurantAtom = atom<UserRestaurant[]>([]);
+// 레스토랑 목록을 저장하는 atom
+export const restaurantAtom = atom<Restaurant[]>([]);
 
-// TODO 임시 데이터 (나중에 삭제해야함)
-export type tempRestaurant = {
-	results: Restaurant[];
-};
-
-// TODO 임시 데이터 (나중에 삭제해야함)
-export const tempRestaurantAtom = atom<tempRestaurant>({ results: [] });
+// 검색 결과를 저장하는 atom
+export const searchRestaurantAtom = atom<Restaurant[]>([]);

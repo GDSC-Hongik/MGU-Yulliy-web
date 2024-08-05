@@ -49,11 +49,8 @@ const BottomSheet: React.FC<BottomSheetProps> = ({ onClose }) => {
 			<Handle onMouseDown={handleMouseDown} />
 			<BottomSheetContent>
 				<ul>
-					{restaurants.map((userRestaurant) => (
-						<RestaurantSummary
-							key={userRestaurant.id}
-							restaurant={userRestaurant.restaurant}
-						/>
+					{restaurants.map((restaurant) => (
+						<RestaurantSummary key={restaurant.id} restaurant={restaurant} />
 					))}
 				</ul>
 			</BottomSheetContent>
