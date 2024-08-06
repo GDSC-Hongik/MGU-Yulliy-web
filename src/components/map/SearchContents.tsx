@@ -19,21 +19,24 @@ const Overlay = styled.div<{ $isVisible: boolean }>`
 	transform: translate(-50%, 0);
 	width: 400px;
 	height: 100%;
-	background-color: ${({ theme }) => theme.colors.white};
+	background-color: ${({ theme }) => theme.colors.whitegray};
 	display: ${({ $isVisible }) => ($isVisible ? 'block' : 'none')};
 `;
 
 const HistoryWrapper = styled.ul`
 	margin-top: 100px;
-	padding: 20px;
+	padding: 40px;
 	overflow-y: auto;
-	height: 75%;
+	height: 100%;
 
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 
 	gap: 12px;
+	border-top-left-radius: 20px;
+	border-top-right-radius: 20px;
+	background-color: ${({ theme }) => theme.colors.white};
 `;
 
 const SearchContents: React.FC<SearchContentsProps> = ({ $isVisible }) => {
