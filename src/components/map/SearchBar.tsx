@@ -94,9 +94,9 @@ const SearchBar: React.FC<SearchBarProps> = ({ bottomSheetClose }) => {
 		}
 	};
 
-	const handleBackButtonClick = () => {
-		console.log('Back button clicked');
+	const handleBackLinkClick = () => {
 		setOverlayVisible(false);
+		clearInput();
 		window.history.pushState(null, '', '/');
 	};
 
@@ -111,9 +111,8 @@ const SearchBar: React.FC<SearchBarProps> = ({ bottomSheetClose }) => {
 		setSearchRestaurants([]);
 	};
 
-	// form 태그에서 나오는 e 값 타입 넣기
-	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
+	const handleSubmit = (e?: React.FormEvent<HTMLFormElement>) => {
+		e && e.preventDefault();
 		// searchText가 비어 있는 경우 refetch를 하지 않음
 		if (searchText.trim() !== '') {
 			console.log('Submit button clicked');
@@ -126,7 +125,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ bottomSheetClose }) => {
 			<SearchContainer>
 				<SearchForm onSubmit={handleSubmit}>
 					{isOverlayVisible && (
-						<NavBackLink onClick={handleBackButtonClick}>
+						<NavBackLink onClick={handleBackLinkClick}>
 							<NavBackIcon />
 						</NavBackLink>
 					)}
@@ -146,7 +145,10 @@ const SearchBar: React.FC<SearchBarProps> = ({ bottomSheetClose }) => {
 					</SubmitButton>
 				</SearchForm>
 			</SearchContainer>
-			<SearchContents $isVisible={isOverlayVisible} />
+			<SearchContents
+				$isVisible={isOverlayVisible}
+				textSetter={(historyQuery: string) => setSearchText(historyQuery)}
+			/>
 		</>
 	);
 };
