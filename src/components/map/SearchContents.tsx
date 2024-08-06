@@ -9,6 +9,7 @@ import { searchRestaurantAtom } from '~/store/restaurants';
 
 type SearchContentsProps = {
 	$isVisible: boolean;
+	textSetter: (text: string) => void;
 };
 
 const Overlay = styled.div<{ $isVisible: boolean }>`
@@ -39,7 +40,10 @@ const HistoryWrapper = styled.ul`
 	background-color: ${({ theme }) => theme.colors.white};
 `;
 
-const SearchContents: React.FC<SearchContentsProps> = ({ $isVisible }) => {
+const SearchContents: React.FC<SearchContentsProps> = ({
+	$isVisible,
+	textSetter,
+}) => {
 	const [histories, setHistories] = useState<History[]>([]);
 	const [searchRestaurants] = useAtom(searchRestaurantAtom);
 	const { data } = useGetSearch();
@@ -66,6 +70,9 @@ const SearchContents: React.FC<SearchContentsProps> = ({ $isVisible }) => {
 						{histories.map((history) => (
 							<HistoryLine
 								key={history.id}
+								setFn={() => {
+									textSetter(history.query);
+								}}
 								removeHistory={removeHistory}
 								{...history}
 							/>
