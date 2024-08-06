@@ -15,6 +15,13 @@ const LineWarpper = styled.div`
 	align-items: center;
 `;
 
+const Query = styled.h3`
+	display: inline-block;
+	font-size: 14px;
+	font-weight: ${({ theme }) => theme.fontWeights.Regular};
+	max-width: 100%;
+`;
+
 const DelButton = styled.button`
 	border: none;
 	cursor: pointer;
@@ -37,8 +44,7 @@ const HistoryLine: React.FC<HistoryLineProps> = ({
 
 	return (
 		<LineWarpper>
-			{query}
-			{id}
+			<Query>{query}</Query>
 			<DelButton onClick={handleDelButton}>
 				<XIcon />
 			</DelButton>
