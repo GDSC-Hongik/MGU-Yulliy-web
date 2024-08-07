@@ -1,5 +1,6 @@
 import { styled } from 'styled-components';
 import XIcon from '~/assets/icons/XIcon';
+import { Divider } from '~/components/search/Divider';
 import useDelSearch from '~/hooks/api/search/useDelSearch';
 
 type HistoryLineProps = {
@@ -11,6 +12,7 @@ type HistoryLineProps = {
 
 const LineWarpper = styled.div`
 	width: 100%;
+	padding: 0 20px;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -49,7 +51,6 @@ const HistoryLine: React.FC<HistoryLineProps> = ({
 	const { mutate: deleteSearch } = useDelSearch();
 
 	const handleHistoryButton = () => {
-		console.log(`history #${id} button clicked`);
 		setFn();
 	};
 
@@ -59,14 +60,17 @@ const HistoryLine: React.FC<HistoryLineProps> = ({
 	};
 
 	return (
-		<LineWarpper>
-			<HistoryButton onClick={handleHistoryButton}>
-				<Query>{query}</Query>
-			</HistoryButton>
-			<DelButton onClick={handleDelButton}>
-				<XIcon />
-			</DelButton>
-		</LineWarpper>
+		<>
+			<LineWarpper>
+				<HistoryButton onClick={handleHistoryButton}>
+					<Query>{query}</Query>
+				</HistoryButton>
+				<DelButton onClick={handleDelButton}>
+					<XIcon />
+				</DelButton>
+			</LineWarpper>
+			<Divider />
+		</>
 	);
 };
 

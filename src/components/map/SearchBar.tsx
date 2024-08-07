@@ -115,7 +115,6 @@ const SearchBar: React.FC<SearchBarProps> = ({ bottomSheetClose }) => {
 		e && e.preventDefault();
 		// searchText가 비어 있는 경우 refetch를 하지 않음
 		if (searchText.trim() !== '') {
-			console.log('Submit button clicked');
 			refetch();
 		}
 	};

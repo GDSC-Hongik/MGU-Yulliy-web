@@ -1,4 +1,5 @@
 import { styled } from 'styled-components';
+import { Divider } from '~/components/search/Divider';
 import SmallStarRating from '~/components/search/SmallStarRating';
 import { Restaurant } from '~/types/restaurants';
 
@@ -31,6 +32,7 @@ const FoodType = styled.p`
 
 const LineWrapper = styled.div`
 	width: 100%;
+	padding: 0 20px;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
@@ -49,16 +51,19 @@ const Info = styled.div`
 
 const SearchResultLine: React.FC<Restaurant> = (restaurant) => {
 	return (
-		<LineWrapper>
-			<Info>
-				<Title>{restaurant.name}</Title>
-				<Address>{restaurant.address}</Address>
-			</Info>
-			<Info>
-				<SmallStarRating rating={restaurant.rating_average} />
-				<FoodType>{restaurant.food_type || '치킨 및 닭강정'}</FoodType>
-			</Info>
-		</LineWrapper>
+		<>
+			<LineWrapper>
+				<Info>
+					<Title>{restaurant.name}</Title>
+					<Address>{restaurant.address}</Address>
+				</Info>
+				<Info>
+					<SmallStarRating rating={restaurant.rating_average} />
+					<FoodType>{restaurant.food_type || '치킨 및 닭강정'}</FoodType>
+				</Info>
+			</LineWrapper>
+			<Divider />
+		</>
 	);
 };
 
