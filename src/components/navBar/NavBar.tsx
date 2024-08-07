@@ -43,7 +43,7 @@ const NavBar = () => {
 		<Nav>
 			<NavList>
 				{navItems.map(({ path, label, Icon }) => (
-					<NavItemWrapper key={path} isActive={pathname === path} link={path}>
+					<NavItemWrapper key={path} $isActive={pathname === path} link={path}>
 						<Icon />
 						{label}
 					</NavItemWrapper>
