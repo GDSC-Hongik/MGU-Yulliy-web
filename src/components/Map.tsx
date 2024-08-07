@@ -25,7 +25,6 @@ const Map: React.FC<MapProps> = ({ onClick }) => {
 	if (!isMapLoaded) {
 		return <Loading />;
 	}
-
 	return (
 		<MapDiv
 			style={{
@@ -38,14 +37,15 @@ const Map: React.FC<MapProps> = ({ onClick }) => {
 				defaultCenter={new navermaps.LatLng(37.3595704, 127.105399)}
 				defaultZoom={15}
 			>
-				{restaurants.map((restaurant, index) => (
-					<CustomMarker
-						key={index}
-						navermaps={navermaps}
-						lat={restaurant.latitude}
-						lng={restaurant.longitude}
-					/>
-				))}
+				{restaurants &&
+					restaurants.map((restaurant, index) => (
+						<CustomMarker
+							key={index}
+							navermaps={navermaps}
+							lat={restaurant.latitude}
+							lng={restaurant.longitude}
+						/>
+					))}
 			</NaverMap>
 		</MapDiv>
 	);
