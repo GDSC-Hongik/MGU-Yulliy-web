@@ -1,3 +1,4 @@
+import { Restaurant } from '~/types/restaurants';
 export interface Restaurant {
 	id: number;
 	name: string;
@@ -10,3 +11,5 @@ export interface Restaurant {
 	latitude: number;
 	longitude: number;
 }
+
+export type Restaurants = Reaurant[];

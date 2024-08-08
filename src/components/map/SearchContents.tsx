@@ -66,7 +66,7 @@ const SearchContents: React.FC<SearchContentsProps> = ({
 	const { data } = useGetSearch();
 	useEffect(() => {
 		if (data) {
-			setHistories(data.histories);
+			setHistories(data);
 		}
 	}, [data, setHistories]);
 
