@@ -1,5 +1,11 @@
 import { Restaurant } from '~/types/restaurants';
-export interface Restaurant {
+
+export interface GeoLocation {
+	latitude: number;
+	longitude: number;
+}
+
+export interface Restaurant extends GeoLocation {
 	id: number;
 	name: string;
 	food_type: string | null;
@@ -8,8 +14,6 @@ export interface Restaurant {
 	rating_kakao: number | null;
 	rating_google: number | null;
 	address: string;
-	latitude: number;
-	longitude: number;
 }
 
 export type Restaurants = Reaurant[];

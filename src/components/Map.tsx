@@ -4,6 +4,7 @@ import { Container as MapDiv, NaverMap, useNavermaps } from 'react-naver-maps';
 import { restaurantAtom } from '~/store/restaurants';
 import { startTransition, useEffect, useState } from 'react';
 import Loading from '~/components/common/Loading';
+import UserLocation from '~/components/map/UserLocation';
 
 type MapProps = {
 	onClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
@@ -25,6 +26,7 @@ const Map: React.FC<MapProps> = ({ onClick }) => {
 	if (!isMapLoaded) {
 		return <Loading />;
 	}
+
 	return (
 		<MapDiv
 			style={{
@@ -34,9 +36,10 @@ const Map: React.FC<MapProps> = ({ onClick }) => {
 			onClick={onClick}
 		>
 			<NaverMap
-				defaultCenter={new navermaps.LatLng(37.3595704, 127.105399)}
+				defaultCenter={new navermaps.LatLng(37.55043854, 126.9203867)}
 				defaultZoom={15}
 			>
+				<UserLocation navermaps={navermaps} />
 				{restaurants != null &&
 					restaurants.map((restaurant, index) => (
 						<CustomMarker
