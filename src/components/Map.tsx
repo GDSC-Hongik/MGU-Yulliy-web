@@ -37,7 +37,7 @@ const Map: React.FC<MapProps> = ({ onClick }) => {
 				defaultCenter={new navermaps.LatLng(37.3595704, 127.105399)}
 				defaultZoom={15}
 			>
-				{restaurants &&
+				{restaurants != null &&
 					restaurants.map((restaurant, index) => (
 						<CustomMarker
 							key={index}

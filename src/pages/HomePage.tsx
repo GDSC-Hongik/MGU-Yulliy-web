@@ -19,7 +19,7 @@ const HomePage = () => {
 	const [isBottomSheetVisible, setIsBottomSheetVisible] = useState(false);
 	useEffect(() => {
 		if (data) {
-			setRestaurants(data.results);
+			setRestaurants(data);
 		}
 	}, [data, setRestaurants]);
 

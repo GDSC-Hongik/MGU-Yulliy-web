@@ -4,6 +4,4 @@ export type History = {
 	timestamp: string;
 };
 
-export type Histories = {
-	histories: History[];
-};
+export type Histories = History[];

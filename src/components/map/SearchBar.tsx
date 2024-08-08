@@ -83,7 +83,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ bottomSheetClose }) => {
 	const { data, refetch } = usePostSearch({ query: searchText });
 	useEffect(() => {
 		if (data) {
-			setSearchRestaurants(data.results);
+			setSearchRestaurants(data);
 		}
 	}, [data, setSearchRestaurants]);
 
