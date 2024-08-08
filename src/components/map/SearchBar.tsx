@@ -1,6 +1,5 @@
 import { useSetAtom } from 'jotai';
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import { styled } from 'styled-components';
 import NavBackIcon from '~/assets/icons/NavBackIcon';
 import QuestionIcon from '~/assets/icons/QuestionIcon';
@@ -10,6 +9,8 @@ import usePostSearch from '~/hooks/api/search/usePostSearch';
 import { searchRestaurantAtom } from '~/store/restaurants';
 
 type SearchBarProps = {
+	isSearchVisible: boolean;
+	handleSearchVisible: (visible: boolean) => void;
 	bottomSheetClose: () => void;
 };
 
@@ -72,12 +73,13 @@ const NavBackLink = styled.a`
 	background-color: transparent;
 `;
 
-const SearchBar: React.FC<SearchBarProps> = ({ bottomSheetClose }) => {
-	const location = useLocation();
+const SearchBar: React.FC<SearchBarProps> = ({
+	isSearchVisible,
+	bottomSheetClose,
+	handleSearchVisible,
+}) => {
 	const [searchText, setSearchText] = useState<string>('');
-	const [isOverlayVisible, setOverlayVisible] = useState<boolean>(
-		location.pathname === '/search',
-	);
+
 	const setSearchRestaurants = useSetAtom(searchRestaurantAtom);
 
 	const { data, refetch } = usePostSearch({ query: searchText });
@@ -95,7 +97,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ bottomSheetClose }) => {
 	};
 
 	const handleBackLinkClick = () => {
-		setOverlayVisible(false);
+		handleSearchVisible(false);
 		clearInput();
 		window.history.pushState(null, '', '/');
 	};
@@ -103,7 +105,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ bottomSheetClose }) => {
 	const handeInputFocus = () => {
 		bottomSheetClose();
 		window.history.pushState(null, '', '/search');
-		setOverlayVisible(true);
+		handleSearchVisible(true);
 	};
 
 	const clearInput = () => {
@@ -123,7 +125,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ bottomSheetClose }) => {
 		<>
 			<SearchContainer>
 				<SearchForm onSubmit={handleSubmit}>
-					{isOverlayVisible && (
+					{isSearchVisible && (
 						<NavBackLink onClick={handleBackLinkClick}>
 							<NavBackIcon />
 						</NavBackLink>
@@ -145,7 +147,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ bottomSheetClose }) => {
 				</SearchForm>
 			</SearchContainer>
 			<SearchContents
-				$isVisible={isOverlayVisible}
+				$isVisible={isSearchVisible}
 				textSetter={(historyQuery: string) => setSearchText(historyQuery)}
 			/>
 		</>

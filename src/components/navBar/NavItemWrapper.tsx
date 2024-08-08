@@ -50,15 +50,17 @@ type NavItemWrapperProps = {
 	link: string;
 	$isActive: boolean;
 	children: React.ReactNode;
+	clickHandler?: () => void;
 };
 
 const NavItemWrapper: React.FC<NavItemWrapperProps> = ({
 	link,
 	$isActive,
 	children,
+	clickHandler,
 }) => {
 	return (
-		<NavItem>
+		<NavItem onClick={clickHandler}>
 			<NavLink to={link} $isActive={$isActive}>
 				{children}
 			</NavLink>
