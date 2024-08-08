@@ -6,6 +6,10 @@ import ProfileIcon from '~/components/navBar/ProfileIcon';
 import NavItemWrapper from '~/components/navBar/NavItemWrapper';
 import { useLocation } from 'react-router-dom';
 
+interface NavBarProps {
+	handleSearchVisible: () => void;
+}
+
 const Nav = styled.nav`
 	height: 56px;
 	padding: 4px;
@@ -30,18 +34,26 @@ const NavList = styled.ul`
 `;
 
 const navItems = [
-	{ path: '/', label: 'Home', Icon: HomeIcon },
 	{ path: '/myList', label: 'My List', Icon: MyListIcon },
 	{ path: '/friends', label: 'Friends', Icon: FriendsIcon },
 	{ path: '/profile', label: 'Profile', Icon: ProfileIcon },
 ];
 
-const NavBar = () => {
+const NavBar: React.FC<NavBarProps> = ({ handleSearchVisible }) => {
 	const { pathname } = useLocation();
 
 	return (
 		<Nav>
 			<NavList>
+				<NavItemWrapper
+					key="/"
+					$isActive={pathname === '/'}
+					link="/"
+					clickHandler={handleSearchVisible}
+				>
+					<HomeIcon />
+					Home
+				</NavItemWrapper>
 				{navItems.map(({ path, label, Icon }) => (
 					<NavItemWrapper key={path} $isActive={pathname === path} link={path}>
 						<Icon />
