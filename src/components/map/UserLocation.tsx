@@ -1,14 +1,19 @@
 import { Marker } from 'react-naver-maps';
 import Loading from '~/components/common/Loading';
-import useGeoLocation from '~/hooks/useGeoLocation';
 import ProfileImg from '~/assets/images/Profile.png';
+import { useAtom } from 'jotai';
+import { geoLocationAtom, geoLocationErrorAtom } from '~/store/geoLocates';
+import useGeoLocation from '~/hooks/useGeoLocation';
 
 interface UserLocationProps {
 	navermaps: typeof naver.maps;
 }
 
 const UserLocation: React.FC<UserLocationProps> = ({ navermaps }) => {
-	const { location, error } = useGeoLocation();
+	const [location] = useAtom(geoLocationAtom);
+	const [error] = useAtom(geoLocationErrorAtom);
+
+	useGeoLocation();
 
 	return (
 		<>
