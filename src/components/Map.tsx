@@ -5,6 +5,7 @@ import { restaurantAtom } from '~/store/restaurants';
 import { startTransition, useEffect, useState } from 'react';
 import Loading from '~/components/common/Loading';
 import UserLocation from '~/components/map/UserLocation';
+import { geoLocationAtom } from '~/store/geoLocates';
 
 type MapProps = {
 	onClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
@@ -13,8 +14,8 @@ type MapProps = {
 const Map: React.FC<MapProps> = ({ onClick }) => {
 	const navermaps = useNavermaps();
 	const [restaurants] = useAtom(restaurantAtom);
+	const [geolocation] = useAtom(geoLocationAtom);
 	const [isMapLoaded, setIsMapLoaded] = useState(false);
-
 	useEffect(() => {
 		startTransition(() => {
 			if (navermaps) {
@@ -36,7 +37,9 @@ const Map: React.FC<MapProps> = ({ onClick }) => {
 			onClick={onClick}
 		>
 			<NaverMap
-				defaultCenter={new navermaps.LatLng(37.55043854, 126.9203867)}
+				defaultCenter={
+					new navermaps.LatLng(geolocation.latitude, geolocation.longitude)
+				}
 				defaultZoom={15}
 			>
 				<UserLocation navermaps={navermaps} />

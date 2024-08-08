@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
-import { GeoLocation } from '~/types/restaurants';
+import { useAtom } from 'jotai';
+import { useEffect } from 'react';
+import { geoLocationAtom, geoLocationErrorAtom } from '~/store/geoLocates';
 
 const useGeoLocation = () => {
-	const [location, setLocation] = useState<GeoLocation | null>(null);
-	const [error, setError] = useState<string | null>(null);
+	const [, setLocation] = useAtom(geoLocationAtom);
+	const [, setError] = useAtom(geoLocationErrorAtom);
 
 	useEffect(() => {
 		if (!navigator.geolocation) {
@@ -39,14 +40,17 @@ const useGeoLocation = () => {
 			maximumAge: 0,
 		};
 
-		navigator.geolocation.getCurrentPosition(
+		const watchId = navigator.geolocation.watchPosition(
 			handleSuccess,
 			handleError,
 			geoOptions,
 		);
-	}, []);
 
-	return { location, error };
+		// 컴포넌트가 언마운트될 때 위치 추적을 중지합니다.
+		return () => {
+			navigator.geolocation.clearWatch(watchId);
+		};
+	}, [setLocation, setError]);
 };
 
 export default useGeoLocation;
