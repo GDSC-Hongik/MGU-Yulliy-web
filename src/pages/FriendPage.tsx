@@ -8,10 +8,10 @@ import Title from '../components/Title';
 
 interface Friend {
 	id: number;
-	profile: string;
+	profile_img: string;
 	name: string;
-	state: number;
-	restourant: number;
+	reliablity: number;
+	common_restaurant_count: number;
 }
 
 const FriendPage = () => {
@@ -32,21 +32,33 @@ const FriendPage = () => {
 
 		fetchData();
 	}, [user]);
-	// async function approve(friendId: number) {
-	//  {
-	// 		await axios.post(`/friends/approve/${friendId}`);
-	// 		const approvedFriend = newFriends.find((friend) => friend.id === friendId);
-	// 		if (approvedFriend) {
-	// 			setFriends([...friends, approvedFriend]);
-	// 			setNewFriends(newFriends.filter((friend) => friend.id !== friendId));
-	// 		}
-	// }
+
+	async function accept(friendId: number) {
+		await axios.post(`/friends/accept/${friendId}`);
+		const acceptedFriend = newFriends.find((friend) => friend.id === friendId);
+		if (acceptedFriend) {
+			setFriends([...friends, acceptedFriend]);
+			setNewFriends(newFriends.filter((friend) => friend.id !== friendId));
+		}
+	}
+	async function decline(friendId: number) {
+		try {
+			await axios.post(`/friends/decline/${friendId}`);
+			setNewFriends(newFriends.filter((friend) => friend.id !== friendId));
+		} catch (error) {
+			console.error('Error declining friend:', error);
+		}
+	}
+
 	async function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
 		e.preventDefault();
 		const action = e.currentTarget.getAttribute('data-action');
-		if (action === 'approve') {
+		const friendId = Number(e.currentTarget.value);
+		if (action === 'accept') {
+			await accept(friendId);
 			return;
 		} else if (action === 'decline') {
+			await decline(friendId);
 			return;
 		}
 	}
@@ -58,15 +70,21 @@ const FriendPage = () => {
 				<FriendRequest>
 					{newFriends.map((newFriends) => (
 						<FriendItem key={newFriends.id}>
-							<Profileimage src={newFriends.profile} alt="profile" />
-							{newFriends.name} {newFriends.state} {newFriends.restourant}
+							<Profileimage src={newFriends.profile_img} alt="profile" />
+							{newFriends.name} {newFriends.reliablity}{' '}
+							{newFriends.common_restaurant_count}
 							<AddButton>
-								<FriendButton data-action="approve" onClick={handleClick}>
-									Approve
+								<FriendButton
+									data-action="accept"
+									value={newFriends.id}
+									onClick={handleClick}
+								>
+									Accept
 								</FriendButton>
 								<FriendButton
 									decline
 									data-action="decline"
+									value={newFriends.id}
 									onClick={handleClick}
 								>
 									Decline
@@ -79,7 +97,7 @@ const FriendPage = () => {
 				<FriendList>
 					{friends.map((friend) => (
 						<FriendItem key={friend.id}>
-							<Profileimage src={friend.profile} alt="profile" />
+							<Profileimage src={friend.profile_img} alt="profile" />
 							{friend.name}
 						</FriendItem>
 					))}
