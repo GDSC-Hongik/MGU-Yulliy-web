@@ -74,6 +74,7 @@ function SignupPage() {
 				name,
 				email,
 				password,
+				checkPassword: passwordRepeat,
 			});
 			alert('회원 가입이 성공적으로 되었습니다!');
 			navigate('/login');
