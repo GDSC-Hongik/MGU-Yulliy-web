@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import axios from '../libs/axios';
 import NavBar from '~/components/navBar/NavBar';
 import theme from '../styles/theme';
-import { useAuth } from '../contexts/AuthProvider';
 import Title from '../components/Title';
 
 interface Friend {
@@ -17,21 +16,17 @@ interface Friend {
 const FriendPage = () => {
 	const [friends, setFriends] = useState<Friend[]>([]);
 	const [newFriends, setNewFriends] = useState<Friend[]>([]);
-	const { checkUser, user } = useAuth();
 
 	useEffect(() => {
 		async function fetchData() {
-			await checkUser();
-			if (user) {
-				const friendResponse = await axios.get('/friends');
-				setFriends(friendResponse.data);
-				const newFriendResponse = await axios.get('/newfriends');
-				setNewFriends(newFriendResponse.data);
-			}
+			const friendResponse = await axios.get('/friends/');
+			setFriends(friendResponse.data);
+			const newFriendResponse = await axios.get('/newfriends/');
+			setNewFriends(newFriendResponse.data);
 		}
 
 		fetchData();
-	}, [user]);
+	}, []);
 
 	async function accept(friendId: number) {
 		await axios.post(`/friends/accept/${friendId}`);

@@ -35,7 +35,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
 	async function checkUser() {
 		try {
-			const res = await axios.get('/users/me');
+			const res = await axios.get('/test/list/');
 			if (res.data) {
 				setUser(res.data);
 				return;
@@ -47,15 +47,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
 	}
 
 	async function login({ email, password }: LoginProps) {
-		await axios.post(
-			'/auth/login',
-			{ email, password },
-			{ withCredentials: true },
-		);
+		await axios.post('/login/', { email, password }, { withCredentials: true });
 		await checkUser();
 	}
 	async function logout() {
-		await axios.delete('/auth/logout', { withCredentials: true });
+		await axios.delete('/logout', { withCredentials: true });
 		setUser(null);
 	}
 
