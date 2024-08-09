@@ -70,7 +70,7 @@ function SignupPage() {
 		}
 
 		try {
-			await axios.post('/auth/register', {
+			await axios.post('/register/', {
 				name,
 				email,
 				password,
@@ -138,7 +138,7 @@ function SignupPage() {
 						onChange={handleChange}
 					/>
 					<Button type="submit">MustGoYour맛집 회원가입</Button>
-					<Description small>
+					<Description small={true}>
 						이미 회원이신가요? <Link to="/login"> 로그인 하기</Link>
 					</Description>
 				</Form>
