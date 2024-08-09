@@ -70,7 +70,7 @@ function SignupPage() {
 		}
 
 		try {
-			await axios.post('/users', {
+			await axios.post('/auth/register', {
 				name,
 				email,
 				password,
