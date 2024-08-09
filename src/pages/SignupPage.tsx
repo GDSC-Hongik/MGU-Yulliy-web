@@ -44,7 +44,7 @@ function SignupPage() {
 		name: '',
 		email: '',
 		password: '',
-		passwordRepeat: '',
+		checkPassword: '',
 	});
 
 	// any 타입 사용 금지
@@ -59,12 +59,12 @@ function SignupPage() {
 
 	async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
-		const { name, email, password, passwordRepeat } = values;
+		const { name, email, password, checkPassword } = values;
 		if (!name || !email || !password) {
 			alert('필수 정보를 입력해주시길 바랍니다!');
 			return;
 		}
-		if (password !== passwordRepeat) {
+		if (password !== checkPassword) {
 			alert('비밀번호가 일치하지 않습니다!');
 			return;
 		}
@@ -74,10 +74,10 @@ function SignupPage() {
 				name,
 				email,
 				password,
-				checkPassword: passwordRepeat,
+				checkPassword,
 			});
 			alert('회원 가입이 성공적으로 되었습니다!');
-			navigate('/login');
+			navigate('/login/');
 		} catch (error) {
 			const error1 = error as {
 				response: { status: number; data: string };
@@ -131,10 +131,10 @@ function SignupPage() {
 					/>
 					<Input
 						type="password"
-						id="passwordRepeat"
-						name="passwordRepeat"
+						id="checkPassword"
+						name="checkPassword"
 						placeholder="비밀번호 확인"
-						value={values.passwordRepeat}
+						value={values.checkPassword}
 						onChange={handleChange}
 					/>
 					<Button type="submit">MustGoYour맛집 회원가입</Button>

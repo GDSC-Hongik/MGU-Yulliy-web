@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import Map from '../components/Map';
 import SearchBar from '~/components/map/SearchBar';
 import { useEffect, useState } from 'react';
-import axios from '../libs/axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import NavBar from '~/components/navBar/NavBar';
 import BottomSheet from '~/components/bottomSheet/BottomSheet';
@@ -12,7 +11,6 @@ import { restaurantAtom } from '~/store/restaurants';
 import Head from '~/components/common/Head';
 
 const HomePage = () => {
-	const navigate = useNavigate();
 	const location = useLocation();
 	const setRestaurants = useSetAtom(restaurantAtom);
 	const { data } = useGetRestaurants();
@@ -27,20 +25,6 @@ const HomePage = () => {
 			setRestaurants(data);
 		}
 	}, [data, setRestaurants]);
-
-	useEffect(() => {
-		async function checkUser() {
-			try {
-				const res = await axios.get('/users/me');
-				if (res.data) {
-					navigate('/');
-				}
-			} catch (error) {
-				navigate('/login');
-			}
-		}
-		checkUser();
-	}, [navigate]);
 
 	const handleMapClick = () => {
 		setIsBottomSheetVisible(true);
