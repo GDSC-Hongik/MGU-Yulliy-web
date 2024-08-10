@@ -37,7 +37,10 @@ const FriendPage = () => {
 	}, []);
 
 	async function accept(friendId: number) {
-		await axios.post(`/friends/accept/${friendId}`);
+		await axios.post(`/friends`, {
+			action: 'accept',
+			friend_id: friendId,
+		});
 		const acceptedFriend = newFriendRequestsRequests.find(
 			(friend) => friend.id === friendId,
 		);
@@ -49,14 +52,13 @@ const FriendPage = () => {
 		}
 	}
 	async function decline(friendId: number) {
-		try {
-			await axios.post(`/friends/decline/${friendId}`);
-			setFriendRequests(
-				newFriendRequestsRequests.filter((friend) => friend.id !== friendId),
-			);
-		} catch (error) {
-			console.error('Error declining friend:', error);
-		}
+		await axios.post(`/friends`, {
+			action: 'decline',
+			friend_id: friendId,
+		});
+		setFriendRequests(
+			newFriendRequestsRequests.filter((friend) => friend.id !== friendId),
+		);
 	}
 
 	async function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
@@ -194,7 +196,7 @@ const FriendItem = styled.li<FriendItemProps>`
 	box-sizing: border-box;
 	border-bottom: 1px solid ${theme.colors.whitegray};
 	width: 350px;
-	height: 50px;
+	height: 60px;
 	text-align: left;
 `;
 const Profileimage = styled.img`
