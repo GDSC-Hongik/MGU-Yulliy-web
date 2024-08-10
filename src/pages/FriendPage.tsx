@@ -15,7 +15,8 @@ interface Friend {
 
 const FriendPage = () => {
 	const [friends, setFriends] = useState<Friend[]>([]);
-	const [newFriendRequestsRequests, setFriendRequests] = useState<Friend[]>([]);
+	const [newFriendRequests, setFriendRequests] = useState<Friend[]>([]);
+	const [recommendFriends, setrecommendFriends] = useState<Friend[]>([]);
 
 	useEffect(() => {
 		async function fetchData() {
@@ -28,6 +29,7 @@ const FriendPage = () => {
 				const response = await axios.get('/friends/');
 				setFriends(response.data.friends);
 				setFriendRequests(response.data.friend_request);
+				setrecommendFriends(response.data.friend_recommend);
 			} catch (error) {
 				console.log('에러');
 				return;
@@ -41,13 +43,13 @@ const FriendPage = () => {
 			action: 'accept',
 			friend_id: friendId,
 		});
-		const acceptedFriend = newFriendRequestsRequests.find(
+		const acceptedFriend = newFriendRequests.find(
 			(friend) => friend.id === friendId,
 		);
 		if (acceptedFriend) {
 			setFriends([...friends, acceptedFriend]);
 			setFriendRequests(
-				newFriendRequestsRequests.filter((friend) => friend.id !== friendId),
+				newFriendRequests.filter((friend) => friend.id !== friendId),
 			);
 		}
 	}
@@ -57,7 +59,7 @@ const FriendPage = () => {
 			friend_id: friendId,
 		});
 		setFriendRequests(
-			newFriendRequestsRequests.filter((friend) => friend.id !== friendId),
+			newFriendRequests.filter((friend) => friend.id !== friendId),
 		);
 	}
 
@@ -79,7 +81,7 @@ const FriendPage = () => {
 				<Title main>Friends</Title>
 				<Title>Friends Requests</Title>
 				<FriendList>
-					{newFriendRequestsRequests.map((newFriendRequest) => (
+					{newFriendRequests.map((newFriendRequest) => (
 						<FriendItem friendrequest key={newFriendRequest.id}>
 							<FriendProfile>
 								<Profileimage
@@ -131,6 +133,34 @@ const FriendPage = () => {
 					))}
 				</FriendList>
 				<Title>Suggested for you</Title>
+				<FriendList>
+					{recommendFriends.map((recommendfriend) => (
+						<FriendItem friendrequest key={recommendfriend.id}>
+							<FriendProfile>
+								<Profileimage
+									src={`https://43.203.225.31.nip.io${recommendfriend.profile_img}`}
+									alt="profile"
+								/>
+								<Space>
+									{recommendfriend.name}
+									<Reliability>
+										신뢰도 {recommendfriend.reliability}%{' '}
+									</Reliability>
+								</Space>
+							</FriendProfile>
+							<Space>
+								함께 저장한 식당 {recommendfriend.common_restaurant_count}개
+							</Space>
+							<FriendButton
+								data-action="accept"
+								value={recommendfriend.id}
+								onClick={handleClick}
+							>
+								Add
+							</FriendButton>
+						</FriendItem>
+					))}
+				</FriendList>
 			</Container>
 			<NavBar />
 		</>
@@ -163,7 +193,8 @@ const Reliability = styled.p`
 `;
 const FriendButton = styled.button<FriendButtonProps>`
 	background-color: ${({ decline }) =>
-		decline ? theme.colors.whitegray : theme.colors.orange};
+		decline ? theme.colors.gray : theme.colors.orange};
+	color: ${theme.colors.white};
 	box-sizing: border-box;
 	width: 50px;
 	height: 20px;
