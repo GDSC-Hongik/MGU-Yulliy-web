@@ -9,37 +9,51 @@ interface Friend {
 	id: number;
 	profile_img: string;
 	name: string;
-	reliablity: number;
-	common_restaurant_count: number;
+	reliability: number;
+	common_restaurant_count?: number;
 }
 
 const FriendPage = () => {
 	const [friends, setFriends] = useState<Friend[]>([]);
-	const [newFriends, setNewFriends] = useState<Friend[]>([]);
+	const [newFriendRequestsRequests, setFriendRequests] = useState<Friend[]>([]);
 
 	useEffect(() => {
 		async function fetchData() {
-			const friendResponse = await axios.get('/friends/');
-			setFriends(friendResponse.data);
-			const newFriendResponse = await axios.get('/newfriends/');
-			setNewFriends(newFriendResponse.data);
-		}
+			try {
+				const token = localStorage.getItem('token');
+				if (!token) {
+					throw new Error('인증 토큰이 없습니다. 로그인해 주세요.');
+				}
 
+				const response = await axios.get('/friends/');
+				setFriends(response.data.friends);
+				setFriendRequests(response.data.friend_request);
+			} catch (error) {
+				console.log('에러');
+				return;
+			}
+		}
 		fetchData();
 	}, []);
 
 	async function accept(friendId: number) {
 		await axios.post(`/friends/accept/${friendId}`);
-		const acceptedFriend = newFriends.find((friend) => friend.id === friendId);
+		const acceptedFriend = newFriendRequestsRequests.find(
+			(friend) => friend.id === friendId,
+		);
 		if (acceptedFriend) {
 			setFriends([...friends, acceptedFriend]);
-			setNewFriends(newFriends.filter((friend) => friend.id !== friendId));
+			setFriendRequests(
+				newFriendRequestsRequests.filter((friend) => friend.id !== friendId),
+			);
 		}
 	}
 	async function decline(friendId: number) {
 		try {
 			await axios.post(`/friends/decline/${friendId}`);
-			setNewFriends(newFriends.filter((friend) => friend.id !== friendId));
+			setFriendRequests(
+				newFriendRequestsRequests.filter((friend) => friend.id !== friendId),
+			);
 		} catch (error) {
 			console.error('Error declining friend:', error);
 		}
@@ -62,16 +76,28 @@ const FriendPage = () => {
 			<Container>
 				<Title main>Friends</Title>
 				<Title>Friends Requests</Title>
-				<FriendRequest>
-					{newFriends.map((newFriends) => (
-						<FriendItem key={newFriends.id}>
-							<Profileimage src={newFriends.profile_img} alt="profile" />
-							{newFriends.name} {newFriends.reliablity}{' '}
-							{newFriends.common_restaurant_count}
+				<FriendList>
+					{newFriendRequestsRequests.map((newFriendRequest) => (
+						<FriendItem friendrequest key={newFriendRequest.id}>
+							<FriendProfile>
+								<Profileimage
+									src={`https://43.203.225.31.nip.io${newFriendRequest.profile_img}`}
+									alt="profile"
+								/>
+								<Space>
+									{newFriendRequest.name}
+									<Reliability>
+										신뢰도 {newFriendRequest.reliability}%{' '}
+									</Reliability>
+								</Space>
+							</FriendProfile>
+							<Space>
+								함께 저장한 식당 {newFriendRequest.common_restaurant_count}개
+							</Space>
 							<AddButton>
 								<FriendButton
 									data-action="accept"
-									value={newFriends.id}
+									value={newFriendRequest.id}
 									onClick={handleClick}
 								>
 									Accept
@@ -79,7 +105,7 @@ const FriendPage = () => {
 								<FriendButton
 									decline
 									data-action="decline"
-									value={newFriends.id}
+									value={newFriendRequest.id}
 									onClick={handleClick}
 								>
 									Decline
@@ -87,13 +113,18 @@ const FriendPage = () => {
 							</AddButton>
 						</FriendItem>
 					))}
-				</FriendRequest>
+				</FriendList>
 				<Title>Friends</Title>
 				<FriendList>
 					{friends.map((friend) => (
 						<FriendItem key={friend.id}>
-							<Profileimage src={friend.profile_img} alt="profile" />
-							{friend.name}
+							<FriendProfile>
+								<Profileimage
+									src={`https://43.203.225.31.nip.io${friend.profile_img}`}
+									alt="profile"
+								/>
+								<Space>{friend.name}</Space>
+							</FriendProfile>
 						</FriendItem>
 					))}
 				</FriendList>
@@ -105,26 +136,38 @@ const FriendPage = () => {
 };
 
 export default FriendPage;
-const FriendRequest = styled.div``;
+const Space = styled.div`
+	font-size: 14px;
+	float: right;
+`;
 const AddButton = styled.div`
 	box-sizing: border-box;
-	height: 54px;
-	width: 68px;
 	display: flex;
 	flex-direction: column;
-	margin: 5px;
 `;
 interface FriendButtonProps {
 	decline?: boolean;
 }
+interface FriendItemProps {
+	friendrequest?: boolean;
+}
+const FriendProfile = styled.div`
+	display: flex;
+	align-items: center;
+`;
+const Reliability = styled.p`
+	color: ${theme.colors.orange};
+	font-size: 10px;
+`;
 const FriendButton = styled.button<FriendButtonProps>`
 	background-color: ${({ decline }) =>
 		decline ? theme.colors.whitegray : theme.colors.orange};
 	box-sizing: border-box;
-	width: 100%;
-	height: 24px;
-	margin: 4px;
+	width: 50px;
+	height: 20px;
+	font-size: 12px;
 	border-radius: 8px;
+	margin: 2px;
 	border: none;
 	&:hover,
 	&:active {
@@ -134,28 +177,32 @@ const FriendButton = styled.button<FriendButtonProps>`
 `;
 
 const FriendList = styled.ul`
-	list-style: none;
+	list-style-type: none;
 	padding: 0;
 	margin: 0;
 	width: 100%;
 	max-width: 600px;
 `;
 
-const FriendItem = styled.li`
-	padding: 10px;
-	box-sizing:border-box;
-	border-bottom:1px solid ${theme.colors.whitegray}
+const FriendItem = styled.li<FriendItemProps>`
+	display: flex;
+	align-items: center;
+	justify-content: ${({ friendrequest }) =>
+		friendrequest ? 'space-between' : 'flex-start'};
+	gap: 15px;
+	padding: 5px;
+	box-sizing: border-box;
+	border-bottom: 1px solid ${theme.colors.whitegray};
 	width: 350px;
-	height:72px;
+	height: 50px;
 	text-align: left;
-	text: 16px;
 `;
 const Profileimage = styled.img`
 	border-radius: 100%;
 	box-sizing: border-box;
 	width: 40px;
 	height: 40px;
-	margin: 16px;
+	margin-right: 15px;
 	margin-left: 12px;
 `;
 const Container = styled.div`

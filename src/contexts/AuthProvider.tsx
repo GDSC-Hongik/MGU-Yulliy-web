@@ -34,8 +34,16 @@ export function AuthProvider({ children }: AuthProviderProps) {
 	const navigate = useNavigate();
 
 	async function checkUser() {
+		const token = localStorage.getItem('token'); // 로컬 스토리지에서 토큰 가져오기
+		if (!token) {
+			navigate('/login');
+			return;
+		}
 		try {
-			const res = await axios.get('/test/list/');
+			const res = await axios.get('/test/list/', {
+				headers: { Authorization: `Bearer ${token}` },
+				withCredentials: true,
+			});
 			if (res.data) {
 				setUser(res.data);
 				return;
@@ -47,9 +55,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
 	}
 
 	async function login({ email, password }: LoginProps) {
-		await axios.post('/login/', { email, password }, { withCredentials: true });
+		const response = await axios.post('/login/', { email, password });
+		const token = response.data.token; // 서버에서 JWT를 반환한다고 가정
+		localStorage.setItem('token', token); // 로컬 스토리지에 토큰 저장
 		await checkUser();
 	}
+
 	async function logout() {
 		await axios.delete('/logout', { withCredentials: true });
 		setUser(null);
