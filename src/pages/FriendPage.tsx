@@ -95,7 +95,7 @@ const FriendPage = () => {
 									</Reliability>
 								</Space>
 							</FriendProfile>
-							<Space>
+							<Space restourant={true}>
 								함께 저장한 식당 {newFriendRequest.common_restaurant_count}개
 							</Space>
 							<AddButton>
@@ -148,7 +148,7 @@ const FriendPage = () => {
 									</Reliability>
 								</Space>
 							</FriendProfile>
-							<Space>
+							<Space restourant={true}>
 								함께 저장한 식당 {recommendfriend.common_restaurant_count}개
 							</Space>
 							<FriendButton
@@ -168,8 +168,8 @@ const FriendPage = () => {
 };
 
 export default FriendPage;
-const Space = styled.div`
-	font-size: 14px;
+const Space = styled.div<SpaceProps>`
+	font-size: ${({ restourant }) => (restourant ? '13px' : '15px')};
 	float: right;
 `;
 const AddButton = styled.div`
@@ -183,6 +183,9 @@ interface FriendButtonProps {
 interface FriendItemProps {
 	friendrequest?: boolean;
 }
+interface SpaceProps {
+	restourant?: boolean;
+}
 const FriendProfile = styled.div`
 	display: flex;
 	align-items: center;
@@ -190,6 +193,7 @@ const FriendProfile = styled.div`
 const Reliability = styled.p`
 	color: ${theme.colors.orange};
 	font-size: 10px;
+	margin-top: 2px;
 `;
 const FriendButton = styled.button<FriendButtonProps>`
 	background-color: ${({ decline }) =>
