@@ -1,8 +1,13 @@
 import axios from 'axios';
 
+const token = localStorage.getItem('token');
+
 const instance = axios.create({
 	baseURL: 'https://43.203.225.31.nip.io',
+	headers: {
+		Authorization: `Bearer ${token}`,
+	},
 	withCredentials: true,
 });
-//마땅한 api가 없었음 ㅜ
+
 export default instance;
