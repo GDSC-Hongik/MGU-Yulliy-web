@@ -1,7 +1,7 @@
 import axios, { AxiosError, type AxiosResponse } from 'axios';
 
 const baseURL = import.meta.env.VITE_SERVER_URL;
-const token = localStorage.getItem('jwt_token');
+const token = localStorage.getItem('access_token');
 const instance = axios.create({
 	baseURL,
 	timeout: 15000,

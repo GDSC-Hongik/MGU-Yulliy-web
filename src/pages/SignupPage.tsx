@@ -75,6 +75,7 @@ function SignupPage() {
 				email,
 				password,
 				checkPassword,
+				withCredentials: false, // 이 요청에서는 자격 증명을 보내지 않음
 			});
 			alert('회원 가입이 성공적으로 되었습니다!');
 			navigate('/login/');

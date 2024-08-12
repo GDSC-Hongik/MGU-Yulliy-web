@@ -10,6 +10,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { AuthProvider } from './contexts/AuthProvider';
 import FriendPage from '~/pages/FriendPage';
+import ProfilePage from '~/pages/ProfilePage';
 import NotFoundPage from '~/pages/NotFoundPage';
 import ErrorBoundary from '~/components/common/ErrorBoundary';
 
@@ -32,6 +33,7 @@ export const App = () => {
 										<Route path="/signup" element={<SignupPage />} />
 										<Route path="/search" element={<HomePage />} />
 										<Route path="/friends" element={<FriendPage />} />
+										<Route path="/profile" element={<ProfilePage />} />
 										<Route path="*" element={<NotFoundPage />} />
 									</Routes>
 								</AuthProvider>
