@@ -33,8 +33,20 @@ export function AuthProvider({ children }: AuthProviderProps) {
 	const [user, setUser] = useState(null);
 	const navigate = useNavigate();
 
+	async function login({ email, password }: LoginProps) {
+		const response = await axios.post('/login/', {
+			email: email,
+			password: password,
+		});
+		const accessToken = response.data.jwt_token.access_token;
+		const refreshToken = response.data.jwt_token.refresh_token;
+		localStorage.setItem('access_token', accessToken);
+		localStorage.setItem('refresh_token', refreshToken);
+		await checkUser();
+	}
+
 	async function checkUser() {
-		const token = localStorage.getItem('jwt_token'); // 로컬 스토리지에서 토큰 가져오기
+		const token = localStorage.getItem('access_token');
 		if (!token) {
 			navigate('/login');
 			return;
@@ -52,16 +64,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
 			setUser(null);
 			navigate('/login');
 		}
-	}
-
-	async function login({ email, password }: LoginProps) {
-		const response = await axios.post('/login/', {
-			email: email,
-			password: password,
-		});
-		const token = response.data.access_token; // 서버에서 JWT를 반환한다고 가정
-		localStorage.setItem('jwt_token', token); // 로컬 스토리지에 토큰 저장
-		await checkUser();
 	}
 
 	async function logout() {

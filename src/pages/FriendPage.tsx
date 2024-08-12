@@ -21,12 +21,9 @@ const FriendPage = () => {
 	useEffect(() => {
 		async function fetchData() {
 			try {
-				const token = localStorage.getItem('jwt_token');
-				if (!token) {
-					throw new Error('인증 토큰이 없습니다. 로그인해 주세요.');
-				}
-
-				const response = await axios.get('/friends/');
+				const response = await axios.get('/friends', {
+					withCredentials: true,
+				});
 				setFriends(response.data.friends);
 				setFriendRequests(response.data.friend_request);
 				setrecommendFriends(response.data.friend_recommend);
@@ -42,6 +39,7 @@ const FriendPage = () => {
 		await axios.post(`/friends`, {
 			action: 'accept',
 			friend_id: friendId,
+			withCredentials: true,
 		});
 		const acceptedFriend = newFriendRequests.find(
 			(friend) => friend.id === friendId,
@@ -57,6 +55,7 @@ const FriendPage = () => {
 		await axios.post(`/friends`, {
 			action: 'decline',
 			friend_id: friendId,
+			withCredentials: true,
 		});
 		setFriendRequests(
 			newFriendRequests.filter((friend) => friend.id !== friendId),
@@ -78,7 +77,7 @@ const FriendPage = () => {
 	return (
 		<>
 			<Container>
-				<Title main>Friends</Title>
+				<Title main={true}>Friends</Title>
 				<Title>Friends Requests</Title>
 				<FriendList>
 					{newFriendRequests.map((newFriendRequest) => (
