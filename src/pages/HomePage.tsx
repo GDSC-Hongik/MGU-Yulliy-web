@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import Map from '../components/Map';
 import SearchBar from '~/components/map/SearchBar';
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import NavBar from '~/components/navBar/NavBar';
 import BottomSheet from '~/components/bottomSheet/BottomSheet';
 import useGetRestaurants from '~/hooks/api/useGetRestaurants';
