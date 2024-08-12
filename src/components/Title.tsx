@@ -9,8 +9,8 @@ const Title = styled.p<TitleProps>`
 	text-align: ${({ main }) => (main ? 'center' : 'left')};
 	box-sizing: border-box;
 	width: 100%;
-
-	margin-top: 15px;
+	margin-top: ${({ main }) => (main ? '0px' : '20px')};
+	margin-bottom: 5px;
 	height: ${({ main }) => (main ? '28px' : '20px')};
 `;
 

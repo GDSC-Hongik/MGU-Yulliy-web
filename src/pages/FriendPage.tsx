@@ -202,7 +202,7 @@ const FriendButton = styled.button<FriendButtonProps>`
 	box-sizing: border-box;
 	width: 50px;
 	height: 20px;
-	font-size: 12px;
+	font-size: 10px;
 	border-radius: 8px;
 	margin: 2px;
 	border: none;
@@ -227,11 +227,10 @@ const FriendItem = styled.li<FriendItemProps>`
 	justify-content: ${({ friendrequest }) =>
 		friendrequest ? 'space-between' : 'flex-start'};
 	gap: 15px;
-	padding: 5px;
 	box-sizing: border-box;
 	border-bottom: 1px solid ${theme.colors.whitegray};
 	width: 350px;
-	height: 60px;
+	height: 58px;
 	text-align: left;
 `;
 const Profileimage = styled.img`
