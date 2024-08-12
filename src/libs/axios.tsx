@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const token = localStorage.getItem('token');
+const token = localStorage.getItem('jwt_token');
 
 const instance = axios.create({
 	baseURL: 'https://43.203.225.31.nip.io',

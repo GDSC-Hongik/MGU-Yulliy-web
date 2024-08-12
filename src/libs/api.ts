@@ -1,9 +1,14 @@
 import axios, { AxiosError, type AxiosResponse } from 'axios';
 
 const baseURL = import.meta.env.VITE_SERVER_URL;
+const token = localStorage.getItem('jwt_token');
 const instance = axios.create({
 	baseURL,
 	timeout: 15000,
+	headers: {
+		Authorization: `Bearer ${token}`,
+	},
+	withCredentials: true,
 });
 
 const interceptorResponseFulfilled = (res: AxiosResponse) => {
