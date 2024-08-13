@@ -21,9 +21,7 @@ const FriendPage = () => {
 	useEffect(() => {
 		async function fetchData() {
 			try {
-				const response = await axios.get('/friends', {
-					withCredentials: true,
-				});
+				const response = await axios.get('/friends');
 				setFriends(response.data.friends);
 				setFriendRequests(response.data.friend_request);
 				setrecommendFriends(response.data.friend_recommend);

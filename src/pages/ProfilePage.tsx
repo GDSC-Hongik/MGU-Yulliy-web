@@ -3,31 +3,42 @@ import { useEffect, useState } from 'react';
 import axios from '../libs/axios';
 import NavBar from '~/components/navBar/NavBar';
 import Title from '../components/Title';
+import theme from '../styles/theme';
 
 interface Profile {
+	id: number;
 	name: string;
 	reliability: number;
 	profile_img: string;
 	friend_count: number;
 }
 
+const defaultProfile: Profile = {
+	id: 0,
+	profile_img: '/media/default_profile_img.jpg',
+	name: 'Unknown',
+	reliability: 0,
+	friend_count: 0,
+};
+
 const ProfilePage = () => {
 	const [profile, setProfile] = useState<Profile | null>(null);
 
 	useEffect(() => {
-		async function fetchProfileData() {
+		async function fetchData() {
 			try {
 				const response = await axios.get('/profile');
-				setProfile(response.data.profile);
+				setProfile(response.data.profile || defaultProfile);
 			} catch (error) {
-				console.error('Error fetching profile data', error);
+				console.log('에러');
+				setProfile(defaultProfile);
 			}
 		}
-		fetchProfileData();
+		fetchData();
 	}, []);
 
 	if (!profile) {
-		return <div>Loading...</div>;
+		return <p>Loading...</p>;
 	}
 
 	return (
@@ -40,7 +51,8 @@ const ProfilePage = () => {
 						alt="profile"
 					/>
 					<Space>{profile.name}</Space>
-					<Space friend_count={true}>{profile.friend_count}</Space>
+					<Space friend_count={true}>친구 {profile.friend_count}명</Space>
+					<Space reliability={true}>신뢰도 {profile.reliability}%</Space>
 				</ProfileContainer>
 			</Container>
 			<NavBar
@@ -60,8 +72,8 @@ const Container = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: center;
 	margin: auto;
+	padding: 20px;
 `;
 
 const ProfileImage = styled.img`
@@ -69,18 +81,25 @@ const ProfileImage = styled.img`
 	box-sizing: border-box;
 	width: 150px;
 	height: 150px;
+	margin: 10px;
 `;
 
 interface SpaceProps {
 	friend_count?: boolean;
+	reliability?: boolean;
 }
 
 const Space = styled.div<SpaceProps>`
-	font-size: ${({ friend_count }) => (friend_count ? '13px' : '15px')};
+	margin: 5px;
+	font-size: ${({ friend_count, reliability }) =>
+		friend_count || reliability ? '13px' : '20px'};
+	color: ${({ reliability }) =>
+		reliability ? theme.colors.orange : theme.colors.black};
 	float: right;
 `;
 
 const ProfileContainer = styled.div`
+	margin-top: 50px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
