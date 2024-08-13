@@ -12,9 +12,10 @@ const Reviews: React.FC<ReviewsProps> = ({ reviews, restaurentId }) => {
 	return (
 		<>
 			<Title>한줄평</Title>
-			{reviews.map((review) => (
-				<ReviewContent key={review.id} review={review} />
-			))}
+			{reviews &&
+				reviews.map((review) => (
+					<ReviewContent key={review.id} review={review} />
+				))}
 			<ReviewWrite restaurentId={restaurentId} />
 		</>
 	);
