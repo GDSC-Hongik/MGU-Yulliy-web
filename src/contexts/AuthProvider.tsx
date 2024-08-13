@@ -8,8 +8,6 @@ import {
 import axios from '../libs/axios';
 interface User {
 	id: number;
-	email: string;
-	password: string;
 }
 import { useNavigate } from 'react-router-dom';
 interface AuthContextType {
@@ -43,6 +41,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 		localStorage.setItem('access_token', accessToken);
 		localStorage.setItem('refresh_token', refreshToken);
 		await checkUser();
+		navigate('/');
 	}
 
 	async function checkUser() {
@@ -56,8 +55,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
 				headers: { Authorization: `Bearer ${token}` },
 				withCredentials: true,
 			});
-			if (res.data) {
-				setUser(res.data);
+			if (res.data.id) {
+				setUser(res.data.id);
 				return;
 			}
 		} catch (error) {
@@ -72,7 +71,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
 	}
 
 	useEffect(() => {
-		checkUser();
+		if (user === null) {
+			checkUser();
+		}
 	}, []);
 
 	return (
