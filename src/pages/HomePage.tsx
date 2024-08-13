@@ -6,19 +6,28 @@ import { useLocation } from 'react-router-dom';
 import NavBar from '~/components/navBar/NavBar';
 import BottomSheet from '~/components/bottomSheet/BottomSheet';
 import useGetRestaurants from '~/hooks/api/useGetRestaurants';
-import { useSetAtom } from 'jotai';
-import { restaurantAtom } from '~/store/restaurants';
+import { useAtom, useSetAtom } from 'jotai';
+import { restaurantAtom, selectedRestaurantId } from '~/store/restaurants';
 import Head from '~/components/common/Head';
 
 const HomePage = () => {
 	const location = useLocation();
 	const setRestaurants = useSetAtom(restaurantAtom);
+	const [selectedId] = useAtom(selectedRestaurantId);
 	const { data } = useGetRestaurants();
 
 	const [isBottomSheetVisible, setIsBottomSheetVisible] = useState(false);
 	const [isSearchVisible, setSearchVisible] = useState<boolean>(
 		location.pathname === '/search',
 	);
+
+	useEffect(() => {
+		if (selectedId !== null) {
+			setIsBottomSheetVisible(true);
+			setSearchVisible(false);
+			window.history.pushState(null, '', '/');
+		}
+	}, [selectedId]);
 
 	useEffect(() => {
 		if (data) {
