@@ -5,7 +5,8 @@ import StarRating from '~/components/bottomSheet/restaurantSummary/StarRating';
 import { Restaurant } from '~/types/restaurants';
 
 interface RestaurantSummaryProps {
-	restaurant: Restaurant; // Restaurant 타입 사용
+	restaurant: Restaurant;
+	moreButtonClick: () => void;
 }
 
 const SummaryWrapper = styled.div`
@@ -46,17 +47,18 @@ const Category = styled.p`
 
 const RestaurantSummary: React.FC<RestaurantSummaryProps> = ({
 	restaurant,
+	moreButtonClick,
 }) => {
+	console.log(restaurant);
 	return (
 		<SummaryWrapper>
-			<RestaurantImgBox />
+			<RestaurantImgBox imgUrl={restaurant.image_url} />
 			<SummaryInfo>
 				<Title>{restaurant.name}</Title>
-				{/* TODO: address가 아니라 카테고리로 변경 */}
-				<Category>{restaurant.address}</Category>
+				<Category>{restaurant.food_type}</Category>
 				<StarRating rating={restaurant.rating_average} />
 			</SummaryInfo>
-			<MoreButton />
+			<MoreButton moreButtonClick={moreButtonClick} />
 		</SummaryWrapper>
 	);
 };

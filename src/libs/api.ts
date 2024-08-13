@@ -48,10 +48,9 @@ const interceptorResponseRejected = async (error: AxiosError) => {
 			if (!refreshToken) {
 				throw new Error('No refresh token available');
 			}
-			const response = await axios.post(`${baseURL}refresh`, {
+			const response = await axios.post(`${baseURL}refresh/`, {
 				token: refreshToken,
 			});
-
 			const newAccessToken = response.data.access_token;
 			localStorage.setItem('access_token', newAccessToken);
 
