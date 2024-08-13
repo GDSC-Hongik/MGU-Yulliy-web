@@ -1,5 +1,6 @@
 import { styled } from 'styled-components';
 import BackButton from '~/components/bottomSheet/reaturantDetail/BackButton';
+import ListButton from '~/components/bottomSheet/reaturantDetail/ListButton';
 import RatingBox from '~/components/bottomSheet/reaturantDetail/RatingBox';
 import Reviews from '~/components/bottomSheet/reaturantDetail/Reviews';
 import RestaurantImgBox from '~/components/bottomSheet/restaurantSummary/RestaurantImgBox';
@@ -15,8 +16,8 @@ const RestDetailView: React.FC<RestaurantDetailProps> = ({
 }) => {
 	return (
 		<div>
-			<BackButton />
 			<SummaryWrapper>
+				<BackButton />
 				<RestaurantImgBox imgUrl={restaurantDetail.image_url} />
 				<SummaryInfo>
 					<SummaryWrapper>
@@ -26,6 +27,7 @@ const RestDetailView: React.FC<RestaurantDetailProps> = ({
 					<StarRating rating={restaurantDetail.rating_average} />
 				</SummaryInfo>
 			</SummaryWrapper>
+			<ListButton restaurantId={restaurantDetail.id} />
 			<Divider />
 			<RatingBox {...restaurantDetail} />
 			<Reviews
@@ -39,6 +41,7 @@ const RestDetailView: React.FC<RestaurantDetailProps> = ({
 export default RestDetailView;
 
 const SummaryWrapper = styled.div`
+	position: relative;
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;

@@ -13,7 +13,9 @@ const StarWrapper = styled.div`
 `;
 
 const StarRating: React.FC<StarRatingProps> = ({ rating }) => {
-	const ratingNumber = Number(rating);
+	const ratingNumber =
+		!isNaN(Number(rating)) && Number(rating) >= 0 ? Number(rating) : 0;
+
 	const fullStars = Math.floor(ratingNumber); // 정수 부분의 개수 (FullStar 개수)
 	const halfStar = ratingNumber % 1 >= 0.5; // 0.5점 이상일 경우 HalfStar 사용
 	const voidStars = 5 - fullStars - (halfStar ? 1 : 0); // 나머지 VoidStar 개수
