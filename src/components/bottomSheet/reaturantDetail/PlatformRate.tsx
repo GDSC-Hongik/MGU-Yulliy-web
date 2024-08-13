@@ -19,7 +19,7 @@ export const PlatformRate: React.FC<PlatformRateProps> = ({
 			<ColDevider />
 			<ScoreText>{score.toFixed(1)}</ScoreText>
 			<BackgroundBar>
-				<FilledBar filledPercentage={(score / 5) * 100} />
+				<FilledBar $filledPercentage={(score / 5) * 100} />
 			</BackgroundBar>
 		</Wrapper>
 	);
@@ -60,8 +60,8 @@ const BackgroundBar = styled.div`
 	border-radius: 3px;
 `;
 
-const FilledBar = styled.div<{ filledPercentage: number }>`
-	width: ${({ filledPercentage }) => filledPercentage}%;
+const FilledBar = styled.div<{ $filledPercentage: number }>`
+	width: ${({ $filledPercentage }) => $filledPercentage}%;
 	background-color: ${({ theme }) => theme.colors.orange};
 	border-radius: 3px;
 `;

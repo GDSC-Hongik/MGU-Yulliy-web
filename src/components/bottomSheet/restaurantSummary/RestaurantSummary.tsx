@@ -49,7 +49,6 @@ const RestaurantSummary: React.FC<RestaurantSummaryProps> = ({
 	restaurant,
 	moreButtonClick,
 }) => {
-	console.log(restaurant);
 	return (
 		<SummaryWrapper>
 			<RestaurantImgBox imgUrl={restaurant.image_url} />
