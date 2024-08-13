@@ -1,11 +1,10 @@
 import { useAtom } from 'jotai';
-import { useState } from 'react';
 import styled from 'styled-components';
 import RestDetailView from '~/components/bottomSheet/reaturantDetail/RestDetailView';
 import RestaurantSummary from '~/components/bottomSheet/restaurantSummary/RestaurantSummary';
 import useGetDetailRestaurants from '~/hooks/api/restaurants/useGetDetailRestaurants';
 import useDraggable from '~/hooks/useDraggable';
-import { restaurantAtom } from '~/store/restaurants';
+import { restaurantAtom, selectedRestaurantId } from '~/store/restaurants';
 
 type BottomSheetProps = {
 	onClose: () => void;
@@ -46,7 +45,7 @@ const BottomSheetContent = styled.div`
 const BottomSheet: React.FC<BottomSheetProps> = ({ onClose }) => {
 	const { translateY, handleMouseDown } = useDraggable(onClose);
 	const [restaurants] = useAtom(restaurantAtom);
-	const [selectedId, setSelectedId] = useState<number | null>(null);
+	const [selectedId, setSelectedId] = useAtom(selectedRestaurantId);
 	const {
 		data: restaurantDetail,
 		isLoading,

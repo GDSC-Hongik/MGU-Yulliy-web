@@ -1,6 +1,8 @@
+import { useSetAtom } from 'jotai';
 import { styled } from 'styled-components';
 import { Divider } from '~/components/search/Divider';
 import SmallStarRating from '~/components/search/SmallStarRating';
+import { selectedRestaurantId } from '~/store/restaurants';
 import { Restaurant } from '~/types/restaurants';
 
 const Title = styled.h3`
@@ -50,9 +52,14 @@ const Info = styled.div`
 `;
 
 const SearchResultLine: React.FC<Restaurant> = (restaurant) => {
+	const setSelectedId = useSetAtom(selectedRestaurantId);
+
+	const searchClick = () => {
+		setSelectedId(restaurant.id);
+	};
 	return (
 		<>
-			<LineWrapper>
+			<LineWrapper onClick={searchClick}>
 				<Info>
 					<Title>{restaurant.name}</Title>
 					<Address>{restaurant.address}</Address>
