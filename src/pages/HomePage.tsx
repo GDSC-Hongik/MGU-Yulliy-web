@@ -44,7 +44,6 @@ const HomePage = () => {
 	};
 
 	const handleSearchVisible = (visible: boolean) => {
-		console.log('호출!', visible);
 		setSearchVisible(visible);
 	};
 
