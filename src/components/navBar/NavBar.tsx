@@ -7,7 +7,7 @@ import NavItemWrapper from '~/components/navBar/NavItemWrapper';
 import { useLocation } from 'react-router-dom';
 
 interface NavBarProps {
-	handleSearchVisible: () => void;
+	handleSearchVisible?: () => void;
 }
 
 const Nav = styled.nav`
