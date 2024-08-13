@@ -12,10 +12,10 @@ export interface Restaurant extends GeoLocation {
 	image_url: string;
 
 	name: string;
-	rating_average: number | null;
-	rating_naver: number | null;
-	rating_kakao: number | null;
-	rating_google: number | null;
+	rating_average: string;
+	rating_naver: string;
+	rating_kakao: string;
+	rating_google: string;
 }
 
 export type Restaurants = Reaurant[];
