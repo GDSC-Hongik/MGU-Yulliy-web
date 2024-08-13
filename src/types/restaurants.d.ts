@@ -22,7 +22,7 @@ export type Restaurants = Reaurant[];
 
 export interface Review {
 	content: string;
-	data: string;
+	date: string;
 	decommend_count: number;
 	id: number;
 	recommend_count: number;

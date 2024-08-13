@@ -37,7 +37,7 @@ export default RatingBox;
 
 const Title = styled.h4`
 	display: inline-block;
-	margin-top: 40px;
+	margin-top: 24px;
 	font-size: 16px;
 	font-weight: ${({ theme }) => theme.fontWeights.Bold};
 	white-space: nowrap;
