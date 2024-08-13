@@ -3,10 +3,10 @@ import { styled } from 'styled-components';
 import { PlatformRate } from '~/components/bottomSheet/reaturantDetail/PlatformRate';
 
 interface RatingBoxProps {
-	rating_average: number | null;
-	rating_google: number | null;
-	rating_kakao: number | null;
-	rating_naver: number | null;
+	rating_average: string;
+	rating_google: string;
+	rating_kakao: string;
+	rating_naver: string;
 }
 
 const RatingBox: React.FC<RatingBoxProps> = ({
@@ -20,7 +20,7 @@ const RatingBox: React.FC<RatingBoxProps> = ({
 			<Title>평점</Title>
 			<RateWrapper>
 				<div>
-					<RateNumber>{rating_average?.toFixed(1)}</RateNumber>
+					<RateNumber>{Number(rating_average).toFixed(1)}</RateNumber>
 					<Rate />
 				</div>
 				<PlatformRateWrapper>

@@ -2,7 +2,7 @@ import { styled } from 'styled-components';
 import SmallStar from '~/assets/icons/SmallStar';
 
 type SmallRatingProps = {
-	rating: number | null;
+	rating: string | null;
 };
 
 const RatingWrapper = styled.div`
@@ -16,11 +16,11 @@ const RatingText = styled.div`
 `;
 
 const SmallStarRating: React.FC<SmallRatingProps> = ({ rating }) => {
-	rating = rating === null ? 0 : rating;
+	const ratingNumber = Number(rating);
 	return (
 		<RatingWrapper>
 			<SmallStar />
-			<RatingText>{rating.toFixed(1)} / 5.0</RatingText>
+			<RatingText>{ratingNumber.toFixed(1)} / 5.0</RatingText>
 		</RatingWrapper>
 	);
 };
