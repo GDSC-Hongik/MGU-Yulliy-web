@@ -1,15 +1,28 @@
-import axios, { AxiosError, type AxiosResponse } from 'axios';
+import axios, {
+	AxiosError,
+	InternalAxiosRequestConfig,
+	type AxiosResponse,
+} from 'axios';
 
 const baseURL = import.meta.env.VITE_SERVER_URL;
-const token = localStorage.getItem('access_token');
 const instance = axios.create({
 	baseURL,
 	timeout: 15000,
-	headers: {
-		Authorization: `Bearer ${token}`,
-	},
 	withCredentials: true,
 });
+
+instance.interceptors.request.use(
+	(config) => {
+		const token = localStorage.getItem('access_token');
+		if (token && config.headers) {
+			config.headers.Authorization = `Bearer ${token}`;
+		}
+		return config;
+	},
+	(error) => {
+		return Promise.reject(error);
+	},
+);
 
 const interceptorResponseFulfilled = (res: AxiosResponse) => {
 	if (200 <= res.status && res.status < 300) {
@@ -19,7 +32,37 @@ const interceptorResponseFulfilled = (res: AxiosResponse) => {
 	return Promise.reject(res.data);
 };
 
-const interceptorResponseRejected = (error: AxiosError) => {
+const interceptorResponseRejected = async (error: AxiosError) => {
+	const originalRequest = error.config as InternalAxiosRequestConfig & {
+		_retry?: boolean;
+	};
+
+	if (
+		originalRequest &&
+		error.response?.status === 401 &&
+		!originalRequest._retry
+	) {
+		originalRequest._retry = true;
+		try {
+			const refreshToken = localStorage.getItem('refresh_token');
+			if (!refreshToken) {
+				throw new Error('No refresh token available');
+			}
+			const response = await axios.post(`${baseURL}refresh`, {
+				token: refreshToken,
+			});
+
+			const newAccessToken = response.data.access_token;
+			localStorage.setItem('access_token', newAccessToken);
+
+			originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+
+			return instance(originalRequest);
+		} catch (refreshError) {
+			return Promise.reject(refreshError);
+		}
+	}
+
 	return Promise.reject(error);
 };
 

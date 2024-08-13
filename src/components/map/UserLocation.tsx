@@ -20,7 +20,9 @@ const UserLocation: React.FC<UserLocationProps> = ({ navermaps }) => {
 			{error ? (
 				<Marker
 					position={new navermaps.LatLng(37.55043854, 126.9203867)}
-					icon={{ url: ProfileImg }}
+					icon={{
+						content: ProfileMarker(),
+					}}
 				/>
 			) : (
 				<>

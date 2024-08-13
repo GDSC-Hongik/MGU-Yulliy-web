@@ -159,11 +159,7 @@ const FriendPage = () => {
 					))}
 				</FriendList>
 			</Container>
-			<NavBar
-				handleSearchVisible={function (): void {
-					throw new Error('Function not implemented.');
-				}}
-			/>
+			<NavBar />
 		</>
 	);
 };
