@@ -26,10 +26,10 @@ instance.interceptors.request.use(
 
 const interceptorResponseFulfilled = (res: AxiosResponse) => {
 	if (200 <= res.status && res.status < 300) {
-		return res.data;
+		return res;
 	}
 
-	return Promise.reject(res.data);
+	return Promise.reject(res);
 };
 
 const interceptorResponseRejected = async (error: AxiosError) => {
