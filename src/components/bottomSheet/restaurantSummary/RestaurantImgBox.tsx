@@ -2,17 +2,18 @@
 
 import { styled } from 'styled-components';
 
-const ImgWrapper = styled.div`
-	width: 68px;
-	height: 68px;
-`;
+interface ImgProps {
+	imgUrl: string;
+}
 
-const RestaurantImgBox = () => {
-	return (
-		<ImgWrapper>
-			<img src="https://via.placeholder.com/68" alt="restaurantImg" />
-		</ImgWrapper>
-	);
+const RestaurantImgBox: React.FC<ImgProps> = ({ imgUrl }) => {
+	return <Img src={imgUrl} alt="restaurantImg" />;
 };
 
 export default RestaurantImgBox;
+
+const Img = styled.img`
+	width: 68px;
+	height: 68px;
+	object-fit: cover;
+`;
