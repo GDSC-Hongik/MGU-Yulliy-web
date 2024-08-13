@@ -1,8 +1,10 @@
 import { styled } from 'styled-components';
+import usePostRecommend from '~/hooks/api/restaurants/usePostRecommend';
 import { Review } from '~/types/restaurants';
 
 interface ReviewContentProps {
 	review: Review;
+	restaurentId: number;
 }
 
 const formatDate = (date: string) => {
@@ -20,7 +22,40 @@ const countFormat = (count: number) => {
 	return count;
 };
 
-const ReviewContent: React.FC<ReviewContentProps> = ({ review }) => {
+const ReviewContent: React.FC<ReviewContentProps> = ({
+	review,
+	restaurentId,
+}) => {
+	const mutation = usePostRecommend(restaurentId, review.id);
+
+	const recommendClick = () => {
+		mutation.mutate(
+			{ evaluation: 1 },
+			{
+				onSuccess: () => {
+					alert('좋아요를 반영했습니다.');
+				},
+				onError: (error) => {
+					console.error('좋아요 반영에 실패했습니다.', error);
+				},
+			},
+		);
+	};
+
+	const decommendClick = () => {
+		mutation.mutate(
+			{ evaluation: 0 },
+			{
+				onSuccess: () => {
+					alert('싫어요를 반영했습니다.');
+				},
+				onError: (error) => {
+					console.error('싫어요 반영에 실패했습니다.', error);
+				},
+			},
+		);
+	};
+
 	return (
 		<ReviewBox>
 			<div>
@@ -28,14 +63,15 @@ const ReviewContent: React.FC<ReviewContentProps> = ({ review }) => {
 				<SubText>
 					{review.user_name} / {formatDate(review.date)}
 				</SubText>
-				<LookReply>답글 보기 ({review.replies_count})</LookReply>
+				{/* 답글보기 기능은 아직 다른 기능을 구현하는데 집중하고 있어서 구현하지 않았습니다. */}
+				{/* <LookReply>답글 보기 ({review.replies_count})</LookReply> */}
 			</div>
 			<RecommendBox>
-				<Recommend>
+				<Recommend onClick={recommendClick}>
 					<div>GOOD</div>
 					<div>{countFormat(review.recommend_count)}</div>
 				</Recommend>
-				<Decommend>
+				<Decommend onClick={decommendClick}>
 					<div>BAD</div>
 					<div>{countFormat(review.decommend_count)}</div>
 				</Decommend>
@@ -68,16 +104,16 @@ const SubText = styled.div`
 	font-weight: ${({ theme }) => theme.fontWeights.Light};
 `;
 
-const LookReply = styled.button`
-	display: inline-block;
-	margin-top: 8px;
-	font-size: 12px;
-	font-weight: ${({ theme }) => theme.fontWeights.Light};
-	color: ${({ theme }) => theme.colors.gray};
-	background-color: transparent;
-	border: none;
-	cursor: pointer;
-`;
+// const LookReply = styled.button`
+// 	display: inline-block;
+// 	margin-top: 8px;
+// 	font-size: 12px;
+// 	font-weight: ${({ theme }) => theme.fontWeights.Light};
+// 	color: ${({ theme }) => theme.colors.gray};
+// 	background-color: transparent;
+// 	border: none;
+// 	cursor: pointer;
+// `;
 
 const RecommendBox = styled.div`
 	display: flex;
