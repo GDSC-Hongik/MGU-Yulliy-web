@@ -1,6 +1,9 @@
 import { useAtom } from 'jotai';
+import { useState } from 'react';
 import styled from 'styled-components';
+import RestDetailView from '~/components/bottomSheet/reaturantDetail/RestDetailView';
 import RestaurantSummary from '~/components/bottomSheet/restaurantSummary/RestaurantSummary';
+import useGetDetailRestaurants from '~/hooks/api/restaurants/useGetDetailRestaurants';
 import useDraggable from '~/hooks/useDraggable';
 import { restaurantAtom } from '~/store/restaurants';
 
@@ -43,16 +46,40 @@ const BottomSheetContent = styled.div`
 const BottomSheet: React.FC<BottomSheetProps> = ({ onClose }) => {
 	const { translateY, handleMouseDown } = useDraggable(onClose);
 	const [restaurants] = useAtom(restaurantAtom);
+	const [selectedId, setSelectedId] = useState<number | null>(null);
+	const {
+		data: restaurantDetail,
+		isLoading,
+		isError,
+	} = useGetDetailRestaurants(selectedId || 0);
+	const moreButtonClick = (id: number) => {
+		console.log(id);
+		setSelectedId(id);
+	};
 
 	return (
 		<BottomSheetWrapper $translateY={translateY}>
 			<Handle onMouseDown={handleMouseDown} />
 			<BottomSheetContent>
-				<ul>
-					{restaurants?.map((restaurant) => (
-						<RestaurantSummary key={restaurant.id} restaurant={restaurant} />
-					))}
-				</ul>
+				{selectedId ? (
+					<>
+						{isLoading && <p>Loading...</p>}
+						{isError && <p>Error fetching data</p>}
+						{restaurantDetail && (
+							<RestDetailView restaurantDetail={restaurantDetail} />
+						)}
+					</>
+				) : (
+					<ul>
+						{restaurants?.map((restaurant) => (
+							<RestaurantSummary
+								key={restaurant.id}
+								restaurant={restaurant}
+								moreButtonClick={() => moreButtonClick(restaurant.id)}
+							/>
+						))}
+					</ul>
+				)}
 			</BottomSheetContent>
 		</BottomSheetWrapper>
 	);
