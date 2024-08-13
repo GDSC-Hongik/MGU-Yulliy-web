@@ -1,10 +1,10 @@
 import { useSetAtom } from 'jotai';
 import styled from 'styled-components';
 import BackwordIcon from '~/assets/icons/BackwordIcon';
-import { selectedRestaurantId } from '~/store/restaurants';
+import { selectedRestaurantIdAtom } from '~/store/restaurants';
 
 const BackButton = () => {
-	const setSelectedId = useSetAtom(selectedRestaurantId);
+	const setSelectedId = useSetAtom(selectedRestaurantIdAtom);
 	const clickHandler = () => {
 		setSelectedId(null);
 	};

@@ -4,7 +4,7 @@ import RestDetailView from '~/components/bottomSheet/reaturantDetail/RestDetailV
 import RestaurantSummary from '~/components/bottomSheet/restaurantSummary/RestaurantSummary';
 import useGetDetailRestaurants from '~/hooks/api/restaurants/useGetDetailRestaurants';
 import useDraggable from '~/hooks/useDraggable';
-import { restaurantAtom, selectedRestaurantId } from '~/store/restaurants';
+import { restaurantAtom, selectedRestaurantIdAtom } from '~/store/restaurants';
 
 type BottomSheetProps = {
 	onClose: () => void;
@@ -45,7 +45,7 @@ const BottomSheetContent = styled.div`
 const BottomSheet: React.FC<BottomSheetProps> = ({ onClose }) => {
 	const { translateY, handleMouseDown } = useDraggable(onClose);
 	const [restaurants] = useAtom(restaurantAtom);
-	const [selectedId, setSelectedId] = useAtom(selectedRestaurantId);
+	const [selectedId, setSelectedId] = useAtom(selectedRestaurantIdAtom);
 	const {
 		data: restaurantDetail,
 		isLoading,
@@ -54,7 +54,6 @@ const BottomSheet: React.FC<BottomSheetProps> = ({ onClose }) => {
 	const moreButtonClick = (id: number) => {
 		setSelectedId(id);
 	};
-
 	return (
 		<BottomSheetWrapper $translateY={translateY}>
 			<Handle onMouseDown={handleMouseDown} />

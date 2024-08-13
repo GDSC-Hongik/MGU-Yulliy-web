@@ -2,7 +2,7 @@ import { useSetAtom } from 'jotai';
 import { styled } from 'styled-components';
 import { Divider } from '~/components/search/Divider';
 import SmallStarRating from '~/components/search/SmallStarRating';
-import { selectedRestaurantId } from '~/store/restaurants';
+import { selectedRestaurantIdAtom } from '~/store/restaurants';
 import { Restaurant } from '~/types/restaurants';
 
 const Title = styled.h3`
@@ -40,6 +40,7 @@ const LineWrapper = styled.div`
 	justify-content: space-between;
 	align-items: flex-start;
 	gap: 8px;
+	cursor: pointer;
 `;
 
 const Info = styled.div`
@@ -52,7 +53,7 @@ const Info = styled.div`
 `;
 
 const SearchResultLine: React.FC<Restaurant> = (restaurant) => {
-	const setSelectedId = useSetAtom(selectedRestaurantId);
+	const setSelectedId = useSetAtom(selectedRestaurantIdAtom);
 
 	const searchClick = () => {
 		setSelectedId(restaurant.id);
