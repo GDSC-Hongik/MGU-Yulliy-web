@@ -13,7 +13,6 @@ interface RestaurantDetailProps {
 const RestDetailView: React.FC<RestaurantDetailProps> = ({
 	restaurantDetail,
 }) => {
-	console.log(restaurantDetail);
 	return (
 		<div>
 			<BackButton />
@@ -29,7 +28,10 @@ const RestDetailView: React.FC<RestaurantDetailProps> = ({
 			</SummaryWrapper>
 			<Divider />
 			<RatingBox {...restaurantDetail} />
-			<Reviews reviews={restaurantDetail.reviews} />
+			<Reviews
+				restaurentId={restaurantDetail.id}
+				reviews={restaurantDetail.reviews}
+			/>
 		</div>
 	);
 };

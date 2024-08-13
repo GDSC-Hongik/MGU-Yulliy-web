@@ -53,7 +53,6 @@ const BottomSheet: React.FC<BottomSheetProps> = ({ onClose }) => {
 		isError,
 	} = useGetDetailRestaurants(selectedId || 0);
 	const moreButtonClick = (id: number) => {
-		console.log(id);
 		setSelectedId(id);
 	};
 

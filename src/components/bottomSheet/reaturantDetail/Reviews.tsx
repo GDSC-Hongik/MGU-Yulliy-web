@@ -1,18 +1,21 @@
 import { styled } from 'styled-components';
 import ReviewContent from '~/components/bottomSheet/reaturantDetail/ReviewContent';
+import ReviewWrite from '~/components/bottomSheet/reaturantDetail/ReviewWrite';
 import { Review } from '~/types/restaurants';
 
 interface ReviewsProps {
 	reviews: Review[];
+	restaurentId: number;
 }
 
-const Reviews: React.FC<ReviewsProps> = ({ reviews }) => {
+const Reviews: React.FC<ReviewsProps> = ({ reviews, restaurentId }) => {
 	return (
 		<>
 			<Title>한줄평</Title>
 			{reviews.map((review) => (
 				<ReviewContent key={review.id} review={review} />
 			))}
+			<ReviewWrite restaurentId={restaurentId} />
 		</>
 	);
 };
