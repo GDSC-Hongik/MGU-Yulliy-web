@@ -1,5 +1,3 @@
-// 가로 세로 크기는 68px * 68px 입니다.
-
 import { styled } from 'styled-components';
 
 interface ImgProps {

@@ -7,14 +7,14 @@ import NavBar from '~/components/navBar/NavBar';
 import BottomSheet from '~/components/bottomSheet/BottomSheet';
 import useGetRestaurants from '~/hooks/api/useGetRestaurants';
 import { useAtom, useSetAtom } from 'jotai';
-import { restaurantAtom, selectedRestaurantId } from '~/store/restaurants';
+import { restaurantAtom, selectedRestaurantIdAtom } from '~/store/restaurants';
 import Head from '~/components/common/Head';
 
 const HomePage = () => {
 	const location = useLocation();
 	const setRestaurants = useSetAtom(restaurantAtom);
-	const [selectedId] = useAtom(selectedRestaurantId);
-	const { data } = useGetRestaurants();
+	const [selectedId] = useAtom(selectedRestaurantIdAtom);
+	const { data, refetch } = useGetRestaurants();
 
 	const [isBottomSheetVisible, setIsBottomSheetVisible] = useState(false);
 	const [isSearchVisible, setSearchVisible] = useState<boolean>(
@@ -27,12 +27,12 @@ const HomePage = () => {
 			setSearchVisible(false);
 			window.history.pushState(null, '', '/');
 		}
-	}, [selectedId]);
+		console.log('selectedId', selectedId);
+		refetch();
+	}, [selectedId, refetch]);
 
 	useEffect(() => {
-		if (data) {
-			setRestaurants(data);
-		}
+		setRestaurants(data || []);
 	}, [data, setRestaurants]);
 
 	const handleMapClick = () => {

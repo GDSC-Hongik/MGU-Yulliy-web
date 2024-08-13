@@ -7,4 +7,4 @@ export const restaurantAtom = atom<Restaurant[]>([]);
 // 검색 결과를 저장하는 atom
 export const searchRestaurantAtom = atom<Restaurant[]>([]);
 
-export const selectedRestaurantId = atom<number | null>(null);
+export const selectedRestaurantIdAtom = atom<number | null>(null);
