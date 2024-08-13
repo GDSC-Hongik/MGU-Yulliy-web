@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import FriendsIcon from '~/assets/icons/FriendsIcon';
 import HomeIcon from '~/assets/icons/HomeIcon';
-import MyListIcon from '~/assets/icons/MyListIcon';
+// import MyListIcon from '~/assets/icons/MyListIcon';
 import ProfileIcon from '~/components/navBar/ProfileIcon';
 import NavItemWrapper from '~/components/navBar/NavItemWrapper';
 import { useLocation } from 'react-router-dom';
@@ -34,7 +34,7 @@ const NavList = styled.ul`
 `;
 
 const navItems = [
-	{ path: '/myList', label: 'My List', Icon: MyListIcon },
+	// { path: '/myList', label: 'My List', Icon: MyListIcon },
 	{ path: '/friends', label: 'Friends', Icon: FriendsIcon },
 	{ path: '/profile', label: 'Profile', Icon: ProfileIcon },
 ];
