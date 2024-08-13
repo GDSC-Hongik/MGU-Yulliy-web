@@ -1,6 +1,10 @@
 import { styled } from 'styled-components';
 import MoreIcon from '~/assets/icons/MoreIcon';
 
+interface MoreButtonProps {
+	moreButtonClick: () => void;
+}
+
 const Button = styled.button`
 	flex-shrink: 0;
 	width: 50px;
@@ -31,10 +35,9 @@ const Button = styled.button`
 	}
 `;
 
-const MoreButton = () => {
+const MoreButton: React.FC<MoreButtonProps> = ({ moreButtonClick }) => {
 	const handleClick = () => {
-		// TODO: 더보기 버튼 클릭 시 상세 정보 표시
-		console.log('MoreButton');
+		moreButtonClick();
 	};
 
 	return (
