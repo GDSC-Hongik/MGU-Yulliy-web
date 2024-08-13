@@ -29,6 +29,7 @@ const Wrapper = styled.div`
 	display: flex;
 	align-items: center;
 	gap: 4px;
+	margin-bottom: 8px;
 `;
 
 const PlatformName = styled.div`

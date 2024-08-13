@@ -1,6 +1,7 @@
 import { styled } from 'styled-components';
 import BackButton from '~/components/bottomSheet/reaturantDetail/BackButton';
 import RatingBox from '~/components/bottomSheet/reaturantDetail/RatingBox';
+import Reviews from '~/components/bottomSheet/reaturantDetail/Reviews';
 import RestaurantImgBox from '~/components/bottomSheet/restaurantSummary/RestaurantImgBox';
 import StarRating from '~/components/bottomSheet/restaurantSummary/StarRating';
 import { RestaurantDetail } from '~/types/restaurants';
@@ -26,9 +27,9 @@ const RestDetailView: React.FC<RestaurantDetailProps> = ({
 					<StarRating rating={restaurantDetail.rating_average} />
 				</SummaryInfo>
 			</SummaryWrapper>
-			<div>
-				<RatingBox {...restaurantDetail} />
-			</div>
+			<Divider />
+			<RatingBox {...restaurantDetail} />
+			<Reviews reviews={restaurantDetail.reviews} />
 		</div>
 	);
 };
@@ -69,4 +70,10 @@ const Category = styled.p`
 	overflow: hidden;
 	text-overflow: ellipsis;
 	max-width: 100%;
+`;
+
+const Divider = styled.div`
+	margin: 14px;
+	height: 1px;
+	background-color: ${({ theme }) => theme.colors.whitegray};
 `;
