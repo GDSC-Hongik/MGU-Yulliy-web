@@ -6,9 +6,14 @@ import { Review } from '~/types/restaurants';
 interface ReviewsProps {
 	reviews: Review[];
 	restaurentId: number;
+	refetch: () => void;
 }
 
-const Reviews: React.FC<ReviewsProps> = ({ reviews, restaurentId }) => {
+const Reviews: React.FC<ReviewsProps> = ({
+	reviews,
+	restaurentId,
+	refetch,
+}) => {
 	return (
 		<>
 			<Title>한줄평</Title>
@@ -18,6 +23,7 @@ const Reviews: React.FC<ReviewsProps> = ({ reviews, restaurentId }) => {
 						key={review.id}
 						restaurentId={restaurentId}
 						review={review}
+						refetch={refetch}
 					/>
 				))}
 			<ReviewWrite restaurentId={restaurentId} />
