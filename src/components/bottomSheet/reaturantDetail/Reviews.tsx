@@ -17,7 +17,7 @@ const Reviews: React.FC<ReviewsProps> = ({
 	return (
 		<>
 			<Title>한줄평</Title>
-			{reviews.length > 0 ? (
+			{reviews?.length > 0 ? (
 				reviews.map((review) => (
 					<ReviewContent
 						key={review.id}

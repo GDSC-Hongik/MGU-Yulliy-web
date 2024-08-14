@@ -1,10 +1,12 @@
-import { useAtom } from 'jotai';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { useEffect } from 'react';
+import { useNavermaps } from 'react-naver-maps';
 import styled from 'styled-components';
 import RestDetailView from '~/components/bottomSheet/reaturantDetail/RestDetailView';
 import RestaurantSummary from '~/components/bottomSheet/restaurantSummary/RestaurantSummary';
 import useGetDetailRestaurants from '~/hooks/api/restaurants/useGetDetailRestaurants';
 import useDraggable from '~/hooks/useDraggable';
+import { geoLocationAtom, mapAtom, mapCenterAtom } from '~/store/geoLocates';
 import { restaurantAtom, selectedRestaurantIdAtom } from '~/store/restaurants';
 
 type BottomSheetProps = {
@@ -13,8 +15,12 @@ type BottomSheetProps = {
 
 const BottomSheet: React.FC<BottomSheetProps> = ({ onClose }) => {
 	const { translateY, handleMouseDown } = useDraggable(onClose);
+	const navermaps = useNavermaps();
+	const map = useAtomValue(mapAtom);
+	const setMapCenter = useSetAtom(mapCenterAtom);
 	const [restaurants] = useAtom(restaurantAtom);
 	const [selectedId, setSelectedId] = useAtom(selectedRestaurantIdAtom);
+	const geoLocation = useAtomValue(geoLocationAtom);
 	const {
 		data: restaurantDetail,
 		isLoading,
@@ -27,7 +33,21 @@ const BottomSheet: React.FC<BottomSheetProps> = ({ onClose }) => {
 
 	useEffect(() => {
 		refetch();
-	}, [refetch, restaurantDetail]);
+		map?.panTo(
+			new navermaps.LatLng(
+				restaurantDetail?.latitude || geoLocation.latitude,
+				restaurantDetail?.longitude || geoLocation.longitude,
+			),
+		);
+		if (restaurantDetail) {
+			setMapCenter({
+				latitude: restaurantDetail.latitude,
+				longitude: restaurantDetail.longitude,
+			});
+		} else {
+			setMapCenter(null);
+		}
+	}, [refetch, map, restaurantDetail, navermaps, setMapCenter]);
 
 	return (
 		<BottomSheetWrapper $translateY={translateY}>
