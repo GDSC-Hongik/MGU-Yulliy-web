@@ -34,7 +34,7 @@ const FriendPage = () => {
 	}, []);
 
 	async function accept(friendId: number) {
-		await axios.post(`/friends`, {
+		await axios.post(`/friends/`, {
 			action: 'accept',
 			friend_id: friendId,
 			withCredentials: true,
@@ -50,7 +50,7 @@ const FriendPage = () => {
 		}
 	}
 	async function decline(friendId: number) {
-		await axios.post(`/friends`, {
+		await axios.post(`/friends/`, {
 			action: 'decline',
 			friend_id: friendId,
 			withCredentials: true,
