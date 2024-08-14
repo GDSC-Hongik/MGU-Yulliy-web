@@ -16,8 +16,8 @@ interface Profile {
 const defaultProfile: Profile = {
 	id: 0,
 	profile_img: '/media/default_profile_img.jpg',
-	name: 'Unknown',
-	reliability: 0,
+	name: '머거유',
+	reliability: 50,
 	friend_count: 0,
 };
 
@@ -26,19 +26,14 @@ const ProfilePage = () => {
 
 	useEffect(() => {
 		async function fetchData() {
-			try {
-				const response = await axios.get('/profile');
-				setProfile(response.data.profile || defaultProfile);
-			} catch (error) {
-				console.log('에러');
-				setProfile(defaultProfile);
-			}
+			const response = await axios.get('/profile', { withCredentials: true });
+			setProfile(response.data || defaultProfile);
 		}
 		fetchData();
-	}, []);
+	}, [profile]);
 
 	if (!profile) {
-		return <p>Loading...</p>;
+		return <p>로딩 중</p>;
 	}
 
 	return (
