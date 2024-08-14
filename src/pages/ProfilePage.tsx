@@ -4,6 +4,7 @@ import axios from '../libs/axios';
 import NavBar from '~/components/navBar/NavBar';
 import Title from '../components/Title';
 import theme from '../styles/theme';
+import { useNavigate } from 'react-router-dom';
 
 interface Profile {
 	id: number;
@@ -23,6 +24,7 @@ const defaultProfile: Profile = {
 
 const ProfilePage = () => {
 	const [profile, setProfile] = useState<Profile | null>(null);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		async function fetchData() {
@@ -31,25 +33,25 @@ const ProfilePage = () => {
 		}
 		fetchData();
 	}, [profile]);
-
-	if (!profile) {
-		return <p>로딩 중</p>;
-	}
-
+	const handleClick = () => {
+		navigate('/profileedit');
+	};
 	return (
 		<>
 			<Container>
 				<Title main={true}>Profile</Title>
 				<ProfileContainer>
 					<ProfileImage
-						src={`https://43.203.225.31.nip.io${profile.profile_img}`}
+						src={`https://43.203.225.31.nip.io${profile?.profile_img}`}
 						alt="profile"
 					/>
-					<Space>{profile.name}</Space>
-					<Space friend_count={true}>친구 {profile.friend_count}명</Space>
-					<Space reliability={true}>신뢰도 {profile.reliability}%</Space>
+					<Space>{profile?.name}</Space>
+					<Space friend_count={true}>친구 {profile?.friend_count}명</Space>
+					<Space reliability={true}>신뢰도 {profile?.reliability}%</Space>
 				</ProfileContainer>
+				<EditButton onClick={handleClick}>수정하러가기</EditButton>
 			</Container>
+
 			<NavBar
 				handleSearchVisible={function (): void {
 					throw new Error('Function not implemented.');
@@ -60,6 +62,22 @@ const ProfilePage = () => {
 };
 
 export default ProfilePage;
+const EditButton = styled.button`
+	background-color: ${theme.colors.orange};
+	color: ${theme.colors.white};
+	box-sizing: border-box;
+	width: 100px;
+	height: 30px;
+	font-size: 14px;
+	border-radius: 8px;
+	margin-top: 20px;
+	border: none;
+	&:hover,
+	&:active {
+		background-color: ${theme.colors.grayorange};
+		color: ${theme.colors.white};
+	}
+`;
 
 const Container = styled.div`
 	width: 390px;

@@ -15,12 +15,14 @@ interface Friend {
 	name: string;
 	profile_img: string;
 	reliability: number;
+	is_evaluated: boolean;
 }
 const defaultProfile: Friend = {
 	id: 0,
 	profile_img: '/media/default_profile_img.jpg',
 	name: '머거유',
 	reliability: 50,
+	is_evaluated: false,
 };
 const FriendMapPage = () => {
 	const [friend, setFriend] = useState<Friend>(defaultProfile);
@@ -37,6 +39,9 @@ const FriendMapPage = () => {
 			const res = await axios.get(`/friends/${id}/restaurants`);
 			setFriend(res.data.friend);
 			setRestaurants(res.data.restaurants);
+			if (res.data.friend.isExist === true) {
+				setShowButtons(false);
+			}
 		}
 		if (selectedId !== null) {
 			setIsBottomSheetVisible(true);
@@ -121,7 +126,6 @@ const Container = styled.div`
 	justify-content: center;
 `;
 const ProfileContainer = styled.div`
-	postion: sticky;
 	box-sizing: border-box;
 	display: flex;
 	align-items: center;
