@@ -1,4 +1,5 @@
 import { useAtom } from 'jotai';
+import { useEffect } from 'react';
 import styled from 'styled-components';
 import RestDetailView from '~/components/bottomSheet/reaturantDetail/RestDetailView';
 import RestaurantSummary from '~/components/bottomSheet/restaurantSummary/RestaurantSummary';
@@ -9,6 +10,65 @@ import { restaurantAtom, selectedRestaurantIdAtom } from '~/store/restaurants';
 type BottomSheetProps = {
 	onClose: () => void;
 };
+
+const BottomSheet: React.FC<BottomSheetProps> = ({ onClose }) => {
+	const { translateY, handleMouseDown } = useDraggable(onClose);
+	const [restaurants] = useAtom(restaurantAtom);
+	const [selectedId, setSelectedId] = useAtom(selectedRestaurantIdAtom);
+	const {
+		data: restaurantDetail,
+		isLoading,
+		isError,
+		refetch,
+	} = useGetDetailRestaurants(selectedId || 0);
+	const moreButtonClick = (id: number) => {
+		setSelectedId(id);
+	};
+
+	useEffect(() => {
+		refetch();
+	}, [refetch, restaurantDetail]);
+
+	return (
+		<BottomSheetWrapper $translateY={translateY}>
+			<Handle onMouseDown={handleMouseDown} />
+			<BottomSheetContent>
+				{selectedId ? (
+					<>
+						{isLoading && <p>Loading...</p>}
+						{isError && <p>Error fetching data</p>}
+						{restaurantDetail && (
+							<RestDetailView
+								restaurantDetail={restaurantDetail}
+								refetch={refetch}
+							/>
+						)}
+					</>
+				) : (
+					<>
+						{restaurants?.length > 0 ? (
+							<ul>
+								{restaurants.map((restaurant) => (
+									<RestaurantSummary
+										key={restaurant.id}
+										restaurant={restaurant}
+										moreButtonClick={() => moreButtonClick(restaurant.id)}
+									/>
+								))}
+							</ul>
+						) : (
+							<EmptyMessage>
+								검색을 통해 맛집 리스트를 추가해보세요!
+							</EmptyMessage>
+						)}
+					</>
+				)}
+			</BottomSheetContent>
+		</BottomSheetWrapper>
+	);
+};
+
+export default BottomSheet;
 
 const BottomSheetWrapper = styled.div<{ $translateY: number }>`
 	position: fixed;
@@ -42,48 +102,9 @@ const BottomSheetContent = styled.div`
 	height: 1000px;
 `;
 
-const BottomSheet: React.FC<BottomSheetProps> = ({ onClose }) => {
-	const { translateY, handleMouseDown } = useDraggable(onClose);
-	const [restaurants] = useAtom(restaurantAtom);
-	const [selectedId, setSelectedId] = useAtom(selectedRestaurantIdAtom);
-	const {
-		data: restaurantDetail,
-		isLoading,
-		isError,
-		refetch,
-	} = useGetDetailRestaurants(selectedId || 0);
-	const moreButtonClick = (id: number) => {
-		setSelectedId(id);
-	};
-	return (
-		<BottomSheetWrapper $translateY={translateY}>
-			<Handle onMouseDown={handleMouseDown} />
-			<BottomSheetContent>
-				{selectedId ? (
-					<>
-						{isLoading && <p>Loading...</p>}
-						{isError && <p>Error fetching data</p>}
-						{restaurantDetail && (
-							<RestDetailView
-								restaurantDetail={restaurantDetail}
-								refetch={refetch}
-							/>
-						)}
-					</>
-				) : (
-					<ul>
-						{restaurants?.map((restaurant) => (
-							<RestaurantSummary
-								key={restaurant.id}
-								restaurant={restaurant}
-								moreButtonClick={() => moreButtonClick(restaurant.id)}
-							/>
-						))}
-					</ul>
-				)}
-			</BottomSheetContent>
-		</BottomSheetWrapper>
-	);
-};
-
-export default BottomSheet;
+const EmptyMessage = styled.p`
+	text-align: center;
+	margin-top: 100px;
+	font-size: 20px;
+	color: ${({ theme }) => theme.colors.gray};
+`;

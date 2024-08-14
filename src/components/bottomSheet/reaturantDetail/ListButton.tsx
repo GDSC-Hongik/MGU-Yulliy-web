@@ -9,10 +9,10 @@ import usePostRestaurant from '~/hooks/api/restaurants/usePostRestarurant';
 import { selectedRestaurantIdAtom } from '~/store/restaurants';
 interface ListButtonProps {
 	restaurantId: number;
-	isAdd: boolean;
+	isExist: boolean;
 }
 
-const ListButton: React.FC<ListButtonProps> = ({ restaurantId, isAdd }) => {
+const ListButton: React.FC<ListButtonProps> = ({ restaurantId, isExist }) => {
 	const [isVisible, setIsVisible] = useState<boolean>(true);
 	const setSelectedId = useSetAtom(selectedRestaurantIdAtom);
 	const { refetch: postRest } = usePostRestaurant(restaurantId);
@@ -31,23 +31,23 @@ const ListButton: React.FC<ListButtonProps> = ({ restaurantId, isAdd }) => {
 	};
 
 	return (
-		<ButtonWrapper $isVisible={isVisible} $isAdd={isAdd}>
-			{isAdd ? (
-				<>
-					<AddButton onClick={addList}>
-						<ListIcon />
-						맛집 리스트에 추가!
-					</AddButton>
-				</>
-			) : (
+		<ButtonWrapper $isVisible={isVisible} $isAdd={isExist}>
+			{isExist ? (
 				<>
 					<RemoveButton onClick={delList}>
 						<RemoveListIcon />
 						맛집 리스트에서 제거
 					</RemoveButton>
 				</>
+			) : (
+				<>
+					<AddButton onClick={addList}>
+						<ListIcon />
+						맛집 리스트에 추가!
+					</AddButton>
+				</>
 			)}
-			<CloseButton onClick={() => setIsVisible(false)} $isAdd={isAdd}>
+			<CloseButton onClick={() => setIsVisible(false)} $isAdd={isExist}>
 				<XIcon />
 			</CloseButton>
 		</ButtonWrapper>
@@ -62,7 +62,7 @@ const ButtonWrapper = styled.div<{ $isVisible: boolean; $isAdd: boolean }>`
 	align-items: center;
 	margin-top: 16px;
 	background-color: ${({ $isAdd, theme }) =>
-		$isAdd ? theme.colors.orange : theme.colors.whitegray};
+		$isAdd ? theme.colors.whitegray : theme.colors.orange};
 	border-radius: 8px;
 `;
 
@@ -111,6 +111,6 @@ const CloseButton = styled.button<{ $isAdd: boolean }>`
 
 	& svg > path {
 		stroke: ${({ $isAdd, theme }) =>
-			$isAdd ? theme.colors.white : theme.colors.orange};
+			$isAdd ? theme.colors.orange : theme.colors.white};
 	}
 `;

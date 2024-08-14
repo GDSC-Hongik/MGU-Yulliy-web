@@ -29,8 +29,10 @@ const RestDetailView: React.FC<RestaurantDetailProps> = ({
 					<StarRating rating={restaurantDetail.rating_average} />
 				</SummaryInfo>
 			</SummaryWrapper>
-			{/* TODO: isAdd에 대한 처리가 필요합니다. */}
-			<ListButton restaurantId={restaurantDetail.id} isAdd={true} />
+			<ListButton
+				restaurantId={restaurantDetail.id}
+				isExist={restaurantDetail.isExist}
+			/>
 			<Divider />
 			<RatingBox {...restaurantDetail} />
 			<Reviews
