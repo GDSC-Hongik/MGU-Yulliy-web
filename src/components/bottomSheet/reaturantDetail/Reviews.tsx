@@ -17,7 +17,7 @@ const Reviews: React.FC<ReviewsProps> = ({
 	return (
 		<>
 			<Title>한줄평</Title>
-			{reviews &&
+			{reviews.length > 0 ? (
 				reviews.map((review) => (
 					<ReviewContent
 						key={review.id}
@@ -25,7 +25,10 @@ const Reviews: React.FC<ReviewsProps> = ({
 						review={review}
 						refetch={refetch}
 					/>
-				))}
+				))
+			) : (
+				<NoReviewsMessage>한줄평이 아직 없습니다!</NoReviewsMessage>
+			)}
 			<ReviewWrite restaurentId={restaurentId} />
 		</>
 	);
@@ -39,4 +42,10 @@ const Title = styled.h4`
 	font-size: 16px;
 	font-weight: ${({ theme }) => theme.fontWeights.Bold};
 	max-width: 100%;
+`;
+
+const NoReviewsMessage = styled.p`
+	text-align: center;
+	margin-top: 16px;
+	font-size: 14px;
 `;
