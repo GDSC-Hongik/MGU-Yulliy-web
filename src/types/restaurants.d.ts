@@ -16,6 +16,7 @@ export interface Restaurant extends GeoLocation {
 	rating_naver: string;
 	rating_kakao: string;
 	rating_google: string;
+	isExist: boolean;
 }
 
 export type Restaurants = Reaurant[];

@@ -27,7 +27,6 @@ const HomePage = () => {
 			setSearchVisible(false);
 			window.history.pushState(null, '', '/');
 		}
-		console.log('selectedId', selectedId);
 		refetch();
 	}, [selectedId, refetch]);
 
