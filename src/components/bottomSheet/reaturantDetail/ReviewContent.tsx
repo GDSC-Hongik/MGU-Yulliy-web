@@ -5,6 +5,7 @@ import { Review } from '~/types/restaurants';
 interface ReviewContentProps {
 	review: Review;
 	restaurentId: number;
+	refetch: () => void;
 }
 
 const formatDate = (date: string) => {
@@ -25,6 +26,7 @@ const countFormat = (count: number) => {
 const ReviewContent: React.FC<ReviewContentProps> = ({
 	review,
 	restaurentId,
+	refetch,
 }) => {
 	const mutation = usePostRecommend(restaurentId, review.id);
 
@@ -34,6 +36,7 @@ const ReviewContent: React.FC<ReviewContentProps> = ({
 			{
 				onSuccess: () => {
 					alert('좋아요를 반영했습니다.');
+					refetch();
 				},
 				onError: (error) => {
 					console.error('좋아요 반영에 실패했습니다.', error);
@@ -48,6 +51,7 @@ const ReviewContent: React.FC<ReviewContentProps> = ({
 			{
 				onSuccess: () => {
 					alert('싫어요를 반영했습니다.');
+					refetch();
 				},
 				onError: (error) => {
 					console.error('싫어요 반영에 실패했습니다.', error);

@@ -9,10 +9,12 @@ import { RestaurantDetail } from '~/types/restaurants';
 
 interface RestaurantDetailProps {
 	restaurantDetail: RestaurantDetail;
+	refetch: () => void;
 }
 
 const RestDetailView: React.FC<RestaurantDetailProps> = ({
 	restaurantDetail,
+	refetch,
 }) => {
 	return (
 		<div>
@@ -34,6 +36,7 @@ const RestDetailView: React.FC<RestaurantDetailProps> = ({
 			<Reviews
 				restaurentId={restaurantDetail.id}
 				reviews={restaurantDetail.reviews}
+				refetch={refetch}
 			/>
 		</div>
 	);

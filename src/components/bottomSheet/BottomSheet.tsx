@@ -50,6 +50,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({ onClose }) => {
 		data: restaurantDetail,
 		isLoading,
 		isError,
+		refetch,
 	} = useGetDetailRestaurants(selectedId || 0);
 	const moreButtonClick = (id: number) => {
 		setSelectedId(id);
@@ -63,7 +64,10 @@ const BottomSheet: React.FC<BottomSheetProps> = ({ onClose }) => {
 						{isLoading && <p>Loading...</p>}
 						{isError && <p>Error fetching data</p>}
 						{restaurantDetail && (
-							<RestDetailView restaurantDetail={restaurantDetail} />
+							<RestDetailView
+								restaurantDetail={restaurantDetail}
+								refetch={refetch}
+							/>
 						)}
 					</>
 				) : (
