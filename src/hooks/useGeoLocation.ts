@@ -40,16 +40,11 @@ const useGeoLocation = () => {
 			maximumAge: 0,
 		};
 
-		const watchId = navigator.geolocation.watchPosition(
+		navigator.geolocation.getCurrentPosition(
 			handleSuccess,
 			handleError,
 			geoOptions,
 		);
-
-		// 컴포넌트가 언마운트될 때 위치 추적을 중지합니다.
-		return () => {
-			navigator.geolocation.clearWatch(watchId);
-		};
 	}, [setLocation, setError]);
 };
 
