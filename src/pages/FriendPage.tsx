@@ -4,6 +4,7 @@ import axios from '../libs/axios';
 import NavBar from '~/components/navBar/NavBar';
 import theme from '../styles/theme';
 import Title from '../components/Title';
+import { useNavigate } from 'react-router-dom';
 
 interface Friend {
 	id: number;
@@ -16,7 +17,8 @@ interface Friend {
 const FriendPage = () => {
 	const [friends, setFriends] = useState<Friend[]>([]);
 	const [newFriendRequests, setFriendRequests] = useState<Friend[]>([]);
-	const [recommendFriends, setrecommendFriends] = useState<Friend[]>([]);
+	const [recommendFriends, setRecommendFriends] = useState<Friend[]>([]);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		async function fetchData() {
@@ -24,7 +26,7 @@ const FriendPage = () => {
 				const response = await axios.get('/friends');
 				setFriends(response.data.friends);
 				setFriendRequests(response.data.friend_request);
-				setrecommendFriends(response.data.friend_recommend);
+				setRecommendFriends(response.data.friend_recommend);
 			} catch (error) {
 				console.log('에러');
 				return;
@@ -49,6 +51,24 @@ const FriendPage = () => {
 			);
 		}
 	}
+	async function send(friendId: number) {
+		await axios.post(`/friends/`, {
+			action: 'send',
+			friend_id: friendId,
+			withCredentials: true,
+		});
+		const sendFriend = recommendFriends.find(
+			(friend) => friend.id === friendId,
+		);
+		if (sendFriend) {
+			setRecommendFriends(
+				recommendFriends.filter((friend) => friend.id !== friendId),
+			);
+		}
+	}
+	const handleFriendClick = (friendId: number) => {
+		navigate(`/friends/${friendId}/restourant`);
+	};
 	async function decline(friendId: number) {
 		await axios.post(`/friends/`, {
 			action: 'decline',
@@ -69,6 +89,9 @@ const FriendPage = () => {
 			return;
 		} else if (action === 'decline') {
 			await decline(friendId);
+			return;
+		} else if (action === 'send') {
+			await send(friendId);
 			return;
 		}
 	}
@@ -118,7 +141,10 @@ const FriendPage = () => {
 				<Title>Friends</Title>
 				<FriendList>
 					{friends.map((friend) => (
-						<FriendItem key={friend.id}>
+						<FriendItem
+							key={friend.id}
+							onClick={() => handleFriendClick(friend.id)}
+						>
 							<FriendProfile>
 								<Profileimage
 									src={`https://43.203.225.31.nip.io${friend.profile_img}`}
@@ -149,7 +175,7 @@ const FriendPage = () => {
 								함께 저장한 식당 {recommendfriend.common_restaurant_count}개
 							</Space>
 							<FriendButton
-								data-action="accept"
+								data-action="send"
 								value={recommendfriend.id}
 								onClick={handleClick}
 							>

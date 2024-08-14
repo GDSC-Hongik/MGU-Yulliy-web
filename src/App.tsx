@@ -13,6 +13,7 @@ import FriendPage from '~/pages/FriendPage';
 import ProfilePage from '~/pages/ProfilePage';
 import NotFoundPage from '~/pages/NotFoundPage';
 import ErrorBoundary from '~/components/common/ErrorBoundary';
+import FriendMapPage from '~/pages/FriendMapPage';
 
 export const App = () => {
 	const queryClient = new QueryClient();
@@ -34,6 +35,10 @@ export const App = () => {
 										<Route path="/search" element={<HomePage />} />
 										<Route path="/friends" element={<FriendPage />} />
 										<Route path="/profile" element={<ProfilePage />} />
+										<Route
+											path="/friends/:id/restourant"
+											element={<FriendMapPage />}
+										/>
 										<Route path="*" element={<NotFoundPage />} />
 									</Routes>
 								</AuthProvider>
