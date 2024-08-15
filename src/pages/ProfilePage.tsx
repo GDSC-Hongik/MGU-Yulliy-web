@@ -92,9 +92,10 @@ const Container = styled.div`
 const ProfileImage = styled.img`
 	border-radius: 100%;
 	box-sizing: border-box;
-	width: 150px;
-	height: 150px;
+	width: 160px;
+	height: 160px;
 	margin: 10px;
+	box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 `;
 
 interface SpaceProps {
