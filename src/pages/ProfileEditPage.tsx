@@ -24,7 +24,6 @@ const ProfileEditPage = () => {
 		async function fetchData() {
 			const response = await axios.get('/profile', { withCredentials: true });
 			setNewName(response.data.name);
-			setNewProfileImage(response.data.profile_img);
 		}
 		fetchData();
 	}, []);

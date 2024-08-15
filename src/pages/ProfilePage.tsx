@@ -5,6 +5,7 @@ import NavBar from '~/components/navBar/NavBar';
 import Title from '../components/Title';
 import theme from '../styles/theme';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '~/contexts/AuthProvider';
 
 interface Profile {
 	id: number;
@@ -25,6 +26,7 @@ const defaultProfile: Profile = {
 const ProfilePage = () => {
 	const [profile, setProfile] = useState<Profile | null>(null);
 	const navigate = useNavigate();
+	const { logout } = useAuth();
 
 	useEffect(() => {
 		async function fetchData() {
@@ -33,6 +35,12 @@ const ProfilePage = () => {
 		}
 		fetchData();
 	}, [profile]);
+	const handleLogout = () => {
+		logout();
+		navigate('/login');
+		alert('로그아웃되었습니다.');
+	};
+
 	const handleClick = () => {
 		navigate('/profileedit');
 	};
@@ -50,6 +58,9 @@ const ProfilePage = () => {
 					<Space reliability={true}>신뢰도 {profile?.reliability}%</Space>
 				</ProfileContainer>
 				<EditButton onClick={handleClick}>수정하러가기</EditButton>
+				<EditButton logout onClick={handleLogout}>
+					로그아웃
+				</EditButton>
 			</Container>
 
 			<NavBar
@@ -62,15 +73,19 @@ const ProfilePage = () => {
 };
 
 export default ProfilePage;
-const EditButton = styled.button`
-	background-color: ${theme.colors.orange};
+interface EditButtonProps {
+	logout?: boolean;
+}
+const EditButton = styled.button<EditButtonProps>`
+	background-color: ${({ logout }) =>
+		logout ? theme.colors.gray : theme.colors.orange};
 	color: ${theme.colors.white};
 	box-sizing: border-box;
 	width: 100px;
 	height: 30px;
 	font-size: 14px;
 	border-radius: 8px;
-	margin-top: 20px;
+	margin-top: ${({ logout }) => (logout ? '5px' : '20px')};
 	border: none;
 	&:hover,
 	&:active {
