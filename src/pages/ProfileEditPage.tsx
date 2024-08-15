@@ -5,6 +5,7 @@ import NavBar from '~/components/navBar/NavBar';
 import Title from '../components/Title';
 import theme from '../styles/theme';
 import Input from '~/components/Input';
+import BackButton from '~/components/BackButton';
 
 interface Profile {
 	id: number;
@@ -57,6 +58,7 @@ const ProfileEditPage = () => {
 	return (
 		<>
 			<Container>
+				<BackButton />
 				<Title main={true}>Profile</Title>
 				<ProfileContainer>
 					<Space>프로필 사진 수정</Space>
