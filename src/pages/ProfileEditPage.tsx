@@ -56,8 +56,8 @@ const ProfileEditPage = () => {
 
 	return (
 		<>
+			<BackButton />
 			<Container>
-				<BackButton />
 				<Title main={true}>Profile</Title>
 				<ProfileContainer>
 					<Space>프로필 사진 수정</Space>
