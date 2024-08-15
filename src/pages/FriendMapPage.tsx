@@ -146,7 +146,7 @@ const ProfileImage = styled.img`
 	box-sizing: border-box;
 	width: 80x;
 	height: 80px;
-	margin: 10px;
+	margin: 13px;
 `;
 
 const Space = styled.div`
