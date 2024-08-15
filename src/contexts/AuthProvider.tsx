@@ -66,7 +66,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
 	}
 
 	async function logout() {
-		await axios.delete('/logout', { withCredentials: true });
+		localStorage.removeItem('access_token');
+		localStorage.removeItem('refresh_token');
 		setUser(null);
 	}
 
