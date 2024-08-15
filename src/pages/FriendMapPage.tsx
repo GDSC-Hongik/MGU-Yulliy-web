@@ -10,6 +10,7 @@ import Head from '~/components/common/Head';
 import theme from '../styles/theme';
 import axios from '../libs/axios';
 import BackButton from '~/components/BackButton';
+import SmallButton from '~/components/SmallButton';
 interface Friend {
 	id: number;
 	name: string;
@@ -39,7 +40,7 @@ const FriendMapPage = () => {
 			const res = await axios.get(`/friends/${id}/restaurants`);
 			setFriend(res.data.friend);
 			setRestaurants(res.data.restaurants);
-			if (res.data.friend.isExist === true) {
+			if (res.data.friend.is_evaluated === true) {
 				setShowButtons(false);
 			}
 		}
@@ -90,15 +91,15 @@ const FriendMapPage = () => {
 
 					{showButtons ? (
 						<AddButton>
-							<FriendButton value="like" onClick={handleClick}>
+							<SmallButton value="like" onClick={handleClick}>
 								좋아요
-							</FriendButton>
-							<FriendButton dislike value="dislike" onClick={handleClick}>
+							</SmallButton>
+							<SmallButton decline value="dislike" onClick={handleClick}>
 								싫어요
-							</FriendButton>
+							</SmallButton>
 						</AddButton>
 					) : (
-						<Reliability>신뢰도 {friend?.reliability}%</Reliability> // 버튼 클릭 후 나타날 텍스트
+						<Reliability real={true}>신뢰도 {friend?.reliability}%</Reliability>
 					)}
 				</Space>
 			</ProfileContainer>
@@ -127,6 +128,7 @@ const Container = styled.div`
 `;
 const ProfileContainer = styled.div`
 	box-sizing: border-box;
+	border: 1px;
 	display: flex;
 	align-items: center;
 	width: 100%;
@@ -151,26 +153,12 @@ const Space = styled.div`
 	display: flex;
 	flex-direction: column;
 `;
-const Reliability = styled.p`
-	font-size: 12px;
-`;
-interface FriendButtonProps {
-	dislike?: boolean;
+interface ReliabilityProps {
+	real?: boolean;
 }
-const FriendButton = styled.button<FriendButtonProps>`
-	background-color: ${({ dislike }) =>
-		dislike ? theme.colors.gray : theme.colors.orange};
-	color: ${theme.colors.white};
-	box-sizing: border-box;
-	width: 50px;
-	height: 20px;
-	font-size: 10px;
-	border-radius: 8px;
-	border: none;
-	margin-right: 10px;
-	&:hover,
-	&:active {
-		background-color: ${theme.colors.grayorange};
-		color: ${theme.colors.white};
-	}
+const Reliability = styled.p<ReliabilityProps>`
+	font-size: 12px;
+	font-weight: ${({ real }) =>
+		real ? theme.fontWeights.Bold : theme.fontWeights.Normal};
+	color: ${({ real }) => (real ? theme.colors.orange : theme.colors.black)};
 `;

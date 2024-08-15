@@ -5,6 +5,7 @@ import NavBar from '~/components/navBar/NavBar';
 import theme from '../styles/theme';
 import Title from '../components/Title';
 import { useNavigate } from 'react-router-dom';
+import SmallButton from '~/components/SmallButton';
 
 interface Friend {
 	id: number;
@@ -119,21 +120,21 @@ const FriendPage = () => {
 								함께 저장한 식당 {newFriendRequest.common_restaurant_count}개
 							</Space>
 							<AddButton>
-								<FriendButton
+								<SmallButton
 									data-action="accept"
 									value={newFriendRequest.id}
 									onClick={handleClick}
 								>
 									Accept
-								</FriendButton>
-								<FriendButton
+								</SmallButton>
+								<SmallButton
 									decline
 									data-action="decline"
 									value={newFriendRequest.id}
 									onClick={handleClick}
 								>
 									Decline
-								</FriendButton>
+								</SmallButton>
 							</AddButton>
 						</FriendItem>
 					))}
@@ -174,13 +175,13 @@ const FriendPage = () => {
 							<Space restourant={true}>
 								함께 저장한 식당 {recommendfriend.common_restaurant_count}개
 							</Space>
-							<FriendButton
+							<SmallButton
 								data-action="send"
 								value={recommendfriend.id}
 								onClick={handleClick}
 							>
 								Add
-							</FriendButton>
+							</SmallButton>
 						</FriendItem>
 					))}
 				</FriendList>
@@ -200,9 +201,6 @@ const AddButton = styled.div`
 	display: flex;
 	flex-direction: column;
 `;
-interface FriendButtonProps {
-	decline?: boolean;
-}
 interface FriendItemProps {
 	friendrequest?: boolean;
 }
@@ -217,23 +215,6 @@ const Reliability = styled.p`
 	color: ${theme.colors.orange};
 	font-size: 10px;
 	margin-top: 2px;
-`;
-const FriendButton = styled.button<FriendButtonProps>`
-	background-color: ${({ decline }) =>
-		decline ? theme.colors.gray : theme.colors.orange};
-	color: ${theme.colors.white};
-	box-sizing: border-box;
-	width: 50px;
-	height: 20px;
-	font-size: 10px;
-	border-radius: 8px;
-	margin: 2px;
-	border: none;
-	&:hover,
-	&:active {
-		background-color: ${theme.colors.grayorange};
-		color: ${theme.colors.white};
-	}
 `;
 
 const FriendList = styled.ul`
