@@ -87,17 +87,19 @@ const FriendMapPage = () => {
 				/>
 				<Space>
 					{friend?.name}
-					<Reliability>리스트를 평가해주세요</Reliability>
 
 					{showButtons ? (
-						<AddButton>
-							<SmallButton value="like" onClick={handleClick}>
-								좋아요
-							</SmallButton>
-							<SmallButton decline value="dislike" onClick={handleClick}>
-								싫어요
-							</SmallButton>
-						</AddButton>
+						<>
+							<Reliability>리스트를 평가해주세요</Reliability>
+							<AddButton>
+								<SmallButton value="like" onClick={handleClick}>
+									좋아요
+								</SmallButton>
+								<SmallButton decline value="dislike" onClick={handleClick}>
+									싫어요
+								</SmallButton>
+							</AddButton>
+						</>
 					) : (
 						<Reliability real={true}>신뢰도 {friend?.reliability}%</Reliability>
 					)}

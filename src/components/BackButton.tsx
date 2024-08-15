@@ -19,8 +19,7 @@ export default BackButton;
 
 const Button = styled.button`
 	position: absolute;
-	top: 10px;
-	left: 360px;
+	top: 15px;
 	z-index: 10;
 	width: 24px;
 	height: 24px;
